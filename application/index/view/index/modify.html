@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>改密</title>
+    <link rel="stylesheet" href="/index/css/gologin.css">
+    <link href="/index/css/banneralert.css" rel="stylesheet" />
+</head>
+<body>
+	<a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+    <div class="content">
+        <img src="/index/images/login.jpg" alt="">
+        <div class="postforms">
+            <!--修改密码-->
+            <div class="form">
+                <div class="input">
+                    <!--暗文密码输入框-->
+                    <div class="input_block1" id="psw_invisibl1">
+                        <span class="psw2">输入旧密码：</span>
+                        <img id="visible1" onclick="showPsw1()" src="/index/images/login_close .png">
+                        <input type="password" id="input_invisibl1" class="psw" name="pass"/>
+						<input type="hidden" id="hidden" value="{$user.u_id}">
+                    </div>
+                    <!--明文密码输入框-->
+                    <div class="input_block1" id="psw_visibl1" style="display: none;">
+                        <span class="psw2">输入旧密码：</span>
+                        <img id="invisible1" onclick="hidePsw1()" src="/index/images/login_eye.png">
+                        <input type="text" id="input_visibl1" class="psw"/>
+                    </div>
+                    <div class="input_block2" id="psw_invisibl2">
+                        <span class="psw2">输入新密码：</span>
+                        <img id="visible2" onclick="showPsw2()" src="/index/images/login_close .png">
+                        <input type="password" id="input_invisibl2" class="psw" name="password"/>
+                    </div>
+                    <!--明文密码输入框-->
+                    <div class="input_block2" id="psw_visibl2" style="display: none;">
+                        <span class="psw2">输入新密码：</span>
+                        <img id="invisible2" onclick="hidePsw2()" src="/index/images/login_eye.png">
+                        <input type="text" id="input_visibl2" class="psw"/>
+                    </div>
+                    <div class="input_block3" id="psw_invisibl3">
+                        <span class="psw2">确认新密码：</span>
+                        <img id="visible3" onclick="showPsw3()" src="/index/images/login_close .png">
+                        <input type="password" id="input_invisibl3" class="psw" name="password1"/>
+                    </div>
+                    <!--明文密码输入框-->
+                    <div class="input_block3" id="psw_visibl3" style="display: none;">
+                        <span class="psw2">确认新密码：</span>
+                        <img id="invisible3" onclick="hidePsw3()" src="/index/images/login_eye.png">
+                        <input type="text" id="input_visibl3" class="psw"/>
+                    </div>
+                </div>
+                <div class="sub1">
+                    <button onclick="Manage.modify()">修改密码</button>
+                </div>
+                <div class="zc">
+                    <a href="{:url('index/my',['uid'=>$Think.session.usid])}">返回上一页</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="/index/js/jquery-1.11.0.min.js" language="javascript"></script>
+<script src="/index/js/banneralert.min.js" language="javascript"></script>
+<script src="/index/js/example.js" language="javascript"></script>
+<script src="/index/js/modify.js" language="javascript"></script>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>首页</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+</head>
+<body>
+	<!-- <a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:10px;bottom:30px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a> -->
+	<a href="{:url('index/index')}"><div class="nav"><img src="/index/images/banner.png" width="100%"></div></a>
+	<div class="con1">
+		<form action="{:url('index/searchp')}" method="get" id="forms">
+			<input type="text" name="name" placeholder="搜索商品关键字">
+			<!-- <input type="hidden" name="page" value="1"> -->
+			<button type="submit" id="but"></button>
+		</form>
+	</div>	
+	<div class="con2">		
+		<ul>			
+			<a href="{:url('index/lists',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd1.png" width="100%"><p>我的订单</p></li></a>
+			<a href="{:url('index/listss',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd2.png" width="100%"><p>代理订单</p></li></a>
+			<a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd4.png" width="100%"><p>收入排行</p></li></a>
+			<a href="{:url('index/my',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd3.png" width="100%"><p>个人中心</p></li></a>
+		</ul>	
+	</div>
+	<div class="title">
+		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
+		<span style="float:left;line-height:30px;margin-right:10px;">我的数据</span>
+		<a href="/" class="shuaxin"><img src="/index/images/shuaxin.png" width="30px"></a>
+	</div>
+	<div class="con3" >		
+		<!-- <ul style="margin:0 2% 0 5%;">			
+				<a href="{:url('index/lists',['uid'=>$Think.session.usid,'utype'=>1])}" style="color:#fff;"><span style="background:#fe9696;">				
+					今日付款订单<br />{$nowday}			
+				</span>	</a>
+				<li><img src="/index/images/huang.png"><p class="cen">{$nowdayvalue}</p><p class="bot">今日预估收入</p></li>
+				<li><img src="/index/images/fen.png"><p class="cen">{$yesmonthvalue}</p><p class="bot">上月预估收入</p></li>
+				<li><img src="/index/images/lv.png"><p class="cen">{$click}</p><p class="bot">昨日点击数</p></li>
+			</ul>		
+			<ul style="margin:0 5% 0 2%;">			
+				<a href="{:url('index/lists',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
+				本月订单数<br />{$nowmonth}
+				</span>	</a>		
+				<li><img src="/index/images/cheng.png"><p class="cen">{$yesdayvalue}</p><p class="bot">昨日预估收入</p></li>
+				<li><img src="/index/images/hong.png"><p class="cen">{$nowmonthvalue}</p><p class="bot">本月预估收入</p></li>
+				<a href="{:url('dlnum',['leve'=>$leve])}" style="color:#000;"><li><img src="/index/images/qlv.png"><p class="cen">{$num}</p><p class="bot">下级代理数</p></li></a>
+			</ul> -->
+			维护中。。。 2017-03-04 5点开放
+	</div>
+	<div class="title">
+		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
+		<span style="float:left;line-height:30px;margin-right:10px;">代理贡献</span>
+	</div>
+	<div class="con3">		
+		<!-- <ul style="margin:0 2% 0 5%;">			
+				<a href="{:url('index/listss',['uid'=>$Think.session.usid,'utype'=>2])}" style="color:#fff;"><span style="background:#fe9696;">				
+					今日付款订单<br />{$dlnowday}				
+				</span>		</a>	
+				<li><img src="/index/images/danzhong.png"><p class="cen">{$dlnowdayvalue}</p><p class="bot">今日预估收入</p></li>
+			</ul>		
+			<ul style="margin:0 5% 0 2%;">			
+				<a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
+				本月订单数<br />{$dlnowmonth}		
+				</span>	</a>		
+				<li><img src="/index/images/zhong.png"><p class="cen">{$dlyesdayvalue}</p><p class="bot">昨日预估收入</p></li>
+			</ul> -->	
+			维护中。。。 2017-03-04 5点开放
+	</div>
+</body>
+</html>

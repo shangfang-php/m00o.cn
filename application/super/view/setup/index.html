@@ -1,0 +1,62 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Setup/index')}">设置中心</a></li>
+        <li class="active">帐号设置</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">帐号设置</h4>
+          <hr>
+        </div>
+          
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('Setup/savepass')}" method="post">
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">授权码<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="text" class="form-control" placeholder="授权码" required="" aria-required="true" value="{$su.supername}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">旧密码<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="password" name="passold" class="form-control" placeholder="输入密码" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">新密码<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="password" name="passnew" class="form-control" placeholder="输入密码" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">重复新密码<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="password" name="passtwo" class="form-control" placeholder="输入密码" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 更 变 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                    
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+<script src="__PUBLIC__/ckcj/dist/zoomify.js"></script>
+
+{include file="public/footer" /}

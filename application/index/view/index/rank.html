@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>排行榜</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+</head>
+<body>
+	<a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	<div class="nav"><a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><img src="/index/images/banner1.png" width="100%" style="flost:left;"></a></div>
+	<div style="text-align:center;font-size:20px;line-height:40px;">
+		{$title}
+	</div>
+	<div class="rank">
+		{volist name="rank" id="vo" offset="0" length='10'}
+		<p>
+			{if condition = "$i eq 1"}
+			<img src="/index/images/one.png">
+			{elseif condition = "$i eq 2"}
+			<img src="/index/images/two.png">
+			{elseif condition = "$i eq 3"}
+			<img src="/index/images/three.png">
+			{else /}
+			&nbsp;&nbsp;{$i},
+			{/if}
+			&nbsp;{$vo.u_username|subtext1=3}***
+			<span style="float:right;">{$vo.u_allmoney} 元</span>
+		</p>
+		{/volist}
+	</div>
+</body>
+</html>

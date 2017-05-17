@@ -1,0 +1,84 @@
+{include file="public/head" /}
+<!-- 页面内容开始 -->
+  <div class="mainpanel">
+    <div class="contentpanel">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 dash-left">
+          <h4 style="font-size:14px;color:#583f01">代理</h4>
+          <hr style="margin-top:0px;border-color:#fff;">
+          <div class="row panel-quick-page">
+            <div class="col-xs-6 col-sm-4 col-md-3 page-user">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">淘客[已授权]  <span style="float:right;">人数：{$tk}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <a href="{:url('user/index')}"><div class="page-icon"><img src="/bank/images/er.png" alt=""></div></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-products">
+
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">淘客[未授权]  <span style="float:right;">人数：{$wtk}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <a href="{:url('user/usersh')}"><div class="page-icon"><img src="/bank/images/er.png" alt=""></div></a>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-sm-1">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-8 dash-left">
+          <h4 style="font-size:14px;color:#583f01">订单</h4>
+          <hr style="margin-top:0px;border-color:#fff;">
+          <div class="row panel-quick-page">
+            <div class="col-xs-6 col-sm-4 col-md-3 page-reports">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">当月订单数  <span style="float:right;">{$dydan}</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-statistics">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">今日订单数  <span style="float:right;">{$ridan}</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-support">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">上月订单数  <span style="float:right;">{$sydan}</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}

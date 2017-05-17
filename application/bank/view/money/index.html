@@ -1,0 +1,235 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Money/index')}">财务管理</a></li>
+        <li class="active">提现列表</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <ul class="nav nav-tabs nav-justified nav-line">
+              <li class="active"><a href="{:url('Money/index')}"><strong>未完成列表</strong></a></li>
+              <li><a href="{:url('Money/isok')}"><strong>已完成列表</strong></a></li>
+              <li><a href="{:url('Money/isno')}"><strong>已拒绝列表</strong></a></li>
+          </ul>
+          <div class="row">
+              <div style="padding-left:20px;padding-top:20px;float:left;" class="col-md-8">
+                  <form action="{:url('Money/index')}" method="get">
+                      <input style="width:300px;float:left;margin-right:20px;" type="text" name="name" class="form-control"  placeholder="用户账号/真实姓名" aria-required="true">
+                      <input style="width:100px;float:left;" type="submit" class="btn btn-success" value="搜 索">
+                  </form>
+              </div>
+              <div class="col-md-4" style="padding-top:20px;">
+                <button class="btn btn-info col-md-4" onclick="exportData()">导出全部未完成申请</button>
+              </div>
+              
+              <div class="col-md-12">
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <style>
+                                  .btn-stroke{
+                                      padding:0 3px;
+                                      line-height:16px;
+                                  }
+                              </style>
+                              <div id="ord" style="height:27px;padding-top:3px;">
+                              <span id="ordel" style="display:none;">
+                                <button class="btn btn-info btn-xs" style="float:left;margin-right:10px;" onclick="manage.allok()"> 完成所选 </button>
+                                <button class="btn btn-danger btn-xs" style="float:left" onclick="manage.alldel()"> 拒绝所选 </button>
+                              </span>
+                            </div>
+                              <table class="table table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      <th class="text-center" style="width:45px;">
+                                      <label class="ckbox ckbox-warning">
+                                      <input type="checkbox" id="all"  onclick="cli('feedcdx');"><span></span>
+                                      </label>
+                                      </th>
+                                      <th>用户账号</th>
+                                      <th>真实姓名</th>
+                                      <th>支付宝账号</th>
+                                      <th>提现金额</th>
+                                      <th>提现时间</th>
+                                      <th>提现状态</th>
+                                      <th>操作</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="money" id="v"}
+                                  <tr>
+                                    <td>
+                                    <label class="ckbox ckbox-info">
+                                    <input type="checkbox" name="feedcdx" id="{$v.m_id}" onclick="manage.isone({$v.m_id})"/><span></span>
+                                    </label>
+                                    </td>
+                                    <td>{$v.m_username}</td>
+                                    <td>{$v.m_alipayname}</td>
+                                    <td>{$v.m_alipayaccount}</td>
+                                    <td>{$v.m_money}</td>
+                                    <td>{$v.m_time|date="Y/m/d H:i:s",###}</td>
+                                    <td>
+                                    {if condition="$v.m_state eq 0"} <span class="text-warning">未处理</span>
+                                    {elseif condition="$v.m_state eq 1"/} <span class="text-info">已完成</span>
+                                    {elseif condition="$v.m_state eq 2"/} <span class="text-danger">已拒绝</span>
+                                    {/if}</td>
+                                    <td>
+                                        <button title="确定完成" class='btn btn-info btn-xs btn-stroke' onclick="manage.ok({$v.m_id})"><i class="fa fa-check"></i></button>
+                                        <button title="拒绝提现" class='btn btn-danger btn-xs btn-stroke' onclick="manage.del({$v.m_id})"><i class="fa fa-times"></i></button>
+                                    </td>
+                                  </tr>
+                                  {/volist}
+                                  </tbody>
+                              </table>
+                              {$money->render()}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}
+<script>
+function cli(Obj){
+    var collid = document.getElementById("all");
+    var coll = document.getElementsByName(Obj);
+    if (collid.checked){
+      for(var i = 0; i < coll.length; i++){
+        coll[i].checked = true;
+      }
+      $('#ordel').removeAttr("style");
+    }else{
+      for(var i = 0; i < coll.length; i++){
+        coll[i].checked = false;
+      }
+      $('#ordel').attr("style","display:none;");
+    }
+  }
+  
+  function exportData(){
+    var url =   "{:url('Money/export_data')}";
+    window.open(url);
+  }
+  var manage = {
+isone:function(id){
+     var collid = document.getElementById(id);
+     if(collid.checked){
+       $('#ordel').removeAttr("style");
+     }else{
+       var collids = document.getElementsByName('feedcdx');
+       var ol = 0;
+       for(var i = 0; i < collids.length; i++){
+         if(collids[i].checked==true){
+           ol++;
+         }
+       }
+       if(ol>0){
+         $('#ordel').removeAttr("style");
+       }else{
+         $('#ordel').attr("style","display:none;");
+       }
+     }
+   },
+    del:function(mid){
+    if(confirm("确定拒绝?")) {  // 确认操作
+      // 发送请求
+      $.ajax({
+        url: "{:url('Money/nois')}",
+        data: {mid:mid},
+        type: 'POST',
+        dataType: "json",
+        cache: false,
+        success: function(data,state){
+          if(state == 'success' && data.code == '0'){
+            alert('拒绝成功');
+            window.location.href=window.location.href;
+//            window.location.href=window.location.href;
+          }else{
+           alert('操作失败');
+          }
+        }
+      });
+    }
+  },
+  ok:function(mid){
+    if(confirm("确定完成?")) {  // 确认操作
+      // 发送请求
+      $.ajax({
+        url: "{:url('Money/okis')}",
+        data: {mid:mid},
+        type: 'POST',
+        dataType: "json",
+        cache: false,
+        success: function(data,state){
+          if(state == 'success' && data.code == '0'){
+            alert('已完成');
+            window.location.href=window.location.href;
+//            window.location.href=window.location.href;
+          }else{
+           alert('操作失败');
+          }
+        }
+      });
+    }
+  },
+  allok:function(){
+     if(confirm("确定已完成选中申请?")) {  // 确认操作
+       var taIds = "";
+       var userCbxs = $("input[name='feedcdx']");
+       userCbxs.each(function(){
+         if($(this).is(":checked")){
+           taIds += $(this).attr('id')+",";
+         };
+       });
+       $.ajax({
+         url: "{:url('Money/okiss')}",
+         data: {nids:taIds},
+         type: 'POST',
+         dataType: "json",
+         cache: false,
+         success: function(data,state){
+           if(state == 'success' && data.code == '0'){
+              alert('已完成');
+            window.location.href=window.location.href;
+           }else{
+             alert('操作失败');
+           }
+         }
+       });
+     }
+   },
+
+   alldel:function(){
+     if(confirm("确定拒绝选中申请?")) {  // 确认操作
+       var taIds = "";
+       var userCbxs = $("input[name='feedcdx']");
+       userCbxs.each(function(){
+         if($(this).is(":checked")){
+           taIds += $(this).attr('id')+",";
+         };
+       });
+       $.ajax({
+         url: "{:url('Money/noiss')}",
+         data: {nids:taIds},
+         type: 'POST',
+         dataType: "json",
+         cache: false,
+         success: function(data,state){
+           if(state == 'success' && data.code == '0'){
+              alert('已拒绝');
+            window.location.href=window.location.href;
+           }else{
+             alert('操作失败');
+           }
+         }
+       });
+     }
+   },
+}
+</script>

@@ -1,0 +1,288 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('User/index')}">代理管理</a></li>
+        <li class="active">用户详情</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">用户详情 {if condition="$su.leve neq 0"}<a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a>{/if}</h4>
+          <hr>
+          <div class="row">
+              <div class="col-md-3 profile-left">
+                  <div class="panel panel-profile grid-view">
+                      <div class="panel-heading">
+                          <div class="text-center">
+                              <h4 class="panel-profile-name">{$u.u_username}[{$u.u_nic}]</h4>
+                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级代理{elseif condition="$u.u_leve eq 2" /}二级代理{elseif condition="$u.u_leve eq 3" /}三级代理{/if}</p>
+                          </div>
+                      </div>
+                      <div class="panel-body people-info">
+                          <ul class="list-group">
+                              <li class="list-group-item btn btn-warning">当前位置：用户详情</li>
+                          </ul>
+                          <div class="info-group">
+                              <label>余额</label>
+                              {$u.u_money}
+                          </div>
+                          <div class="info-group">
+                              <label>分成比率</label>
+                              <?php echo $u['u_fcbl']*100;?>%
+                          </div>
+                          <div class="info-group">
+                              <label>邀请码</label>
+                              {$u.u_code}
+                          </div>
+                          <div class="info-group">
+                              <label>上级用户</label>
+                              {$su.u_username}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-9 profile-right">
+                  <div class="profile-right-body">
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs nav-justified nav-line">
+                          <li class="active"><a href="{:url('User/ustwo',array('uid'=>$uid))}"><strong>用户详情</strong></a></li>
+                          {if condition="$fcbl.fc_power eq 1" /}
+                          {if condition="$u.u_leve neq 3" /}<li><a href="{:url('User/usu',array('uid'=>$uid))}"><strong>下级用户</strong></a></li>{/if}
+                          {/if}
+                          <li><a href="{:url('User/usdd',array('uid'=>$uid,'last'=>'1'))}"><strong>订单明细</strong></a></li>
+                          <!--<li><a href="#places"><strong>Places (5)</strong></a></li>-->
+                      </ul>
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                          <div class="col-sm-12 people-list">
+                              <div class="panel panel-profile list-view">
+                                  <div class="panel-heading">
+                                      <div class="media">
+                                          <div class="media-body">
+                                              <h4 class="media-heading">拥有推广位</h4>
+                                          </div>
+                                      </div><!-- media -->
+                                      <ul class="panel-options">
+                                          <li>
+                                              <button class="btn btn-success tooltips"  data-toggle="modal" data-target="#myModal">添加推广位</button></li>
+                                      </ul>
+                                  </div><!-- panel-heading -->
+
+                                  <div class="panel-body people-info table-responsive">
+                                      <div class="row">
+                                          {volist name="tgw" id="v"}
+                                          <div class="col-sm-4" style="height:120px;min-width:600px;">
+                                              <div class="info-group" style="">
+                                                  <label>{$v.t_nicname}</label>
+                                                  <p style=""><span>PID:</span>mm_{$v.t_mm1}_{$v.t_mm2}_{$v.t_mm3}</p>
+                                                  <p class="tooltips" data-toggle="tooltip" data-original-title="{$v.t_remark}" style="padding:2px;margin:2px;"><span>备注：</span><?php echo mb_substr($v['t_remark'],0,15,"utf-8");?></p>
+
+                                              </div>
+                                              <ul class="panel-options">
+                                                  <li><a class="tooltips" href="javascript:;" data-toggle="tooltip" title="" data-original-title="修改此推广位"><i class="fa fa-pencil" onclick="manage.modifymac({$v.t_id})"></i></a></li>
+                                                  <li><a class="tooltips" href="javascript:;" data-toggle="tooltip" title="" data-original-title="删除此推广位" onclick="manage.deltgw({$v.t_id})"><i class="fa fa-trash-o"></i></a></li>
+                                              </ul>
+                                          </div>
+                                          {/volist}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 模糊弹框 -->
+<div class="modal bounceIn animated" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">给用户{$u.u_username}添加推广位</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">微信群名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="tnic" class="form-control" placeholder="微信群名称" required="" aria-required="true">
+                            <input type="hidden" id="usname" class="form-control" value="{$u.u_username}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">PID</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="tmac" class="form-control" placeholder="PID" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">备　　　注</label>
+                        <div class="col-sm-8">
+                            <textarea rows="2" class="form-control" id="rem" placeholder="备注" required="" aria-required="true"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                <button type="button" class="btn btn-primary" id="sub1" >　提　交　</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal bounceIn animated" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabels"> 修改  推广位</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal" id="pidfrom">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                <button type="button" class="btn btn-primary" id="sub2" >　提　交　</button>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script>
+    $('#sub1').click(function(){
+        var tnic = $('#tnic').val();
+        var tmac = $('#tmac').val();
+        var rem  = $('#rem').val();
+        var usname  = $('#usname').val();
+        var elReg = /^mm_[0-9]{6,10}_[0-9]{6,10}_[0-9]{6,10}$/;
+        if(tnic==''||tmac==''||tnic==null||tmac==null)
+        {
+            alert("PID,微信群名称不能为空");return;
+        }
+        else if(!elReg .test(tmac)){
+            alert("PID格式不对！");return;
+        }else{
+            $.ajax({
+                url: "{:url('user/addtgws')}",
+                data: {tnic:tnic,tmac:tmac,rem:rem,usname:usname},
+                type: 'POST',
+                dataType: "json",
+                cache: false,
+                success: function(data,state){
+                    if(state == 'success' && data.code == '0'){
+                        alert(data.res);
+                        window.location.reload();
+//                    ^mm_[0-9]{8}_[0-9]{8}+_[0-9]{8}+$
+                    }
+                    else
+                    {
+                        alert(data.res);
+                    }
+                }
+            });
+        }
+    });
+    var manage = {
+        modifymac:function(tid){
+            $.ajax({
+                url: "{:url('user/mt')}",
+                data: {tid:tid},
+                type: 'POST',
+                dataType: "json",
+                cache: false,
+                success: function(data,state){
+                    if(state == 'success' && data.code == '0'){
+                        var ts = data.t;
+                       var htmls = '';
+                        htmls+='<div class="form-group">'+
+                                '<label class="col-sm-3 control-label">微信群名称</label>'+
+                                '<div class="col-sm-8">'+
+                                '<input type="text" id="tsnic" class="form-control" placeholder="微信群名称" required="" aria-required="true" value="'+ts.t_nicname+'">'+
+                                '<input type="hidden" id="tsid" class="form-control" value="'+ts.t_id+'">'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="form-group">'+
+                                '<label class="col-sm-3 control-label">PID</label>'+
+                                '<div class="col-sm-8">'+
+                                '<input disabled="true " type="text" class="form-control" placeholder="PID" required="" aria-required="true" value="mm_'+ts.t_mm1+'_'+ts.t_mm2+'_'+ts.t_mm3+'">'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="form-group">'+
+                                '<label class="col-sm-3 control-label">备　　　注</label>'+
+                                '<div class="col-sm-8">'+
+                                '<textarea rows="2" class="form-control" id="rems" placeholder="备注" required="" aria-required="true">'+ts.t_remark+'</textarea>'+
+                                '</div>'+
+                                '</div>';
+                        $('#pidfrom').empty();
+                        $('#pidfrom').html(htmls);
+                        $('#myModals').modal('show');
+                    }
+                    else
+                    {
+                        alert(data.res);
+                    }
+                }
+            });
+        },
+        deltgw:function(tid){
+            if(confirm("确定删除?\n删除后该用户下面将查询不到的此推广位的订单")) {
+                $.ajax({
+                    url: "{:url('user/deltgw')}",
+                    data: {tid:tid},
+                    type: 'POST',
+                    dataType: "json",
+                    cache: false,
+                    success: function(data,state){
+                        if(state == 'success' && data.code == '0'){
+                            alert(data.res);
+                            window.location.reload();
+//                    ^mm_[0-9]{8}_[0-9]{8}+_[0-9]{8}+$
+                        }
+                        else
+                        {
+                            alert(data.res);
+                        }
+                    }
+                });
+            }
+        }
+    }
+    $('#sub2').click(function(){
+        var tnic = $('#tsnic').val();
+        var rem  = $('#rems').val();
+        var tid  = $('#tsid').val();
+        var elReg = /^mm_[0-9]{6,10}_[0-9]{6,10}_[0-9]{6,10}$/;
+        if(tnic==''||tnic==null)
+        {
+            alert("推广位名称不能为空");return;
+        }else{
+            $.ajax({
+                url: "{:url('user/modifytgw')}",
+                data: {tnic:tnic,rem:rem,tid:tid},
+                type: 'POST',
+                dataType: "json",
+                cache: false,
+                success: function(data,state){
+                    if(state == 'success' && data.code == '0'){
+                        alert(data.res);
+                        window.location.reload();
+//                    ^mm_[0-9]{8}_[0-9]{8}+_[0-9]{8}+$
+                    }
+                    else
+                    {
+                        alert(data.res);
+                    }
+                }
+            });
+        }
+    });
+</script>

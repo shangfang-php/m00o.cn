@@ -1,0 +1,107 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Setup/mon')}">系统设置</a></li>
+        <li class="active">系统设置</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">系统设置</h4>
+          <hr>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('Setup/moneys')}" method="post">
+                 <div class="form-horizontal">
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">域名绑定</label>
+                         <div class="col-sm-6">
+                             <input type="text" name="link" class="form-control"  aria-required="true" value="{$link.link}" style="width:300px;float:left;"><span>绑定说明：<a href="{:url('Setup/link')}" target="_blank">点击查看</a></span>
+                         </div>
+                     </div>
+                     <hr>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户提现最小金额</label>
+                        <div class="col-sm-6">
+                            <input type="number" name="num" class="form-control" placeholder="用户提现最小金额" required="" aria-required="true" value="{$fcbl.fc_minmoney}" pattern="^[0-9]*[1-9][0-9]*$" style="width:300px;float:left;"><span style="color:red;">*必须整数</span>
+                        </div>
+                    </div>
+                     <hr>
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">代理找品功能开启</label>
+                         <div class="col-sm-6">
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-right:20px;margin-top:10px;">
+                                 <input onclick="op()" type="radio" name="dlzp" {if condition="$user.u_dlzp eq 1"} checked {/if} value="1">
+                                 <span>开启</span>
+                             </label>
+                             <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;">
+                                 <input onclick="clos()" type="radio" name="dlzp"{if condition="$user.u_dlzp neq 1"} checked {/if} value="2">
+                                 <span>关闭</span>
+                             </label>
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-left:20px;margin-top:10px;">
+                             <a href="http://www.kancloud.cn/daili/a/286250" target="_blank">使用说明</a></span>
+                             </label>
+                         </div>
+                     </div>
+
+                     <div class="form-group" id="zpzh" {if condition="$user.u_dlzp neq 1"} style="display:none;" {/if}>
+                         <label class="col-sm-2 control-label">发送到微信群</label>
+                         <div class="col-sm-6">
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-right:20px;margin-top:10px;">
+                                 <input type="radio" name="zpzh" {if condition="$user.u_zpzh eq 2"} checked {/if} value="2">
+                                 <span>开启</span>
+                             </label>
+                             <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;">
+                                 <input type="radio" name="zpzh"{if condition="$user.u_zpzh eq 1"} checked {/if} value="1">
+                                 <span>不开启</span>
+                             </label>
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-left:20px;margin-top:10px;">
+                                 <a href="http://www.kancloud.cn/daili/a/283375" target="_blank">使用说明</a></span>
+                             </label>
+                         </div>
+                     </div>
+
+                     <hr>
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">用户提现规则</label>
+                         <div class="col-sm-6">
+                             <label class="rdiobox rdiobox-success">
+                                <input type="radio" name="type" {if condition="$user.u_type eq 1"} checked {/if} value="1">
+                                <span>用户可随时提现</span>
+                             </label>
+                             <label class="rdiobox rdiobox-info">
+                                 <input type="radio" name="type"{if condition="$user.u_type eq 2"} checked {/if} value="2">
+                                 <span>用户固定每月提现（每月21号后可提现上个月之前的余额）<span style="color:red";>*下个月才能生效</span></span>
+                             </label>
+                         </div>
+                     </div>
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}
+
+<script>
+    function clos()
+    {
+        $('#zpzh').attr("style","display:none;");
+    }
+
+    function op()
+    {
+        $('#zpzh').removeAttr("style");
+    }
+</script>

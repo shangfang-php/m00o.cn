@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+	<script type="text/javascript" src="/index/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="//cdn.bootcss.com/clipboard.js/1.5.15/clipboard.min.js"></script>
+	<link rel="stylesheet" href="/index/css/style.css">
+	<title>生成文案</title>
+	<style type="text/css">
+	.fancybox-custom .fancybox-skin {
+		box-shadow: 0 0 50px #222;
+	}
+	.sp{
+		
+	}
+	.sp h3{
+		font-weight: normal;
+		padding: 10px 0;
+	}
+	.wa{
+		margin:10px 18px 10px 18px;
+
+	}
+	.wa h3{
+		font-weight: normal;
+		padding: 10px 0;
+	}
+	.wa textarea{
+		display: block;
+		height:   260px;
+		resize: none;
+		width: 93%;
+		border: none;
+		font-size: 14px;
+		padding: 3%;
+		line-height: 22px;
+		color: rgb(123, 123, 123)
+	}
+	/* #fz{
+		color: #ff0000;
+		text-indent: 1em;
+		padding-top: 10px;
+		display: none
+	} */
+	#dfz{
+		color: #fff;
+		padding:10px;
+		background: #14d212;
+
+		border-radius: 6px;
+		/*margin-right: 18px;*/
+		/*margin-top: 18px;*/
+		/*float: right;*/
+		border: 0;
+		width: 100px;
+		  
+	}
+	.taikoul{
+	  position: absolute;
+    top: 0px;
+    right: 3px;
+    display: none;
+    width: 124px;
+    height: 102px;
+
+	}
+
+</style>
+	<script type="text/javascript">
+		function copyUrl2()
+		{
+		var Url2=document.getElementById("biao1");
+		Url2.select(); // 选择对象
+		document.execCommand("Copy"); // 执行浏览器复制命令
+		alert("已复制好，可贴粘。");
+		}
+	</script>
+</head>
+
+<body>
+	<a id="ff" href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:160px;width:40px;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	<div class="sp" style="    padding-left: 100px;padding-right: 100px;padding-top: 10px;">
+	
+		<a style="color: #000;position: relative;display: block" ><img src="{$list.imgurl}" width="30%" style="width: 100%">
+	
+	</div>
+
+
+<form class="wa">
+  <fieldset style="border-color:#dddddd  ">
+    <legend style="   text-align: center;">分享文案</legend>
+    <textarea id="biao1" style="position: relative;" readonly>
+    {$list.gname}&#13;【原价】{$list.zj}元&#13;领{$list.qj}元内部券，券后【{$list.qhj}元】包邮秒杀！&#13;推荐理由：{$jj}&#13;-----------------&#13;复制这条信息，{$tkl}，打开【手机淘宝】即可领券下单&#13;{$surl}
+
+    </textarea>
+    <img src="/index/images/success.png" class="taikoul">
+    <div style="width: 100%;text-align: center;"><input id="dfz" type="button" value="一键复制"  /></div>
+  </fieldset>
+</form>
+
+
+	<!-- <div id='fz'><a href="javascript:;" onclick="copys()">请先长按框内文案>全选>拷贝</a></div> -->
+	
+</body>
+</html>
+	<script type="text/javascript">
+	/*var ua = navigator.userAgent.toLowerCase();	
+		if (/iphone|ipad|ipod/.test(ua)) {
+		    document.getElementById('fz').style.display="block";	
+		} else if (/android/.test(ua)) {
+		    document.getElementById('dfz').style.display="block";		
+		}else{
+			document.getElementById('ddfz').style.display="block";	
+		}*/
+		var clipboard = new Clipboard('#dfz', {
+            target: function() {
+                return document.querySelector('#biao1');
+            }
+        });
+        clipboard.on('success', function(e){
+            /*e.trigger.innerHTML="已复制";*/
+            $('#dfz').val('复制成功');
+            $('#dfz').css('background','#ed7c30');
+            $('.taikoul').css('display','block');
+
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            e.clearSelection();
+        });
+	</script>
+
+

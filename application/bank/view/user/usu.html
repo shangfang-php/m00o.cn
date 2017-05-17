@@ -1,0 +1,129 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('User/index')}">代理管理</a></li>
+        <li class="active">用户详情</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">用户详情 {if condition="$su.leve neq 0"}<a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a>{/if}</h4>
+          <hr>
+          <div class="row">
+              <div class="col-md-3 profile-left">
+                  <div class="panel panel-profile grid-view">
+                      <div class="panel-heading">
+                          <div class="text-center">
+                              <h4 class="panel-profile-name">{$u.u_username}[{$u.u_nic}]</h4>
+                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级代理{elseif condition="$u.u_leve eq 2" /}二级代理{elseif condition="$u.u_leve eq 3" /}三级代理{/if}</p>
+                          </div>
+                      </div>
+                      <div class="panel-body people-info">
+                          <ul class="list-group">
+                              <li class="list-group-item btn btn-warning">当前位置：下级用户（此用户的）</li>
+                          </ul>
+                          <div class="info-group">
+                              <label>余额</label>
+                              {$u.u_money}
+                          </div>
+                          <div class="info-group">
+                              <label>分成比率</label>
+                              <?php echo $u['u_fcbl']*100;?>%
+                          </div>
+                          <div class="info-group">
+                              <label>邀请码</label>
+                              {$u.u_code}
+                          </div>
+                          <div class="info-group">
+                              <label>上级用户</label>
+                              {$su.u_username}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-9 profile-right">
+                  <div class="profile-right-body">
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs nav-justified nav-line">
+                          <li><a href="{:url('User/ustwo',array('uid'=>$uid))}"><strong>用户详情</strong></a></li>
+                          {if condition="$fcbl.fc_power eq 1" /}
+                          {if condition="$u.u_leve neq 3" /}<li class="active"><a href="{:url('User/usu',array('uid'=>$uid))}"><strong>下级用户</strong></a></li>{/if}
+                          {/if}
+                          <li><a href="{:url('User/usdd',array('uid'=>$uid,'last'=>'1'))}"><strong>订单明细</strong></a></li>
+                          <!--<li><a href="#places"><strong>Places (5)</strong></a></li>-->
+                      </ul>
+                      <!-- Tab panes -->
+                      <style>
+                          td{background: #f6f6f6!important;}
+                          th{background: #f1f1f1!important;}
+                      </style>
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-striped-col dataTable">
+                                  <thead>
+                                  <tr>
+                                      <!--<th class="text-center" style="width:45px;">-->
+                                      <!--<label class="ckbox ckbox-primary" class="oldal">-->
+                                      <!--</label>-->
+                                      <!--</th>-->
+                                      <th>用户帐号</th>
+                                      <th>代理级别</th>
+                                      {if condition="$u.u_leve eq 1"}
+                                      <th>邀请码</th>
+                                      {/if}
+                                      <th>分成比率</th>
+                                      {if condition="$u.u_leve eq 1"}
+                                      <th>三级分成</th>
+                                      {/if}
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="user" id="v"}
+                                  <tr>
+                                      <!--<td class="text-center">-->
+                                      <!--<label class="ckbox ckbox-primary" id="u{$v.u_id}" class="olds">-->
+                                      <!--<i onclick="manage.gt({$v.u_id})" class="glyphicon glyphicon-chevron-right" style="padding:5px;cursor:pointer"></i>-->
+                                      <!--</label>-->
+                                      <!--</td>-->
+                                      <td><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_username}</a></td>
+
+                                      <td>{if condition="$v.u_leve eq 1"}一级代理{elseif condition="$v.u_leve eq 2" /}二级代理{elseif condition="$v.u_leve eq 3" /}三级代理{/if}</td>
+
+                                      {if condition="$u.u_leve eq 1"}
+                                      <td>{if condition="$v.u_leve neq 3"}{$v.u_code}{/if}</td>
+                                      {/if}
+                                      <td>
+                                          <?php echo $v['u_fcbl']*100;?>%
+                                      </td>
+                                      {if condition="$u.u_leve eq 1"}
+                                      <td>
+                                          {if condition="$v.u_leve eq 1"}<?php echo $v['u_fcbl3']*100;?>%{/if}
+                                          {if condition="$v.u_leve eq 2"}<?php echo $v['u_fcbl2']*100;?>%{/if}
+                                      </td>
+                                      {/if}
+                                  </tr>
+                                  <tbody id="s{$v.u_id}"></tbody>
+                                  {/volist}
+
+                                  </tbody>
+                              </table>
+                              {$user->render()}
+                              <br>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}
+<script>
+  var manage = {
+
+}
+</script>

@@ -1,0 +1,122 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Setup/set')}">注册设置</a></li>
+        <li class="active">注册设置</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">注册设置/分成比率设置 >>><span style="color:red;">以下设置是用户注册账号后的默认分成比例，如需单独修改可以在-代理管理-里面修改！</span></h4>
+          <hr>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <form action="{:url('Setup/fcbls')}" method="post">
+              <div class="col-md-4">
+                  <h4>一级代理比率设置</h4>
+                  <hr>
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
+                        <div class="col-sm-6">
+                            <input type="text" name="one" class="form-control" placeholder="一级代理比率" required="" aria-required="true"  pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                        </div>
+                    </div>
+                    {if condition="$fcbl.fc_power eq 1"}
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取二级佣金比率<span class="text-danger">*</span></label>
+                         <div class="col-sm-6">
+                             <input type="text" name="one2" class="form-control" placeholder="一级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取三级佣金比率<span class="text-danger">*</span></label>
+                         <div class="col-sm-6">
+                             <input type="text" name="one3" class="form-control" placeholder="一级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one3']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                         </div>
+                     </div>
+
+                   {/if}
+                 </div>
+              </div>
+                  {if condition="$fcbl.fc_power eq 1"}
+              <div class="col-md-4">
+                  <h4>二级代理比率设置</h4>
+                  <hr>
+                  <div class="form-horizontal">
+                      <div class="form-group">
+                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
+                          <div class="col-sm-6">
+                              <input type="text" name="two" class="form-control" placeholder="二级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                          </div>
+                      </div>
+
+
+                      <div class="form-group">
+                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取三级佣金比率<span class="text-danger">*</span></label>
+                          <div class="col-sm-6">
+                              <input type="text" name="two2" class="form-control" placeholder="二级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                          </div>
+                      </div>
+
+
+                      <!--<div class="form-group">-->
+                          <!--<label class="col-sm-6 control-label">三级代理比率<span class="text-danger">*</span></label>-->
+                          <!--<div class="col-sm-6">-->
+                              <!--<input type="text" name="three" class="form-control" placeholder="三级代理比率" required="" aria-required="true" value="<?php echo $fcbl['fc_three2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
+                          <!--</div>-->
+                      <!--</div>-->
+
+                  </div>
+              </div>
+
+              <div class="col-md-4">
+                  <h4> 三级代理比率设置</h4>
+                  <hr>
+                  <div class="form-horizontal">
+
+                      <div class="form-group">
+                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
+                          <div class="col-sm-6">
+                              <input type="text" name="three" class="form-control" placeholder="三级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_three']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                          </div>
+                      </div>
+                      <!--<div class="form-group">-->
+                          <!--<label class="col-sm-6 control-label">下级代理<span class="text-danger">*</span></label>-->
+                          <!--<div class="col-sm-6">-->
+                              <!--<input type="text" name="two2" class="form-control" placeholder="二级代理比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
+                          <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class="form-group">-->
+                      <!--<label class="col-sm-6 control-label">三级代理比率<span class="text-danger">*</span></label>-->
+                      <!--<div class="col-sm-6">-->
+                      <!--<input type="text" name="three" class="form-control" placeholder="三级代理比率" required="" aria-required="true" value="<?php echo $fcbl['fc_three2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
+                      <!--</div>-->
+                      <!--</div>-->
+
+
+
+                  </div>
+
+              </div>
+                  {/if}
+              <div class="col-md-12">
+                  <hr>
+                  <div class="col-sm-5 col-sm-offset-4">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                  </div>
+               </div>
+              </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}

@@ -1,0 +1,77 @@
+{include file="public/head" /}
+
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Money/index')}">财务管理</a></li>
+        <li class="active">提现列表</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <ul class="nav nav-tabs nav-justified nav-line">
+              <li><a href="{:url('Money/index')}"><strong>未完成列表</strong></a></li>
+              <li class="active"><a href="{:url('Money/isok')}"><strong>已完成列表</strong></a></li>
+              <li><a href="{:url('Money/isno')}"><strong>已拒绝列表</strong></a></li>
+          </ul>
+          <br>
+          <div class="row">
+              <div style="padding-left:20px;float:left;">
+                  <form action="{:url('Money/isok')}" method="get">
+                      <input style="width:300px;float:left;margin-right:20px;" type="text" name="name" class="form-control"  placeholder="用户账号/真实姓名" aria-required="true">
+                      <input style="width:100px;float:left;" type="submit" class="btn btn-success" value="搜 索">
+                  </form>
+              </div>
+              <br>
+              <br>
+              <br>
+              <div class="col-md-12">
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      
+                                      <th>用户账号</th>
+                                      <th>真实姓名</th>
+                                      <th>支付宝账号</th>
+                                      <th>提现金额</th>
+                                      <th>提现时间</th>
+                                      <th>完成操作时间</th>
+                                      <th>提现状态</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="money" id="v"}
+                                  <tr>
+                                    
+                                    <td>{$v.m_username}</td>
+                                    <td>{$v.m_alipayname}</td>
+                                    <td>{$v.m_alipayaccount}</td>
+                                    <td>{$v.m_money}</td>
+                                    <td>{$v.m_time|date="Y/m/d H:i:s",###}</td>
+                                    <td>{$v.m_endtime|date="Y/m/d H:i:s",###}</td>
+                                    <td>
+                                    {if condition="$v.m_state eq 0"} <span class="text-warning">未处理</span>
+                                    {elseif condition="$v.m_state eq 1"/} <span class="text-info">已完成</span>
+                                    {elseif condition="$v.m_state eq 2"/} <span class="text-danger">已拒绝</span>
+                                    {/if}</td>
+                                    
+                                  </tr>
+                                  {/volist}
+                                  </tbody>
+                              </table>
+                              {$money->render()}
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}

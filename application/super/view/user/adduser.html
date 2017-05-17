@@ -1,0 +1,222 @@
+{include file="public/head" /}
+<script type="text/javascript" src="/bank/cj/laydate.js"></script>
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('User/index')}">代理管理</a></li>
+        <li class="active">添加淘客</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">添加淘客</h4>
+          <hr>
+        </div>
+          
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('user/addus')}" method="post">
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户账号:<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="phone" class="form-control" placeholder="用户账号（手机号）" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户密码:<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="password" name="password" class="form-control" placeholder="输入密码" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注昵称:</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="nic" class="form-control" placeholder="备注昵称" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">授予权限:<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <label class="rdiobox rdiobox-success" style="float:left;margin-top:10px;">
+                              <input type="radio" name="sq" checked value="1">
+                              <span>发展代理</span>
+                            </label>
+                            <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;">
+                              <input type="radio" name="sq" value="2">
+                              <span>不发展代理</span>
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="margin-top:4px;">用户状态:<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <label class="rdiobox rdiobox-success" style="float:left; margin-top:15px;">
+                              <input type="radio" name="state" checked value="1">
+                              <span>正常状态</span>
+                            </label>
+                            <label class="rdiobox rdiobox-danger" style="float:left; margin-top:15px;margin-left:20px;">
+                              <input type="radio" name="state" value="2">
+                              <span>封禁状态</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">授权时间:<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <label class="rdiobox rdiobox-success" style="float:left;margin-top:10px;">
+                              <input type="radio" name="stime" checked value="1" id="oneyear">
+                              <span>默认一年</span>
+                            </label>
+                            <label class="rdiobox rdiobox-success" style="float:left;margin-left:20px;margin-top:10px;">
+                              <input type="radio" name="stime" value="2" id="orderyear">
+                              <span>自定义</span>
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group" id="he" style="display:none">
+                        <label class="col-sm-2 control-label">授权到期:<span class="text-danger">*</span></label>
+                        <div class="col-sm-4 demo2">
+
+                            <input placeholder="请输入日期" name="etime" class="laydate-icon form-control" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" style="padding:10px;height:34px;">
+                            
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                    
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+
+!function(){
+
+  laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+
+  laydate({elem: '#demo'});//绑定元素
+
+}();
+
+
+
+//日期范围限制
+
+var start = {
+
+    elem: '#start',
+
+    format: 'YYYY-MM-DD',
+
+    min: laydate.now(), //设定最小日期为当前日期
+
+    max: '2099-06-16', //最大日期
+
+    istime: true,
+
+    istoday: false,
+
+    choose: function(datas){
+
+         end.min = datas; //开始日选好后，重置结束日的最小日期
+
+         end.start = datas //将结束日的初始值设定为开始日
+
+    }
+
+};
+
+
+
+var end = {
+
+    elem: '#end',
+
+    format: 'YYYY-MM-DD',
+
+    min: laydate.now(),
+
+    max: '2099-06-16',
+
+    istime: true,
+
+    istoday: false,
+
+    choose: function(datas){
+
+        start.max = datas; //结束日选好后，充值开始日的最大日期
+
+    }
+
+};
+
+laydate(start);
+
+laydate(end);
+
+
+
+//自定义日期格式
+
+laydate({
+
+    elem: '#test1',
+
+    format: 'YYYY年MM月DD日',
+
+    festival: true, //显示节日
+
+    choose: function(datas){ //选择日期完毕的回调
+
+        alert('得到：'+datas);
+
+    }
+
+});
+
+
+
+//日期范围限定在昨天到明天
+
+laydate({
+
+    elem: '#hello3',
+
+    min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+
+    max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+
+});
+
+</script>
+{include file="public/footer" /}
+<script>
+$('#oneyear').change(function(){
+    $('#he').removeAttr("style");
+    $('#he').attr("style","display:none;");
+
+ });
+$('#orderyear').change(function(){
+    $('#he').attr("style","display:none;");
+    $('#he').removeAttr("style");
+
+ });
+
+  var manage = {
+
+}
+
+</script>

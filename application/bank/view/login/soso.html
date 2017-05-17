@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>m.00o.cn——soso</title>
+</head>
+<style>
+    *{
+        padding:0px;margin:0px;
+    }
+    .content{
+        width:100%;
+    }
+    .form{
+        padding-top:50px;
+        width:900px;
+        min-width:700px;
+        margin:0 auto;
+    }
+    .soso{
+        width:60%;
+        height:50px;
+        float:left;
+    }
+    .sub{
+        width:40%;
+        height:50px;
+        float:left;
+    }
+    .soso input{
+
+        border-top:1px solid #ccc;
+        border-left:1px solid #ccc;
+        border-bottom:1px solid #ccc;
+        border-right:1px solid #00b5a9;
+        padding-left:15px;
+        width:70%;
+        height:38px;
+        float:right;
+
+    }
+    .sub input{
+        width:30%;
+        height:40px;
+        float:left;
+        background: #00b5a9;
+        border:0px;
+        color:#FFF;
+        cursor:pointer;
+    }
+    input:focus {
+        outline: none;
+        border: #87C6F9 1px solid;
+        box-shadow: 0 0 8px rgba(103, 166, 217, 1);
+    }
+
+    .list{
+        padding-top:100px;
+        width:700px;
+        margin:0 auto;
+    }
+    .box{
+        width:600px;
+
+    }
+    .box_top{
+        width:600px;
+        height:40px;
+        border-bottom: 1px solid #ccc;;
+    }
+    .boxsm_left{
+        width:199px;
+        height:40px;
+        line-height: 40px;
+        font-size: 18px;
+        border-right:1px solid #ccc;
+        float:left;
+        text-align: center;
+    }
+    .boxsm_center{
+        width:199px;
+        height:40px;
+        line-height: 40px;
+        font-size: 18px;
+        border-right:1px solid #ccc;
+        float:left;
+        text-align: center;
+    }
+    .boxsm_right{
+        width:199px;
+        height:40px;
+        line-height: 40px;
+        font-size: 18px;
+        float:left;
+        text-align: center;
+    }
+    .box_bottom
+    {
+        width:600px;
+        height:60px;
+    }
+    .box_left{
+        width:199px;
+        height:60px;
+        font-size: 18px;
+        border-right:1px solid #ccc;
+        float:left;
+        text-align: center;
+    }
+    .box_center{
+        width:199px;
+        height:60px;
+        font-size: 18px;
+        border-right:1px solid #ccc;
+        float:left;
+        text-align: center;
+    }
+    .box_right{
+
+        min-height: 60px;
+        width:199px;
+        font-size: 18px;
+        float:left;
+        text-align: center;
+    }
+    .box_right p,.box_center p{
+        font-size: 15px;
+        color:#3b4354;
+    }
+</style>
+<body>
+    <div class="content">
+        <div class="form">
+            <form action="" method="post">
+                <div class="soso">
+                    <input type="text" name="name" id="">
+                </div>
+                <div class="sub">
+                    <input type="submit" value="搜 索">
+                </div>
+            </form>
+        </div>
+        <div class="list">
+            <?php if($user&&$user!=999){?>
+            <div class="box">
+                <div class="box_top">
+                    <div class="boxsm_left">用户账号</div>
+                    <div class="boxsm_center">类型</div>
+                    <div class="boxsm_right">是否授权</div>
+                </div>
+                <div class="box_bottom">
+                    <div class="box_left">
+                        <br>
+                        <span style="color:darkred">{$user.u_username}</span>
+                    </div>
+                    <div class="box_center">
+                        <br>
+                        <p style="color:darkred">{if condition="$user.u_leve eq 0"}淘客{elseif condition="$user.u_leve eq 1"/}一级代理{elseif condition="$user.u_leve eq 2"/}二级代理{elseif condition="$user.u_leve eq 3"/}三级代理{/if}</p>
+                    </div>
+                    <div class="box_right">
+                        <br>
+                        <p style="color:darkred">{if condition="$user.u_state eq 1"}正常{elseif condition="$user.u_state eq 2"/}被封禁{elseif condition="$user.u_state eq 3"/}未授权{/if}</p>
+                    </div>
+                </div>
+            </div>
+            <?php }else if($user==999){ echo "没有此用户!"; }?>
+
+        </div>
+    </div>
+</body>
+</html>

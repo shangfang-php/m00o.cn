@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="后台登录">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--<link rel="shortcut icon" href="images/favicon.png" type="image/png">-->
+  <title>注册-代理分销系统</title>
+  <link rel="stylesheet" href="/bank/lib/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/bank/css/quirk.css">
+  <script src="/bank/lib/modernizr/modernizr.js"></script>
+  <link href="/bank/cj/tk/banneralert.css" rel="stylesheet" />
+  <script type="text/javascript">
+    var NV = {};
+    var UA = navigator.userAgent.toLowerCase();
+    try
+    {
+      NV.name=!-[1,]?'ie':
+              (UA.indexOf("firefox")>0)?'firefox':
+                      (UA.indexOf("chrome")>0)?'chrome':
+                              window.opera?'opera':
+                                      window.openDatabase?'safari':
+                                              'unkonw';
+    }catch(e){};
+    try
+    {
+      NV.version=(NV.name=='ie')?UA.match(/msie ([\d.]+)/)[1]:
+              (NV.name=='firefox')?UA.match(/firefox\/([\d.]+)/)[1]:
+                      (NV.name=='chrome')?UA.match(/chrome\/([\d.]+)/)[1]:
+                              (NV.name=='opera')?UA.match(/opera.([\d.]+)/)[1]:
+                                      (NV.name=='safari')?UA.match(/version\/([\d.]+)/)[1]:
+                                              '0';
+    }catch(e){};
+    try
+    {
+      NV.shell=(UA.indexOf('360ee')>-1)?'360极速浏览器':
+              (UA.indexOf('360se')>-1)?'360安全浏览器':
+                      (UA.indexOf('se')>-1)?'搜狗浏览器':
+                              (UA.indexOf('aoyou')>-1)?'遨游浏览器':
+                                      (UA.indexOf('theworld')>-1)?'世界之窗浏览器':
+                                              (UA.indexOf('worldchrome')>-1)?'世界之窗极速浏览器':
+                                                      (UA.indexOf('greenbrowser')>-1)?'绿色浏览器':
+                                                              (UA.indexOf('qqbrowser')>-1)?'QQ浏览器':
+                                                                      (UA.indexOf('baidu')>-1)?'百度浏览器':
+                                                                              '未知或无壳';
+    }catch(e){}
+    if(NV.name=='ie')
+    {
+      if(parseInt(NV.version)<10)
+      {
+        alert('请用ie 10以上浏览器使用此系统！');
+        window.opener=null;
+        window.open('','_self');
+        window.close();
+      }
+    }
+  </script>
+
+</head>
+<body class="signwrapper">
+  <div class="sign-overlay"></div>
+  <div class="signpanel" id="particles-js"></div>
+        <div class="panel signin">
+          <div class="panel-heading">
+            <h4 class="panel-title">代理分销系统</h4>
+          </div>
+          <div class="panel-body">
+            <a href="{:url('login/index')}" style="color:#ffffff;" class="btn btn-default btn-quirk btn-block btn-stroke">返回登录</a>
+            <div class="or">or</div>
+              <div class="form-group mb15">
+                <input type="text" id="phone" class="form-control" placeholder="您的手机号码">
+              </div>
+              <div class="form-group mb15">
+                <input type="text" id="core" class="form-control" placeholder="验证码" style="width:72%;float:left"><button  onclick="sendMessage()" id="SendCode" class="btn btn-primary">获取验证码</button>
+              </div>
+              <div class="form-group mb15">
+                <input type="password" id="password" class="form-control" placeholder="设置密码">
+              </div>
+              <div class="form-group mb15">
+                <input type="password" id="password1" class="form-control" placeholder="重复密码">
+              </div>
+              <div class="form-group mb20">
+                <label class="ckbox" style="float:left;">
+                  <input type="checkbox" name="checkbox" id="ckb" checked="checked">
+                  <span><a href="" style="color:#3b4354;">注册协议</a></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success btn-quirk btn-block" onclick="manage.reg()">立即注册</button>
+              </div>
+    </div>
+  </div><!-- signup -->
+  <script src="/bank/js/particles.min.js"></script>
+  <script src="/bank/js/app.js"></script>
+  <script src="/index/js/jquery-1.11.0.min.js" language="javascript"></script>
+  <script src="/index/js/banneralert.min.js" language="javascript"></script>
+  <script src="/index/js/example.js" language="javascript"></script>
+  <script src="/bank/lib/stats.js"></script>
+  <script>
+    var count_particles, stats, update;
+    stats = new Stats;
+    stats.setMode(0);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '-1000px';
+    stats.domElement.style.top = '-1000px';
+    document.body.appendChild(stats.domElement);
+    count_particles = document.querySelector('.js-count-particles');
+    update = function() {
+      stats.begin();
+      stats.end();
+      if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+        count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+      }
+      requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+//手机验证码
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+var code = ""; //验证码
+function sendMessage() {
+    curCount = count;
+    phone = $("#phone").val();
+    if(phone == ''||phone==null)
+    {
+        $("body").showbanner({
+            title : "m.00o.cn",
+            content : "手机号不能为空",
+            addclass : "mybannerstyle1"
+        });
+    }
+    else
+    {
+//设置button效果，开始计时
+    $("#SendCode").attr("disabled", "true");
+    $("#SendCode").attr("style", "background:#ccc");
+    $("#SendCode").html( + curCount + "秒再获取");
+    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+//向后台发送处理数据
+    $.ajax({
+        url: "/index.php/index/login/phonecore",
+        data: {phone: phone},
+        type: 'Post',
+        dataType: "json",
+        cache: false,success: function (data, state) {
+            if (state == 'success' && data.code == '0') {
+
+                $("body").showbanner({
+                    title : "m.00o.cn",
+                    content : data.res,
+                    addclass : "mybannerstyle1"
+                });
+            } else {
+                curCount = 0;
+                $("body").showbanner({
+                    title : "m.00o.cn",
+                    content : data.res,
+                    addclass : "mybannerstyle1"
+                });
+            }
+        }
+    });
+    }
+}
+//timer处理函数
+function SetRemainTime() {
+    if (curCount == 0) {
+        window.clearInterval(InterValObj);//停止计时器
+        $("#SendCode").removeAttr("disabled");//启用按钮
+        $("#SendCode").removeAttr("style");//启用按钮
+        $("#SendCode").html("重新获取");
+    }
+    else {
+        curCount--;
+        $("#SendCode").html( + curCount + "秒再获取");
+    }
+}
+var manage = {
+    reg:function (id) { 
+        obj = $("#ckb").prop("checked");
+        name = $("#phone").val();
+        core = $("#core").val();
+        password  = $("#password").val();
+        password1  = $("#password1").val();
+        len = password.length;
+        if(obj===false){
+          $("body").showbanner({
+            title : "m.00o.cn",
+            content : "请同意注册协议",
+            addclass : "mybannerstyle1"
+            });}
+          else if(name == ''|| name == null){
+            $("body").showbanner({
+            title : "m.00o.cn",
+            content : "手机号不能为空！",
+            addclass : "mybannerstyle1"
+            });
+        }else if(core == ''|| core == null){
+          $("body").showbanner({
+            title : "m.00o.cn",
+            content : "验证码不能为空！",
+            addclass : "mybannerstyle1"
+            });
+        }else if(password == ''||password ==null){
+            $("body").showbanner({
+                title : "m.00o.cn",
+                content : "密码不能为空！",
+                addclass : "mybannerstyle1"
+            });
+        }else if(len<6){
+            $("body").showbanner({
+                title : "m.00o.cn",
+                content : "密码不能小于6位数！",
+                addclass : "mybannerstyle1"
+            });
+        }else if(password != password1){
+          $("body").showbanner({
+                title : "m.00o.cn",
+                content : "重复密码输入不相同！",
+                addclass : "mybannerstyle1"
+            });
+        }else{
+            $.ajax({
+                url: "/index.php/bank/login/reguser",
+                data: {phone:name,pass:password,core:core,pass1:password1},
+                type: 'Post',
+                dataType: "json",
+                cache: false,success: function (data, state) {
+                    if (state == 'success' && data.code == '0') {
+                        $("body").showbanner({
+                            title : "网站提示",
+                            content : data.res,
+                            addclass : "mybannerstyle1"
+                        });
+                        setTimeout(function(){location.href = "/bank/login/index";},1000);
+                    } else {
+                        $("body").showbanner({
+                            title : "网站提示",
+                            content : data.res,
+                            addclass : "mybannerstyle1"
+                        });
+                    }
+                }
+            });
+        }
+    },
+};
+  </script>
+</body>
+</html>

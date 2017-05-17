@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>代理数量</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+</head>
+<style>
+.dl{
+	display:block;
+	float:left;
+	width:100%;
+	font-size:12px;
+}
+.dl .edl{
+width:40%;
+margin-left:2.5%;
+margin-top:20px;
+background:#535353;
+color:#fff;
+line-height:30px;
+text-align:center
+}
+.dl .edl p{
+width:90px;
+margin:0 auto;
+text-align:center;
+line-height:40px;
+height:40px;
+}
+.dl ul{
+}
+.dl ul li{
+width:30%;
+margin-left:2.5%;
+margin-top:8px;
+background:#aaa;
+color:#fff;
+line-height:30px;
+text-align:center;
+float:left;
+}
+.dl ul li p{
+width:90px;
+margin:0 auto;
+text-align:center;
+line-height:40px;
+height:40px;
+}
+</style>
+<body>
+	<a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	{foreach name='e' item='vo' key='k'}
+	<div class="dl">
+		<div class="edl" style="<?php if($vo['u_username'] == 'qwertyuiop123456') echo 'display:none';?>">
+			<p><img src="/index/images/2ren.png" height="60%" style="float:left;margin-top:8px;">二级代理</p>{$vo.u_username}
+		</div>
+		{foreach name='s[$k]' item='vv'}
+		<ul>
+			<li>
+				<p><img src="/index/images/3ren.png" height="60%" style="float:left;margin-top:8px;">三级代理</p>{$vv.u_username}
+			</li>
+		</ul>
+		{/foreach}
+	</div>
+	{/foreach}
+</body>
+</html>

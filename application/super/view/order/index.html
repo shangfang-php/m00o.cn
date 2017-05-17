@@ -1,0 +1,122 @@
+{include file="public/head" /}
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Order/index')}">订单列表</a></li>
+        <li class="active">订单列表</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">{if condition="$yue eq 'by'"}订单列表(本月){elseif condition="$yue eq 'sy'"/}订单列表(上月){/if}</h4>
+          <hr>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="profile-right-body">
+
+                      <style>
+                          td{background: #f6f6f6!important;}
+                          th{background: #f1f1f1!important;}
+                      </style>
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <div class="row">
+                                  <div style="padding:20px;float:left;">
+                                      {if condition="$yue eq 'by'"}
+                                      <form action="{:url('Order/index',array('last'=>1))}" method="get">
+                                      {elseif condition="$yue eq 'sy'"/}
+                                       <form action="{:url('Order/index',array('last'=>'Lastmonth'))}" method="get">
+                                       {/if}
+                                          <div style="width:120px;float:left;margin-right:10px;">
+                                          {if condition="$yue eq 'by'"}
+                                          <a style="width:120px;" class="btn btn-success" href="{:url('Order/index',array('last'=>'Lastmonth'))}"> 查看上月订单 </a>
+                                          {elseif condition="$yue eq 'sy'"/}
+                                          <a style="width:120px;" class="btn btn-success" href="{:url('Order/index',array('last'=>'1'))}"> 查看本月订单 </a>
+                                          {/if}
+                                          </div>
+                                          <div style="width:300px;float:left;margin-right:10px;">
+                                      <input style="width:300px;" type="text" name="name" class="form-control"  placeholder="搜索商品(商品详情、订单号)" aria-required="true">
+                                              </div>
+                                          <div style="width:120px;float:left;margin-right:10px;">
+                                          <select id="select5" class="form-control" style="width:120px;float:left;" data-placeholder="交易状态" name="type">
+                                              <option value=""></option>
+                                              <option value="1">订单付款</option>
+                                              <option value="2">订单结算</option>
+                                              <option value="3">订单失效</option>
+                                              <option value="4">订单成功</option>
+                                          </select>
+                                          </div>
+                                          <input style="width:100px;float:left;" type="submit" class="btn btn-success" value="搜 索">
+
+                                      </form>
+
+                                  </div>
+                                  <div style="float:right;padding-right:20px;">{$dd->render()}</div>
+                              </div>
+                              <table class="table table-bordered table-striped-col dataTable">
+                                  <thead>
+                                  <tr>
+                                      <!--<th class="text-center" style="width:45px;">-->
+                                      <!--<label class="ckbox ckbox-primary" class="oldal">-->
+                                      <!--</label>-->
+                                      <!--</th>-->
+                                      <th>商品图片</th>
+                                      <th>店铺名称</th>
+                                      <th style="width:200px!important;">商品信息</th>
+                                      <th style="width:90px!important;">商品单价</th>
+                                      <th>订单号</th>
+                                      <th style="width:90px!important;">购买数量</th>
+                                      <th style="width:90px!important;">付款金额</th>
+                                      <th style="width:90px!important;">佣金</th>
+                                      <th>所属用户</th>
+                                      <th>所属推广位</th>
+                                      <th style="width:90px!important;">交易状态</th>
+                                      <th style="width:90px!important;">订单状态</th>
+                                      <th>订单时间</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+
+                                  {volist name="dd" id="v"}
+
+                                  <tr>
+                                      <td style="padding:0px;margin:0px;width:90px;"><img style="width:90px;height:90px;" src="{$v.o_goodsimg}" alt=""></td>
+                                      <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.o_shopnic}</p></td>
+                                      <td>
+                                          <p class="text-success" style="width:200px!important;">{$v.o_goodsinformation}</p>
+                                          </td>
+                                      <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_price}</p></td>
+                                      <td><p class="text-success" style="width:120px;padding:0px;margin:0px;">{$v.o_ordernum}</p></td>
+                                      <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_number}</p></td>
+                                      <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_payprice}</p></td>
+                                      <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_zzyj}</p></td>
+                                      <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.u_username}</p>    </td>
+                                      <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.t_nicname}</p>    </td>
+                                      <td>{if condition="$v.o_state eq 12"}<span class="btn btn-success btn-xs">订单付款</span>{elseif condition="$v.o_state eq 3"/}<span class="btn btn-info btn-xs">订单结算</span>{elseif condition="$v.o_state eq 13"/}<span class="btn btn-danger btn-xs">订单失效</span>{elseif condition="$v.o_state eq 14"/}<span class="btn btn-primary btn-xs">订单成功</span>{/if}</td>
+
+                                      <td>{if condition="$v.o_operatingstate eq 1"}<span class="btn btn-success btn-xs">已完成</span>{elseif condition="$v.o_operatingstate eq 2"/}<span class="btn btn-info btn-xs">其他</span>{elseif condition="$v.o_operatingstate eq 0"/}<span class="btn btn-danger btn-xs">未操作</span>{/if}</td>
+                                      <td>{$v.o_creattime|date="Y/m/d H:i:s",###}</td>
+
+                                  </tr>
+                                  {/volist}
+
+                                  </tbody>
+                              </table>
+                              {$dd->render()}
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}
+<script>
+  var manage = {
+
+}
+</script>

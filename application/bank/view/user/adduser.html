@@ -1,0 +1,234 @@
+{include file="public/head" /}
+<link rel="stylesheet" href="/bank/lib/jquery-ui/jquery-ui.css">
+<link rel="stylesheet" href="/bank/lib/select2/select2.css">
+<link rel="stylesheet" href="/bank/lib/dropzone/dropzone.css">
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+<link rel="stylesheet" href="/bank/lib/timepicker/jquery.timepicker.css">
+<script src="/bank/lib/modernizr/modernizr.js"></script>
+<style>
+    .select2{height:35px!important;}
+    .select2-selection{height:38px!important;}
+    #select2-select5-container{height:37px!important;line-height: 37px;}
+    #select2-select1-container{height:37px!important;line-height: 37px;}
+    .select2-selection__arrow{height:34px!important;}
+</style>
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('User/index')}">代理管理</a></li>
+        <li class="active">添加用户</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">添加用户</h4>
+          <hr>
+        </div>
+          
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('user/addu')}" method="post">
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户账号<span class="text-danger">*</span></label>
+                        <div class="col-sm-3">
+                            <input type="text" name="phone" class="form-control" placeholder="用户账号（手机号）" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注昵称<span class="text-danger">*</span></label>
+                        <div class="col-sm-3">
+                            <input type="text" name="nic" class="form-control" placeholder="备注昵称" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户密码<span class="text-danger">*</span></label>
+                        <div class="col-sm-3">
+                            <input type="text" name="password" class="form-control" placeholder="输入密码" required="" aria-required="true">
+                        </div>
+                    </div>
+                     {if condition="$fcbl.fc_power eq 1"}
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">代理级别<span class="text-danger">*</span></label>
+                         <div class="col-sm-3">
+                             <select name="dl" id="select5" class="form-control" style="color:#9fa8bc;" required="" data-placeholder="选择代理级别">
+                                 <option value="">-请选择-</option>
+                                 <option value="0">一级代理</option>
+                                 <option value="1">二级代理</option>
+                                 <option value="2">三级代理</option>
+                             </select>
+                         </div>
+                     </div>
+                     {elseif  condition="$fcbl.fc_power eq 2"/}
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">代理级别<span class="text-danger">*</span></label>
+                         <div class="col-sm-3">
+                             <input type="text" name="dl" class="form-control" placeholder="代理级别" required="" aria-required="true" value="一级代理" disabled>
+                         </div>
+                     </div>
+                     {/if}
+                     <div class="form-group" id="sjy" style="display:none;">
+                         <label class="col-sm-2 control-label">上级代理<span class="text-danger">*</span></label>
+                         <div class="col-sm-3">
+                             <select name="sjdl"  id="select1" class="form-control" style="width:100%;" data-placeholder="选择所属上级代理">
+
+                             </select>
+                         </div>
+                     </div>
+                    <div class="form-group" >
+                        <label class="col-sm-2 control-label">自己产生佣金比率<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="fcbl" class="form-control" placeholder="输入比率" required="" pattern="^\d+(\.\d{1,2})?$" aria-required="true" style="width:74%;float:left;"><span style="float:left;font-size: 25px;">%</span>
+                        </div>
+                    </div>
+                     {if condition="$fcbl.fc_power eq 1"}
+                     <div class="form-group" id="fcbl2">
+                         <label class="col-sm-2 control-label" id="erj">提取二级佣金比率<span class="text-danger">*</span></label>
+                         <div class="col-sm-4">
+                             <input type="text" name="fcbl2" class="form-control" placeholder="输入比率" pattern="^\d+(\.\d{1,2})?$" aria-required="true" style="width:74%;float:left;" id="er"><span style="float:left;font-size: 25px;">%</span>
+                         </div>
+                     </div>
+                     <div class="form-group" id="fcbl3">
+                         <label class="col-sm-2 control-label">提取三级佣金比率<span class="text-danger">*</span></label>
+                         <div class="col-sm-4">
+                             <input type="text" name="fcbl3" class="form-control" placeholder="输入比率" pattern="^\d+(\.\d{1,2})?$" aria-required="true" style="width:74%;float:left;" id="san"><span style="float:left;font-size: 25px;">%</span>
+                         </div>
+                     </div>
+                     {/if}
+
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                    
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}
+<script src="/bank/lib/jquery-ui/jquery-ui.js"></script>
+<script src="/bank/lib/jquery-autosize/autosize.js"></script>
+<script src="/bank/lib/select2/select2.js"></script>
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+<script src="/bank/lib/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/bank/lib/timepicker/jquery.timepicker.js"></script>
+<script src="/bank/lib/dropzone/dropzone.js"></script>
+<script src="/bank/lib/bootstrapcolorpicker/js/bootstrap-colorpicker.js"></script>
+<script>
+    $(function() {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+        // Select2 Box
+        $('#select1, #select2, #select3').select2();
+        $("#select4").select2({ maximumSelectionLength: 2 });
+        $("#select5").select2({ minimumResultsForSearch: Infinity });
+        $("#select6").select2({ tags: true });
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+        // Input Masks
+        $("#date").mask("99/99/9999");
+        $("#phone").mask("(999) 999-9999");
+        $("#ssn").mask("999-99-9999");
+        // Date Picker
+        $('#datepicker').datepicker();
+        $('#datepicker-inline').datepicker();
+        $('#datepicker-multiple').datepicker({ numberOfMonths: 2 });
+
+        // Time Picker
+        $('#tpBasic').timepicker();
+        $('#tp2').timepicker({'scrollDefault': 'now'});
+        $('#tp3').timepicker();
+
+        $('#setTimeButton').on('click', function (){
+            $('#tp3').timepicker('setTime', new Date());
+        });
+
+        // Colorpicker
+        $('#colorpicker1').colorpicker();
+        $('#colorpicker2').colorpicker({
+            customClass: 'colorpicker-lg',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: { maxTop: 200 },
+                alpha: { maxTop: 200 }
+            }
+        });
+
+    });
+
+</script>
+<script>
+  $('#select5').change(function(){
+      var id = $(this).val();
+      $('#fcbl2').removeAttr("style");
+      $('#fcbl3').removeAttr("style");
+      $('#erj').html('提取二级佣金比率');
+      if(id!='')
+      {
+          if(id==1||id==2){
+              $('#erj').html('提取三级佣金比率');
+              $('#fcbl3').attr("style","display:none;");
+              $('#san').val('');
+              if(id==2)
+              {
+                  $('#fcbl2').attr("style","display:none;");
+                  $('#er').val('');
+              }
+              $('#sjy').attr("style","display:none;");
+
+              $.ajax({
+                  url: "{:url('user/jis')}",
+                  data: {id: id},
+                  type: 'POST',
+                  dataType: "json",
+                  cache: false,
+                  success: function (data, state) {
+                      if (state == 'success' && data.code == '0') {
+                          var htmls = '<option value="">-选择所属上级代理-</option>';
+                          arra = data.us;
+                          $.each(arra,function(key,val){
+                              htmls+='<option value="'+val.usid+'">'+val.username+'['+val.u_nic+']</option>'
+                          });
+                          $('#select1').empty();
+                          $('#select1').html(htmls);
+                          $('#sjy').removeAttr("style");
+                      }else
+                      {
+                          alert('没有上级用户！');
+                      }
+                  }
+              });
+           }
+          else
+          {
+              $('#sjy').removeAttr("style");
+              $('#sjy').attr("style","display:none;");
+          }
+      }
+      else
+      {
+          $('#sjy').removeAttr("style");
+          $('#sjy').attr("style","display:none;");
+      }
+  });
+  var manage = {
+
+}
+
+</script>

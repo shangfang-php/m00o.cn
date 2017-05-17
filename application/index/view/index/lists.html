@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>订单明细</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+</head>
+<body>
+	<div class="con1">
+		<form action="{:url('index/search')}" method="post" id="forms">
+			<input type="text" name="num" placeholder="搜索订单号">
+			<button type="submit" id="but"></button>
+		</form>
+	</div>
+	<a href="{:url('index/index')}" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	<div class="tab">
+		<span class="on"><?php if(session('utype') == 1) echo '今日付款';else echo '本月'; ?>订单</span>
+		<span><a href="{:url('index/sylists',['uid'=>$uid])}">上月订单</a></span>
+	</div>
+	<div class="main2">
+		<ul>
+		{foreach name="list" item="vo"}
+			<li>
+				<div class="time"><span style="background: <?php if($vo['o_state'] == 14){echo '#ff8a00';}elseif ($vo['o_state'] == 12) {echo '#14d212';}elseif ($vo['o_state'] == 3) {echo '#098eff';}elseif ($vo['o_state'] == 13) {echo '#ff0909';}?>">
+					<?php if($vo['o_state'] == 14){echo '已成功';}elseif ($vo['o_state'] == 12) {echo '已付款';}elseif ($vo['o_state'] == 3) {echo '已结算';}elseif ($vo['o_state'] == 13) {echo '已失效';}?>
+				</span>下单时间：{$vo.o_creattime|date="Y-m-d H:i:s",###}&nbsp;&nbsp;</div>
+				<div class="pic"><img src="{$vo.o_goodsimg}" width="100%" height="100%"></div>
+				<p>{$vo.o_goodsinformation|subtext=18}<span></span></p>
+				<p>来源：{$vo.o_t_nicname}
+				
+				</p>
+				<p>订单号：{$vo.o_ordernum|subb=###}</p>
+			</li>
+			<div class="mm"><span>付款金额：{$vo.o_payprice}</span><span>预估收入：<?php if(!$vo['or_money']) echo 0;else echo $vo['or_money'];?></span></div>
+			<div class="hui"></div>
+		{/foreach}
+		</ul>
+	</div>{$list->render()}
+</body>
+</html>

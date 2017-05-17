@@ -1,0 +1,170 @@
+{include file="public/head" /}
+<!-- 页面内容开始 -->
+  <div class="mainpanel">
+    <div class="contentpanel">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 dash-left">
+          <h4 style="font-size:14px;color:#583f01">代理</h4>
+          <hr style="margin-top:0px;border-color:#fff;">
+          <div class="row panel-quick-page">
+            <div class="col-xs-6 col-sm-4 col-md-3 page-user">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">一级代理  <span style="float:right;">人数：{$yiji}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><img src="/bank/images/er.png" alt=""></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+              </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-products">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">二级代理  <span style="float:right;">人数：{$erji}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><img src="/bank/images/yi.png" alt=""></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-events">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">三级代理  <span style="float:right;">人数：{$saji}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="page-icon"><img src="/bank/images/san.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        <div class="col-md-8 col-lg-8 dash-left">
+          <h4 style="font-size:14px;color:#583f01">订单</h4>
+          <hr style="margin-top:0px;border-color:#fff;">
+          <div class="row panel-quick-page">
+          <div class="col-xs-6 col-sm-4 col-md-3 page-reports">
+            <div class="panel">
+              <div class="panel-heading">
+                <h4 class="panel-title">当月订单数  <span style="float:right;">{$dydan}</span></h4>
+              </div>
+              <div class="panel-body">
+                <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+              </div>
+            </div>
+          </div>
+            <div class="col-sm-1">
+            </div>
+          <div class="col-xs-6 col-sm-4 col-md-3 page-statistics">
+            <div class="panel">
+              <div class="panel-heading">
+                <h4 class="panel-title">今日订单数  <span style="float:right;">{$ridan}</span></h4>
+              </div>
+              <div class="panel-body">
+                <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+              </div>
+            </div>
+          </div>
+            <div class="col-sm-1">
+            </div>
+          <div class="col-xs-6 col-sm-4 col-md-3 page-support">
+            <div class="panel">
+              <div class="panel-heading">
+                <h4 class="panel-title">上月订单数  <span style="float:right;">{$sydan}</span></h4>
+              </div>
+              <div class="panel-body">
+                <div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+        <div class="col-md-8 col-lg-8 dash-left">
+          <h4 style="font-size:14px;color:#583f01">其它</h4>
+          <hr style="margin-top:0px;border-color:#fff;">
+          <div class="row panel-quick-page">
+        <div class="col-xs-3 col-sm-3 col-md-3 page-privacy" onclick="copytext()">
+          <div class="panel">
+            <div class="panel-heading">
+              <h4 class="panel-title">我的邀请码</h4>
+            </div>
+            <div class="panel-body">
+              <style>
+                textarea{
+                  border:0;
+                  background-color:transparent;
+                  /*scrollbar-arrow-color:yellow;
+                  scrollbar-base-color:lightsalmon;
+                  overflow: hidden;*/
+                  height: auto;
+                  resize:none;
+                  height:30px;
+                  line-height:25px;
+                  padding-left:40px;
+                }
+              </style>
+              <div class="page-icon" style="font-size:16px;padding-top:10%;"><textarea readonly id="code">{$sion.code}</textarea> </div>
+            </div>
+          </div>
+        </div>
+            <div class="col-sm-1">
+            </div>
+        <div class="col-xs-6 col-sm-4 col-md-3 page-settings">
+          <div class="panel">
+            <div class="panel-heading">
+              <h4 class="panel-title">使用教程</h4>
+            </div>
+            <div class="panel-body">
+              <a href="https://eyun.baidu.com/s/3miCxvYg" target="_blank"><div class="page-icon"><i class="glyphicon glyphicon-facetime-video"></i></div></a>
+            </div>
+          </div>
+        </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 page-settings">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">订单同步工具下载</h4>
+                </div>
+                <div class="panel-body">
+                  <a href="/bank/订单同步工具.rar"><div class="page-icon"><i class="glyphicon glyphicon-save"></i></div></a>
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-md-8 col-lg-8 dash-left">
+          <!--<div class="alert alert-info">-->
+            <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>-->
+            <!--<strong>订单同步工具下载</strong> >>><a href="/bank/订单同步工具.rar" class="alert-link">点此下载</a>-->
+          <!--</div>-->
+          {if condition="$fc.fc_redo eq 2"}
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>温馨提示：</strong> 您的代理注册分成比率还没设置 >><a href="{:url('setup/set')}" class="alert-link">点此进行设置</a>
+          </div>
+          {/if}
+        </div>
+
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{include file="public/footer" /}
+
+<script>
+  function copytext()
+  {
+    var url = document.getElementById("code");
+    url.select();
+    document.execCommand("Copy");
+    alert('已复制邀请码，请手机打开m.00o.cn进行注册，用户注册后就是一级代理！');
+  }
+</script>

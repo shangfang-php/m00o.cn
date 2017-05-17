@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="/index/css/style.css">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <title>首页</title>
+    
+</head>
+<body style="background: #fff">
+	<!-- <a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:10px;bottom:30px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a> -->
+	<a href="{:url('index/index')}"><div class="nav" id="nav"><img src="/index/images/banner.png" width="100%"></div></a>
+	<div class="con1">
+		<form action="{:url('index/searchp')}" method="get" id="forms">
+			<input type="text" name="name" placeholder="搜索商品关键字">
+			<input type="hidden" name="p" value="1">
+			<button type="submit" id="but"></button>
+		</form>
+	</div>	
+	<div class="con2">		
+		<ul>			
+			<a href="{:url('index/lists',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd1.png" width="100%"><p>我的订单</p></li></a>
+			<a href="{:url('index/listss',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd2.png" width="100%"><p>代理订单</p></li></a>
+			<a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd4.png" width="100%"><p>收入排行</p></li></a>
+			<a href="{:url('index/my',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd3.png" width="100%"><p>个人中心</p></li></a>
+		</ul>	
+	</div>
+	<div class="title" style="background: #fff">
+		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
+		<span style="float:left;line-height:30px;margin-right:10px;">我的数据</span>
+		<a href="/" class="shuaxin"><img src="/index/images/shuaxin.png" width="30px"></a>
+	</div>
+	<div class="con3" style="background: #fff">
+		<ul style="margin:0 2% 0 5%;">			
+				<a href="{:url('index/lists',['uid'=>$Think.session.usid,'utype'=>1])}" style="color:#fff;"><span style="background:#fe9696;">				
+					今日付款订单<br />{$nowday}			
+				</span>	</a>
+				<li><img src="/index/images/huang.png"><p class="cen">{$nowdayvalue}</p><p class="bot">今日预估收入(含代理)</p></li>
+				<li><img src="/index/images/fen.png"><p class="cen">{$yesmonthvalue}</p><p class="bot">上月预估收入(含代理)</p></li>
+				<li><img src="/index/images/lv.png"><p class="cen">{$click}</p><p class="bot">昨日点击数</p></li>
+			</ul>		
+			<ul style="margin:0 5% 0 2%;">			
+				<a href="{:url('index/lists',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
+				本月订单数<br />{$nowmonth}
+				</span>	</a>		
+				<li><img src="/index/images/cheng.png"><p class="cen">{$yesdayvalue}</p><p class="bot">昨日预估收入(含代理)</p></li>
+				<li><img src="/index/images/hong.png"><p class="cen">{$nowmonthvalue}</p><p class="bot">本月预估收入(含代理)</p></li>
+				<a href="{:url('dlnum',['leve'=>$leve])}" style="color:#000;"><li><img src="/index/images/qlv.png"><p class="cen">{$num}</p><p class="bot">下级代理数</p></li></a>
+			</ul>
+	</div>
+	<div class="title" style="<?php if($level == 3) echo 'display:none;'?>background: #fff">
+		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
+		<span style="float:left;line-height:30px;margin-right:10px;">代理贡献</span>
+	</div>
+	<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none"></div>
+	<div class="con3" id='con3' style="display:none; background: #fff">		
+		<ul style="margin:0 2% 0 5%;">			
+				<a href="{:url('index/listss',['uid'=>$Think.session.usid,'utype'=>2])}" style="color:#fff;"><span style="background:#fe9696;">				
+					今日订单数<br /><p id="jrdd"></p>		
+				</span>		</a>	
+				<li><img src="/index/images/danzhong.png"><p class="cen" id="jr"></p><p class="bot">今日预估收入</p></li>
+			</ul>		
+			<ul style="margin:0 5% 0 2%;">			
+				<a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
+				本月订单数<br /><p id="zrdd"></p>		
+				</span>	</a>		
+				<li><img src="/index/images/zhong.png"><p class="cen" id="zr"></p><p class="bot">昨日预估收入</p></li>
+			</ul>
+	</div>
+</body>
+</html>
+<script>
+    var d = document.getElementById("nav").offsetHeight;
+    console.info(d);
+    window.addEventListener("scroll", function(event) {
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        console.log(scrollTop);    
+        if(document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop ) {
+        	var le = {$level};
+        	if(le != 3){
+        		if($("#con3").is(":hidden")){
+					$('#load').show();
+					$.ajax({
+		                url: "{:url('index/loads')}",
+		                type: 'Post',
+		                dataType: "json",
+		                cache: false,
+		                success: function(data,state){
+		                    if(state == 'success'){
+		                        $('#jrdd').text(data.dlnowday);
+		                        $('#zrdd').text(data.dlnowmonth);
+		                        $('#jr').text(data.dlnowdayvalue);
+		                        $('#zr').text(data.dlyesdayvalue);
+		                        $('#con3').css({'display':'flex','display':'-webkit-box','display':'-webkit-flex'});
+		                        $('#load').hide();
+		                        $('#ii').val(1);
+		                    }else{
+		                        alert('error');
+		                    }
+		                }
+	            	});	
+        		}
+				
+        	}
+        }        
+    });
+</script>

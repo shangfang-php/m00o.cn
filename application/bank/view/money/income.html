@@ -1,0 +1,253 @@
+{include file="public/head" /}
+
+
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+
+
+    <div class="mainpanel">
+        <style>
+            .btn-stroke{
+                padding:0 3px;
+                line-height:16px;
+            }
+        </style>
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Money/index')}">财务管理</a></li>
+        <li class="active">修改用户余额</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <div class="row">
+              <form action="{:url('Money/uumodify')}" method="post">
+              <div style="float:right;">
+                  <h4 style="float:left;margin-top:10px">设置代理端显示 　 </h4>
+                  <input type="text" name="title" class="form-control" placeholder="排行榜标题" required="" aria-required="true" style="float:left;width:300px;margin-right:10px;" value="{$alls.u_title}">
+                  <label class="rdiobox rdiobox-success" style="float:left;margin-right:10px;margin-top:10px">
+                      <input type="radio" name="rdio" {if condition="$alls.u_confirm eq 2"} checked {/if} value="2">
+                      <span>真数据</span>
+                  </label>
+                  <label class="rdiobox rdiobox-warning" style="float:left;margin-right:10px;margin-top:10px">
+                      <input type="radio" name="rdio" {if condition="$alls.u_confirm eq 1"} checked {/if} value="1">
+                      <span>假数据</span>
+                  </label>
+                  <label class="rdiobox rdiobox-danger" style="float:left;margin-right:10px;margin-top:10px">
+                      <input type="radio" name="rdio" {if condition="$alls.u_confirm eq 0"} checked {/if} value="0">
+                      <span>不公布</span>
+                  </label>
+
+                  <button type="submit" class="btn btn-info btn-stroke" style="line-height:36px;">　更　改　</button>
+              </div>
+              </form>
+              <br>
+              <br>
+              <hr>
+              <div class="col-md-6">
+                  <h4>真实总收入【实时数据】</h4>
+                  <hr>
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-success table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      <th style="width:60px;">排名</th>
+                                      <th>用户账号</th>
+                                      <th>用户昵称</th>
+                                      <th>获得金额</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="allm" id="v" key="k"}
+                                  <tr>
+                                      <td><span class="btn btn-info btn-xs btn-stroke">{$k}</span></td>
+                                      <td>{$v.u_username}</td>
+                                      <td>{$v.u_nic}</td>
+                                      <td>{$v.u_allmoney}</td>
+                                  </tr>
+                                    {/volist}
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <h4>假数据  <button class="btn btn-info btn-xs btn-stroke" style="float:right;margin-right:20px;" data-toggle="modal" data-target="#myModal" title="添加假数据"><i class="fa fa-plus" ></i></button></h4>
+                  <hr>
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-warning table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      <th style="width:60px;">排名</th>
+                                      <th>虚拟账号</th>
+                                      <th>虚拟金额</th>
+                                      <th>操作</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="fdata" id="vs"}
+                                  <tr>
+                                      <td> <span class="btn btn-info btn-xs btn-stroke">{$vs.f_sort}</span> </td>
+                                      <td>{$vs.u_username}</td>
+                                      <td>{$vs.u_allmoney}</td>
+                                      <td style="width:80px;"> <button class="btn btn-success btn-xs btn-stroke" title="修改" onclick="manage.modify({$vs.f_id})" ><i  class="fa fa-pencil"></i></button>
+                                          <button class="btn btn-danger btn-xs btn-stroke" title="删除" onclick="manage.del({$vs.f_id})" ><i  class="fa fa-trash"></i></button></td>
+                                  </tr>
+                                  <!--volist-->
+                                  {/volist}
+
+                                  </tbody>
+                              </table>
+
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 模糊弹框 -->
+<div class="modal bounceIn animated" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加代理收入排行</h4>
+            </div>
+            <form action="{:url('Money/addfdata')}" method="post">
+            <div class="panel-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">虚拟账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="username" class="form-control" placeholder="虚拟账号" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排　　行</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="sort" class="form-control" placeholder="排行" required="" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">虚拟金额</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="money" class="form-control" placeholder="虚拟金额" required="" aria-required="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                <button type="submit" class="btn btn-primary" >　提　交　</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal bounceIn animated" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabels" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabels">修改代理收入排行 <span id="yh"></span></h4>
+            </div>
+            <form action="{:url('Money/modifyfdata')}" method="post">
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">虚拟账号</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="fusername" name="usernames" class="form-control" placeholder="虚拟账号" required="" aria-required="true">
+                                <input type="hidden" name="fid" id="ffid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排　　行</label>
+                            <div class="col-sm-8">
+                                <input type="number" id="fsort" name="sorts" class="form-control" placeholder="排行" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">虚拟金额</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="allmoney" name="moneys" class="form-control" placeholder="虚拟金额" required="" aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                    <button type="submit" class="btn btn-primary" id="sub1">　提　交　</button>
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script>
+    var manage = {
+        modify:function(id)
+        {
+            $.ajax({
+                url: "{:url('money/fmodify')}",
+                data: {id: id},
+                type: 'POST',
+                dataType: "json",
+                cache: false,
+                success: function (data, state) {
+                    if (state == 'success' && data.code == '0') {
+                        $("#fusername").val(data.arr.u_username);
+                        $("#fsort").val(data.arr.f_sort);
+                        $("#allmoney").val(data.arr.u_allmoney);
+                        $("#ffid").val(data.arr.f_id);
+                        $('#myModals').modal('show');
+                        //                      document.getElementById('s'+uid).innerHTML=htmls;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
+        },
+        del:function(id)
+        {
+            if(confirm("确定删除？")) {
+
+                $.ajax({
+                    url: "{:url('Money/delfdata')}",
+                    data: {id: id},
+                    type: 'POST',
+                    dataType: "json",
+                    cache: false,
+                    success: function (data, state) {
+                        if (state == 'success' && data.code == '0') {
+                            alert('删除成功！');
+                            window.location.href=window.location.href;
+                        }
+                        else
+                        {
+                            alert('删除失败!!');
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+
+
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+
+

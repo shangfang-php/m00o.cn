@@ -1,0 +1,225 @@
+{include file="public/head" /}
+<link rel="stylesheet" href="/bank/lib/jquery-ui/jquery-ui.css">
+<link rel="stylesheet" href="/bank/lib/select2/select2.css">
+<link rel="stylesheet" href="/bank/lib/dropzone/dropzone.css">
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+<link rel="stylesheet" href="/bank/lib/timepicker/jquery.timepicker.css">
+<script src="/bank/lib/modernizr/modernizr.js"></script>
+
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a href="{:url('Setup/mon')}">财务管理</a></li>
+        <li class="active">修改用户金额</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+              <ul class="nav nav-tabs nav-justified nav-line">
+                  <li class="active"><a href="{:url('Money/savemoney')}"><strong>修改用户余额</strong></a></li>
+                  <li><a href="{:url('Money/moneylist')}"><strong>记录列表</strong></a></li>
+              </ul>
+        </div>
+          
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('money/modifymoney')}" method="post">
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择用户(可搜索)<span class="text-danger">*</span></label>
+                        <div class="col-sm-3">
+                            <style>
+                                .select2{
+                                    height:35px!important;
+                                }
+                                .select2-selection
+                                {
+                                    height:35px!important;
+                                }
+                                #select2-select1-container{
+                                    height:34px!important;
+                                    line-height: 34px;
+                                }
+                                .select2-selection__arrow{
+                                    height:32px!important;
+                                }
+                            </style>
+                            <select id="select1" name="usid" class="form-control" style="" required="" data-placeholder="选择用户">
+                                <option value="">&nbsp;</option>
+                                {volist name="user" id="v"}
+                                <option value="{$v.u_id}">{$v.u_username}[{if condition="$v.u_leve eq 1"}一级代理{elseif condition="$v.u_leve eq 2" /}二级代理{elseif condition="$v.u_leve eq 3" /}三级代理{/if}][{$v.u_nic}]  </option>
+                                {/volist}
+
+                            </select>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">用户余额:</label>
+                         <div class="col-sm-3">
+                             <input type="text" name='yhye' id="ye" class="form-control" readonly>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">修改类型:</label>
+                         <div class="col-sm-8">
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-top:10px;">
+                                 <input type="radio" name="type" checked value="1" id="zj">
+                                 <span>增加余额</span>
+                             </label>
+                             <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;" id="js">
+                                 <input type="radio" name="type" value="2">
+                                 <span>减少余额</span>
+                             </label>
+                         </div>
+                     </div>
+                     <div class="form-group" id="zeng">
+                         <label class="col-sm-2 control-label">增加余额:</label>
+                         <div class="col-sm-4">
+                             <input type="text" name="zeng" class="form-control" placeholder="输入数字" required aria-required="true" pattern="^\d+(\.\d{1,2})?$" id="zz" style="width:150px;float:left;"><span style="float:left;font-size: 25px;">元</span>
+                         </div>
+                     </div>
+                     <div class="form-group" id="jian" style="display:none;">
+                         <label class="col-sm-2 control-label">减少余额:</label>
+                         <div class="col-sm-4">
+                             <input type="text" name="jian" class="form-control" placeholder="输入数字" aria-required="true" pattern="^\d+(\.\d{1,2})?$" id="jj" style="width:150px;float:left;"><span style="float:left;font-size: 26px;">元</span><span id="tis" style="color:red;"></span>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="col-sm-2 control-label">备注说明:</label>
+                         <div class="col-sm-3">
+                             <textarea name="exp" class="form-control" rows="2" placeholder="可不填"></textarea>
+                         </div>
+                     </div>
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                    
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}
+<script src="/bank/lib/jquery-ui/jquery-ui.js"></script>
+<script src="/bank/lib/jquery-autosize/autosize.js"></script>
+<script src="/bank/lib/select2/select2.js"></script>
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+<script src="/bank/lib/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/bank/lib/timepicker/jquery.timepicker.js"></script>
+<script src="/bank/lib/dropzone/dropzone.js"></script>
+<script src="/bank/lib/bootstrapcolorpicker/js/bootstrap-colorpicker.js"></script>
+<script>
+    $(function() {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+        // Select2 Box
+        $('#select1, #select2, #select3').select2();
+        $("#select4").select2({ maximumSelectionLength: 2 });
+        $("#select5").select2({ minimumResultsForSearch: Infinity });
+        $("#select6").select2({ tags: true });
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+        // Input Masks
+        $("#date").mask("99/99/9999");
+        $("#phone").mask("(999) 999-9999");
+        $("#ssn").mask("999-99-9999");
+        // Date Picker
+        $('#datepicker').datepicker();
+        $('#datepicker-inline').datepicker();
+        $('#datepicker-multiple').datepicker({ numberOfMonths: 2 });
+
+        // Time Picker
+        $('#tpBasic').timepicker();
+        $('#tp2').timepicker({'scrollDefault': 'now'});
+        $('#tp3').timepicker();
+
+        $('#setTimeButton').on('click', function (){
+            $('#tp3').timepicker('setTime', new Date());
+        });
+
+        // Colorpicker
+        $('#colorpicker1').colorpicker();
+        $('#colorpicker2').colorpicker({
+            customClass: 'colorpicker-lg',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: { maxTop: 200 },
+                alpha: { maxTop: 200 }
+            }
+        });
+
+    });
+
+    $('#select1').change(function() {
+        var id = $(this).val();
+        $.ajax({
+            url: "{:url('money/user')}",
+            data: {id: id},
+            type: 'POST',
+            dataType: "json",
+            cache: false,
+            success: function (data, state) {
+                if (state == 'success' && data.code == '0') {
+                    $('#ye').val(data.u.money);
+                    $('#jj').val('');
+                    $('#zz').val('');
+                    $('#tis').empty();
+                    $('#jj').attr("placeholder","最多可减少"+data.u.money);
+                }
+            }
+        });
+    });
+
+    $('#jj').blur(function(){
+        var select1 = $('#select1').val();
+        var ye = parseFloat($('#ye').val());
+        var jj = parseFloat($('#jj').val());
+
+        if(select1=='')
+        {
+            $('#tis').empty();
+            $('#tis').html('还未选择用户！');
+        }
+        else if(jj > ye)
+        {
+            $('#tis').empty();
+            $('#tis').html('减少余额不可超过'+ye+'元');
+        }
+        else
+        {
+            $('#tis').empty();
+        }
+    });
+
+    $('#zj').change(function(){
+        $('#zeng').removeAttr("style");
+        $('#jj').removeAttr("required");
+        $('#zz').removeAttr("required");
+        $('#zz').attr("required","required");
+        $('#jian').attr("style","display:none;");
+    });
+    $('#js').change(function(){
+        $('#zeng').attr("style","display:none;");
+        $('#zz').removeAttr("required");
+        $('#jj').removeAttr("required");
+        $('#jian').removeAttr("style");
+        $('#jj').attr("required","required");
+
+    });
+</script>

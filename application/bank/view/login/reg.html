@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>注册</title>
+    <link rel="stylesheet" href="/index/css/gologin.css">
+    <link href="/index/css/banneralert.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content">
+        <img src="/index/images/login.jpg" alt="">
+        <div class="postform">
+            <!--注册-->
+            <div class="formreg">
+                <div class="inputregs">
+                 <!--账号-->
+                    <div class="isreg">
+                        <input type="text" name="accs" class="name" id="accs"><span class="log">手机号：</span>
+                    </div>
+                    <div class="isregs">
+                        <input type="text" name="core" class="name" id="core"><span class="log">验证码：</span>
+                        <button  onclick="sendMessage()" id="SendCode" >获取验证码</button>
+                    </div>
+                    <div class="ismac">
+                        <input type="text" name="mac" class="name" id="mac"><span class="log">邀请码：</span>
+                    </div>
+                    <!--暗文密码输入框-->
+                    <div class="input_blocks" id="psw_invisibles">
+                        <span class="psw">密　码：</span>
+                        <img id="visible" onclick="showPsws()" src="/index/images/login_close .png">
+                        <input type="password" id="input_invisibles" class="psw" name="password"/>
+                    </div>
+                    <!--明文密码输入框-->
+                    <div class="input_blocks" id="psw_visibles" style="display: none;">
+                        <span class="psw">密　码：</span>
+                        <img id="invisible" onclick="hidePsws()" src="/index/images/login_eye.png">
+                        <input type="text" id="input_visibles" class="psw" name="password"/>
+                    </div>
+                </div>
+                <div class="subs">
+                    <button onclick="Manage.reg()">注册</button>
+                </div>
+                <div class="zc">
+                    <a href="index.html">登录账号</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="/index/js/jquery-1.11.0.min.js" language="javascript"></script>
+<script src="/index/js/banneralert.min.js" language="javascript"></script>
+<script src="/index/js/example.js" language="javascript"></script>
+<script src="/index/js/reg.js" language="javascript"></script>

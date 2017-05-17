@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="../images/favicon.png" type="image/png">-->
+    <title>淘客代理分销系统</title>
+    <link rel="stylesheet" href="/bank/lib/fontawesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/bank/lib/ionicons/css/ionicons.css">
+    <link rel="stylesheet" href="/bank/lib/bootstrapcolorpicker/css/bootstrap-colorpicker.css">
+    <link rel="stylesheet" href="/bank/css/quirk.css">
+    <script type="text/javascript">
+        var NV = {};
+        var UA = navigator.userAgent.toLowerCase();
+        try
+        {
+            NV.name=!-[1,]?'ie':
+                    (UA.indexOf("firefox")>0)?'firefox':
+                            (UA.indexOf("chrome")>0)?'chrome':
+                                    window.opera?'opera':
+                                            window.openDatabase?'safari':
+                                                    'unkonw';
+        }catch(e){};
+        try
+        {
+            NV.version=(NV.name=='ie')?UA.match(/msie ([\d.]+)/)[1]:
+                    (NV.name=='firefox')?UA.match(/firefox\/([\d.]+)/)[1]:
+                            (NV.name=='chrome')?UA.match(/chrome\/([\d.]+)/)[1]:
+                                    (NV.name=='opera')?UA.match(/opera.([\d.]+)/)[1]:
+                                            (NV.name=='safari')?UA.match(/version\/([\d.]+)/)[1]:
+                                                    '0';
+        }catch(e){};
+        try
+        {
+            NV.shell=(UA.indexOf('360ee')>-1)?'360极速浏览器':
+                    (UA.indexOf('360se')>-1)?'360安全浏览器':
+                            (UA.indexOf('se')>-1)?'搜狗浏览器':
+                                    (UA.indexOf('aoyou')>-1)?'遨游浏览器':
+                                            (UA.indexOf('theworld')>-1)?'世界之窗浏览器':
+                                                    (UA.indexOf('worldchrome')>-1)?'世界之窗极速浏览器':
+                                                            (UA.indexOf('greenbrowser')>-1)?'绿色浏览器':
+                                                                    (UA.indexOf('qqbrowser')>-1)?'QQ浏览器':
+                                                                            (UA.indexOf('baidu')>-1)?'百度浏览器':
+                                                                                    '未知或无壳';
+        }catch(e){}
+        if(NV.name=='ie')
+        {
+            if(parseInt(NV.version)<10)
+            {
+                alert('请用ie 10以上浏览器使用此系统！');
+                window.opener=null;
+                window.open('','_self');
+                window.close();
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="headerpanel">
+        <div class="logopanel" style="padding:0px;margin:0px;">
+            <h2><a href="{:url('Index/index')}"><img style="width:214px;height:63px;" src="/bank/images/logos.jpg" alt=""></a></h2>
+        </div>
+        <div class="headerbar">
+            <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+            <div class="header-right">
+                <ul class="headermenu">
+                    <li>
+                        <div id="noticePanel" class="btn-group">
+                            
+                           
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-logged" data-toggle="dropdown">
+                                 <img src="/bank/images/photos/loggeduser.jpg" alt="" />
+                                <?php echo  Session('superspic');?> 
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="{:url('Setup/index')}"><i class="glyphicon glyphicon-user"></i> 帐号设置</a></li>
+                                
+                                <li><a href="{:url('Setup/logout')}"><i class="glyphicon glyphicon-log-out"></i> 退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div><!-- header-right -->
+        </div><!-- headerbar -->
+    </div><!-- header-->
+</header>
+<section>
+    <div class="leftpanel">
+        <div class="leftpanelinner">
+            <!-- ################## LEFT PANEL PROFILE ################## -->
+
+            <div class="media leftpanel-profile">
+                <div class="media-left">
+                    <a href="{:url('Index/index')}">
+                         <img src="/bank/images/photos/loggeduser.jpg" alt="" class="media-object img-circle">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading"><?php echo  Session('superspic');?> <a data-toggle="collapse" data-target="#loguserinfo" class="pull-right"><i class="fa fa-angle-down"></i></a></h4>
+                </div>
+            </div><!-- 用户基本资料 -->
+            <div class="leftpanel-userinfo collapse" id="loguserinfo">
+
+                <h5 class="sidebar-title">Contact</h5>
+                <ul class="list-group">
+                   <!--  <li class="list-group-item">
+                        <label class="pull-left">余 额</label>
+                        <span class="pull-right"></span>
+                    </li> -->
+                    <li class="list-group-item">
+                        <label class="pull-left"></label>
+                        <span class="pull-right"></span>
+                    </li>
+
+                </ul>
+            </div><!-- 用户基本资料结束 -->
+
+            <div class="tab-content">
+                <!-- ################# 侧边导航栏目 ################### -->
+                <div class="tab-pane active" id="mainmenu">
+                    <h5 class="sidebar-title">Favorites</h5>
+                    <ul class="nav nav-pills nav-stacked nav-quirk">
+                        <li <?php if($a==1){?>class="active"<?php }?>><a href="{:url('Index/index')}"><i class="fa fa-home"></i> <span>主页</span></a></li>
+                    </ul>
+
+                    <h5 class="sidebar-title"> 导航栏 </h5>
+                    <ul class="nav nav-pills nav-stacked nav-quirk">
+                        <li class="nav-parent <?php if($a==2){?>active<?php }?>">
+                            <a href=""><i class="glyphicon glyphicon-user"></i> <span>淘客管理</span></a>
+                            <ul class="children">
+                                
+                                <li <?php if($b==2){?>class="active"<?php }?>><a href="{:url('user/index')}">淘客管理</a></li>
+                                <li <?php if($b==7){?>class="active"<?php }?>><a href="{:url('user/usersh')}">审核管理</a></li>
+                                <li <?php if($b==3){?>class="active"<?php }?>><a href="{:url('user/adduser')}">添加淘客</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-parent <?php if($a==6){?>active<?php }?>">
+                            <a href=""><i class="glyphicon glyphicon-shopping-cart"></i> <span>淘客域名</span></a>
+                            <ul class="children">
+                                <li <?php if($b==1){?>class="active"<?php }?>><a href="{:url('Setup/link')}">淘客域名</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-parent <?php if($a==3){?>active<?php }?>">
+                            <a href=""><i class="glyphicon glyphicon-shopping-cart"></i> <span>订单列表</span></a>
+                            <ul class="children">
+                                <li <?php if($b==4){?>class="active"<?php }?>><a href="{:url('Order/index',array('last'=>'1'))}">订单列表</a></li>
+                            </ul>
+                        </li> -->
+                        
+                        <li class="nav-parent <?php if($a==5){?>active<?php }?>">
+                            <a href=""><i class="fa fa-cogs"></i> <span>设置中心</span></a>
+                            <ul class="children">
+                                <li <?php if($b==6){?>class="active"<?php }?>><a href="{:url('Setup/index')}">帐号设置</a></li>
+                                <!--<li><a href="{:url('Setup/logout')}">退出登录</a></li>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!--导航栏结束-->
+            </div>
+        </div>
+    </div>
