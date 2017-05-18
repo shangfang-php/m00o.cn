@@ -1,111 +1,386 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
-	<meta content="yes" name="apple-mobile-web-app-capable">     
-	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+		  name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
 	<link rel="stylesheet" href="/index/css/style.css">
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
-    <title>首页</title>
-    
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js">
+	</script>
+	<title>
+		首页
+	</title>
+	<style type="text/css">
+		body{background:#eee;}
+		.cnt{display:none;}
+	</style>
 </head>
-<body style="background: #fff">
-	<!-- <a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:10px;bottom:30px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a> -->
-	<a href="{:url('index/index')}"><div class="nav" id="nav"><img src="/index/images/banner.png" width="100%"></div></a>
-	<div class="con1">
+
+<body>
+<!-- <a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:10px;bottom:30px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a> -->
+<!-- <a href="{:url('index/index')}"><div class="nav" id="nav"><img src="/index/images/banner.png" width="100%"></div></a> -->
+<div class="topHeight" style="position: relative;">
+	<div class="conkey">
+		<a href="{:url('index/rank',['uid'=>$Think.session.usid])}">
+			<div class="ranking">
+				<img src="/index/images/ranking.png">
+				<p style="color: #434444">
+					收入排行
+				</p>
+			</div>
+		</a>
 		<form action="{:url('index/searchp')}" method="get" id="forms">
 			<input type="text" name="name" placeholder="搜索商品关键字">
 			<input type="hidden" name="p" value="1">
-			<button type="submit" id="but"></button>
+			<button type="submit" id="but">
+			</button>
 		</form>
-	</div>	
-	<div class="con2">		
-		<ul>			
-			<a href="{:url('index/lists',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd1.png" width="100%"><p>我的订单</p></li></a>
-			<a href="{:url('index/listss',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd2.png" width="100%"><p>代理订单</p></li></a>
-			<a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd4.png" width="100%"><p>收入排行</p></li></a>
-			<a href="{:url('index/my',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd3.png" width="100%"><p>个人中心</p></li></a>
-		</ul>	
+		<a href="{:url('index/my',['uid'=>$Think.session.usid])}">
+			<div class="person">
+				<img src="/index/images/person.png">
+				<p style="color: #434444">
+					个人中心
+				</p>
+			</div>
+		</a>
+		<div class="partner">
+			<a href="/"><img src="/index/images/tuo.png" class="tuo"></a>
+			<p class="ppp">
+				合伙人系统
+			</p>
+			<div class="pabox">
+                        <span>
+                            56.68
+                        </span>
+				<p>
+					今日收入
+				</p>
+			</div>
+			<div class="pashu">
+				<img src="/index/images/shushu.png">
+			</div>
+			<a href="{:url('index/lists',['uid'=>$Think.session.usid])}" style="color: #333"><div class="pabox">
+                        <span>
+                            32
+                        </span>
+				<p>
+
+					今日订单
+
+				</p>
+			</div>
+			</a>
+			<div class="pashu">
+				<img src="/index/images/shushu.png">
+			</div>
+			<a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color: #333"><div class="pabox">
+                        <span>
+                            4581
+                        </span>
+				<p>
+
+					本月订单
+
+				</p>
+			</div>
+			</a>
+			<div class="pashu">
+				<img src="/index/images/shushu.png">
+			</div>
+			<div class="pabox">
+                        <span>
+                            1245
+                        </span>
+				<p>
+					昨日点击
+				</p>
+			</div>
+			<div class="clear">
+			</div>
+		</div>
 	</div>
-	<div class="title" style="background: #fff">
-		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
-		<span style="float:left;line-height:30px;margin-right:10px;">我的数据</span>
-		<a href="/" class="shuaxin"><img src="/index/images/shuaxin.png" width="30px"></a>
+	<div class="con2">
+		<!-- <ul>                       <a href="{:url('index/lists',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd1.png" width="100%"><p>我的订单</p></li></a>            <a href="{:url('index/listss',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd2.png" width="100%"><p>代理订单</p></li></a>            <a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd4.png" width="100%"><p>收入排行</p></li></a>            <a href="{:url('index/my',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd3.png" width="100%"><p>个人中心</p></li></a>            </ul>    -->
+		<a href="{:url('index/number')}" style="display: block;width: 100%;color: #333;">
+			<div class="more">
+				<!-- <a href="/index/view/index/number.html">更多数据》</a> -->
+				更多数据
+				<img src="/index/images/more.png">
+			</div>
+		</a>
 	</div>
-	<div class="con3" style="background: #fff">
-		<ul style="margin:0 2% 0 5%;">			
-				<a href="{:url('index/lists',['uid'=>$Think.session.usid,'utype'=>1])}" style="color:#fff;"><span style="background:#fe9696;">				
-					今日付款订单<br />{$nowday}			
-				</span>	</a>
-				<li><img src="/index/images/huang.png"><p class="cen">{$nowdayvalue}</p><p class="bot">今日预估收入(含代理)</p></li>
-				<li><img src="/index/images/fen.png"><p class="cen">{$yesmonthvalue}</p><p class="bot">上月预估收入(含代理)</p></li>
-				<li><img src="/index/images/lv.png"><p class="cen">{$click}</p><p class="bot">昨日点击数</p></li>
-			</ul>		
-			<ul style="margin:0 5% 0 2%;">			
-				<a href="{:url('index/lists',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
-				本月订单数<br />{$nowmonth}
-				</span>	</a>		
-				<li><img src="/index/images/cheng.png"><p class="cen">{$yesdayvalue}</p><p class="bot">昨日预估收入(含代理)</p></li>
-				<li><img src="/index/images/hong.png"><p class="cen">{$nowmonthvalue}</p><p class="bot">本月预估收入(含代理)</p></li>
-				<a href="{:url('dlnum',['leve'=>$leve])}" style="color:#000;"><li><img src="/index/images/qlv.png"><p class="cen">{$num}</p><p class="bot">下级代理数</p></li></a>
+</div>
+<div class="shareMoney" id="shareMoney">
+	<h1>
+		<img src="/index/images/shrmon.png">
+	</h1>
+	<div class="wrapper wrapper03" id="wrapper03">
+		<div class="scroller">
+			<ul class="clear">
+				<li>
+					<a href="javascript:;" onclick="tabNav(0)">
+						精选
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(1)">
+						女装
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(9)">
+						男装
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(10)">
+						内衣
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(2)">
+						母婴
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(3)">
+						化妆品
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(4)">
+						居家
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(5)">
+						鞋包配饰
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(6)">
+						美食
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(7)">
+						文体车品
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" onclick="tabNav(8)">
+						数码家电
+					</a>
+				</li>
 			</ul>
+		</div>
 	</div>
-	<div class="title" style="<?php if($level == 3) echo 'display:none;'?>background: #fff">
-		<img src="/index/images/shu.png" style="float:left;margin-left:10px;">
-		<span style="float:left;line-height:30px;margin-right:10px;">代理贡献</span>
+</div>
+
+<!--精选-->
+<div class="cnt" id="cnt_1" style="display:block;">
+	<div class="main3">
+		222
+		<ul>
+			{volist name='list' id='vo'}
+			<div class="ls">
+				<div class="pic">
+					<img src="{$vo.pic}" width="100%" height="100%">
+				</div>
+				<div class="r">
+					<li style="font-size: 14px;">
+						<img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
+						{$vo.title}
+					</li>
+					<li style="color:#999">
+						原价：
+						<a class="back">
+							{$vo.org_price}元
+						</a>
+					</li>
+					<li style="color:#999">
+						券后价：
+                                <span style="color:#333;font-size: 16px;">
+                                    {$vo.price}元
+                                </span>
+					</li>
+					<!-- <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>                                 <li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  -->
+					<li>
+						<div class="votebox">
+							<dl class="barbox">
+								<dd class="barline">
+									<div w="80" style="width:0px;" class="charts">
+										&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.sales_num}张
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</li>
+				</div>
+			</div>
+			<div class='b'>
+				<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+				   style="color:#f04343">
+					分享文案
+				</a>
+				<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
+				   style="display:block;">
+					发送到微信群
+				</a>
+			</div>
+			<div class='h'>
+			</div>
+			{/volist}
+			<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
+			</div>
+			<div id="lload">
+			</div>
+			<input type="hidden" id="ii" value="">
+			<input type="hidden" id="p" value="">
+		</ul>
 	</div>
-	<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none"></div>
-	<div class="con3" id='con3' style="display:none; background: #fff">		
-		<ul style="margin:0 2% 0 5%;">			
-				<a href="{:url('index/listss',['uid'=>$Think.session.usid,'utype'=>2])}" style="color:#fff;"><span style="background:#fe9696;">				
-					今日订单数<br /><p id="jrdd"></p>		
-				</span>		</a>	
-				<li><img src="/index/images/danzhong.png"><p class="cen" id="jr"></p><p class="bot">今日预估收入</p></li>
-			</ul>		
-			<ul style="margin:0 5% 0 2%;">			
-				<a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color:#fff;"><span style="background:#ffa66b;">				
-				本月订单数<br /><p id="zrdd"></p>		
-				</span>	</a>		
-				<li><img src="/index/images/zhong.png"><p class="cen" id="zr"></p><p class="bot">昨日预估收入</p></li>
-			</ul>
+</div>
+<!--女装-->
+<div class="cnt" id="cnt_2">
+	<div>
+		这里是女装区
 	</div>
-</body>
-</html>
+</div>
+<!--家居家装-->
+<div class="cnt" id="cnt_3">
+	这里是家居家装
+</div>
+<!--数码家电-->
+<div class="cnt" id="cnt_4">
+	这里是数码家电
+</div>
+<!--母婴-->
+<div class="cnt" id="cnt_5">
+	这里是母婴
+</div>
+<!--食品-->
+<div class="cnt" id="cnt_6">
+	这里是食品
+</div>
+<!--鞋包配饰-->
+<div class="cnt" id="cnt_7">
+	这里是鞋包配饰
+</div>
+<!--美妆个护-->
+<div class="cnt" id="cnt_8">
+	这里是美妆个护
+</div>
+<!--男装-->
+<div class="cnt" id="cnt_9">
+	这里是男装
+</div>
+<!--内衣-->
+<div class="cnt" id="cnt_10">
+	这里是内衣
+</div>
+<!--运动户外-->
+<div class="cnt" id="cnt_11">
+	这里是运动户外
+</div>
+
 <script>
-    var d = document.getElementById("nav").offsetHeight;
-    console.info(d);
-    window.addEventListener("scroll", function(event) {
-        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        console.log(scrollTop);    
-        if(document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop ) {
-        	var le = {$level};
-        	if(le != 3){
-        		if($("#con3").is(":hidden")){
-					$('#load').show();
-					$.ajax({
-		                url: "{:url('index/loads')}",
-		                type: 'Post',
-		                dataType: "json",
-		                cache: false,
-		                success: function(data,state){
-		                    if(state == 'success'){
-		                        $('#jrdd').text(data.dlnowday);
-		                        $('#zrdd').text(data.dlnowmonth);
-		                        $('#jr').text(data.dlnowdayvalue);
-		                        $('#zr').text(data.dlyesdayvalue);
-		                        $('#con3').css({'display':'flex','display':'-webkit-box','display':'-webkit-flex'});
-		                        $('#load').hide();
-		                        $('#ii').val(1);
-		                    }else{
-		                        alert('error');
-		                    }
-		                }
-	            	});	
-        		}
-				
-        	}
-        }        
-    });
+	function nav() {
+		var height = 0;
+		height = $(".topHeight").height();
+		$(window).scroll(function() {
+			var w = $("body").scrollTop() || $(document).scrollTop(); //获取滚动值
+			if (w > height) {
+				$("#shareMoney").addClass("titleTap");
+			} else if (w <= 0) {
+				$("#shareMoney").removeClass("titleTap")
+			} else {
+				$("#shareMoney").removeClass("titleTap")
+			}
+		});
+	}
+	nav();
+
+	/*function tabNav(num) {
+	 for (var i = 1; i < 12; i++) {
+	 document.getElementById('cnt_' + i).style.display = 'none';
+	 }
+	 document.getElementById('cnt_' + num).style.display = 'block';
+	 }*/
+
+
+</script>
+
+</body>
+
+</html>
+<script type="text/javascript" src="/index/js/jquery.min.js">
+</script>
+<script type="text/javascript" src="/index/js/flexible.js">
+</script>
+<script type="text/javascript" src="/index/js/iscroll.js">
+</script>
+<script type="text/javascript" src="/index/js/navbarscroll.js">
+</script>
+<script type="text/javascript">
+	$(function() {
+		$('.wrapper').navbarscroll();
+	});
+</script>
+<script language="javascript">
+	function animate() {
+		$(".charts").each(function(i, item) {
+			var a = parseInt($(item).attr("w"));
+			$(item).animate({
+						width: a + "%"
+					},
+					1000);
+		});
+	}
+	animate();
+</script>
+<script>
+	var d = document.getElementById("nav").offsetHeight;
+	console.info(d);
+	window.addEventListener("scroll",
+			function(event) {
+				var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+				console.log(scrollTop);
+				if (document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop) {
+					var le = {
+						$level
+					};
+					if (le != 3) {
+						if ($("#con3").is(":hidden")) {
+							$('#load').show();
+							$.ajax({
+								url: "{:url('index/loads')}",
+								type: 'Post',
+								dataType: "json",
+								cache: false,
+								success: function(data, state) {
+									if (state == 'success') {
+										$('#jrdd').text(data.dlnowday);
+										$('#zrdd').text(data.dlnowmonth);
+										$('#jr').text(data.dlnowdayvalue);
+										$('#zr').text(data.dlyesdayvalue);
+										$('#con3').css({
+											'display': 'flex',
+											'display': '-webkit-box',
+											'display': '-webkit-flex'
+										});
+										$('#load').hide();
+										$('#ii').val(1);
+									} else {
+										alert('error');
+									}
+								}
+							});
+						}
+					}
+				}
+			});
 </script>

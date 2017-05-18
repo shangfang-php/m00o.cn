@@ -6,14 +6,34 @@ use think\Request;
 include_once("tb/TopSdk.php");
 class Index extends common
 {
-    public function index() //首页
-    {
-    	$uid = session('usid');
+	public function index(){
+
+
+		$data = [
+			'nowday'        => 0, //今日付款数
+			'nowmonth'      => 0, //本月订单数
+			'nowdayvalue'   => 0,//今日预估
+			'yesdayvalue'   => 0,//昨日预估
+			'nowmonthvalue' => 0,//上月预估
+			'yesmonthvalue' => 0,//本月预估
+			'click'         => 0,//点击数
+			'level'         => 1,
+			'list'=>array(),//Add By Jane 2017-5-9
+			't'=>array(),
+		];
+		$this->assign($data);
+		return $this->fetch();
+	}
+	public function index_bak() //首页  Jane 备注 2017-5-18
+	{
+		//echo 333;exit;
+		$uid = session('usid');
 		$day0 = strtotime(date("Y-m-d",strtotime("-1 day")));//昨天开始时间
 		$day = time();//现在时间
 		$day1 = strtotime(date("Y-m-d"));//今天开始时间
-        
-        list($year, $month, $day)   =   explode('-', date('Y-m-d'));
+		$year = date('Y',time());
+		$month = date('m',time());
+		$day = date('d',time());
 		$ortb = ortb(time());
 		$prevortb = prevortb(time());
 		if($month == '01'){
@@ -28,7 +48,7 @@ class Index extends common
 		$where['o_u_id'] = session('usid');
 		$where['o_creattime'] = array(array('gt',$day1),array('lt',time()));//time() 之前用的$day  $day你在17行已经重新赋值了，不在是当前的时间戳了 2017.04.02 --刺客
 		$nowday = Db::name(tb())->field('o_id')->where($where)->count();
-                
+
 		$nowmonth = Db::name(tb())->field('o_id')->where(array('o_u_id'=>session('usid')))->count();
 		$all = Db::query('select * from '.$ortb.' where or_u_id = '.$uid);
 		//dump($all);exit;
@@ -56,15 +76,13 @@ class Index extends common
 		$yesmonthvalue = 0;
 		foreach ($alll as $key => $value) {
 			if($value['or_o_creattime'] > $smonth && $value['or_o_creattime'] < $emonth){
-				//$yesmonthvalue += $value['or_money'];
-				$yesmonthvalue  =   bcadd($yesmonthvalue, $value['or_money'], 2);
+				$yesmonthvalue += $value['or_money'];
 			}
 		}
 		$nowmonthvalue = 0;
 		foreach ($all as $key => $value) {
 			if($value['or_o_creattime'] > $emonth && $value['or_o_creattime'] < time()){//time() 之前用的$day  $day你在17行已经重新赋值了，不在是当前的时间戳了 2017.04.02 --刺客
-				//$nowmonthvalue += $value['or_money'];
-				$nowmonthvalue  =   bcadd($nowmonthvalue, $value['or_money'], 2);
+				$nowmonthvalue += $value['or_money'];
 			}
 		}
 		//$click = Db::name('user_tb')->field('u_click')->where('u_id',session('usid'))->find();
@@ -91,8 +109,8 @@ class Index extends common
 		}else{
 			$this->assign(['num'=>0,'leve'=>session('level')]);
 		}
-		
-		$data = [
+
+		/*$data = [
 			'nowday'        => $nowday, //今日付款数
 			'nowmonth'      => $nowmonth, //本月订单数
 			'nowdayvalue'   => $nowdayvalue,//今日预估
@@ -101,14 +119,30 @@ class Index extends common
 			'yesmonthvalue' => $yesmonthvalue,//本月预估
 			'click'         => $click[0]['u_click'],//点击数
 			'level'         => session('level')
+		];*/
+		$z = file_get_contents('http://so.00o.cn/index.php?keyword=女装&p=1');//Add By Jane 2017-5-9
+		$zz = json_decode($z,true);//Add By Jane 2017-5-9
+		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
+		$data = [
+			'nowday'        => $nowday, //今日付款数
+			'nowmonth'      => $nowmonth, //本月订单数
+			'nowdayvalue'   => $nowdayvalue,//今日预估
+			'yesdayvalue'   => $yesdayvalue,//昨日预估
+			'nowmonthvalue' => $nowmonthvalue,//上月预估
+			'yesmonthvalue' => $yesmonthvalue,//本月预估
+			'click'         => $click[0]['u_click'],//点击数
+			'level'         => session('level'),
+			'list'=>$zz,//Add By Jane 2017-5-9
+			't'=>$t,
 		];
+		//print_r($zz);exit;
 		$this->assign($data);
-        return $this->fetch();
-    }
-    //首页下拉
-    public function loads(){
-    	
-    	$day0 = strtotime(date("Y-m-d",strtotime("-1 day")));//昨天开始时间
+		return $this->fetch();
+	}
+	//首页下拉
+	public function loads(){
+
+		$day0 = strtotime(date("Y-m-d",strtotime("-1 day")));//昨天开始时间
 		$day = time();//现在时间
 		$day1 = strtotime(date("Y-m-d"));//今天开始时间
 		$year = date('Y',time());
@@ -123,7 +157,7 @@ class Index extends common
 			$smonth = strtotime($year.'-'.$mon.'-01');
 			$emonth = strtotime($year.'-'.$month.'-01');
 		}
-    	//代理
+		//代理
 		$dl = Db::name('user_tb')->field('u_id')->where('u_parent_u_id',session('usid'))->select();
 		$aa = [];
 		$array = [];
@@ -175,7 +209,7 @@ class Index extends common
 			//dump($allmoney);exit;
 			//昨日代理
 			$where6['or_o_creattime'] = array(array('gt',$day0),array('lt',$day1));
-			$where66['o_creattime'] = array(array('gt',$day0),array('lt',$day1));  
+			$where66['o_creattime'] = array(array('gt',$day0),array('lt',$day1));
 			//$dlyesdayvalue = db('order_record_tb')->field('or_money')->where($where6)->sum('or_money');
 			$dlyesdaydd = Db::name(tb())->field('o_ordernum')->where($where66)->select();
 			$dlyesdayddd = array();
@@ -193,14 +227,14 @@ class Index extends common
 					$allsmoney+=$value['or_money'];
 				}
 			}
-		
+
 		}else{
 			$dlnowday      =0;
 			$dlnowmonth    =0;
 			$allmoney =0;
 			$allsmoney =0;
 		}
-		
+
 		$data = [
 			'dlnowday'      => $dlnowday, //dl今日付款数
 			'dlnowmonth'    => $dlnowmonth, //dl本月订单数
@@ -208,16 +242,16 @@ class Index extends common
 			'dlyesdayvalue' => $allsmoney,//昨日代理 
 		];
 		return json($data);
-    }
+	}
 	//本月自己
-    public function lists() 
-    {
+	public function lists()
+	{
 		$day = time();
 		$day1 = strtotime(date("Y-m-d"));
 		$ortb = ortb(time());
 		$id = input('param.uid');
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$type = input('param.utype');
 		$where['o_u_id'] = $id;
@@ -236,45 +270,45 @@ class Index extends common
 			'uid' => $id
 		];
 		$this->assign($data);
-        return $this->fetch();
-    }
-    //上月自己
-	public function sylists() 
-    {
+		return $this->fetch();
+	}
+	//上月自己
+	public function sylists()
+	{
 		$id = input('param.uid');
 		$ortb = prevortb(time());
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$tb = prevtb();
 		//dump($tb).exit;
 		$where['o_u_id'] = $id;
 		$where['or_u_id'] = $id;
 		$list = Db::name($tb)->join($ortb,$tb.'.o_ordernum = '.$ortb.'.or_o_ordernum',"LEFT")->order('o_creattime desc')->where($where)->paginate(5);
-		
+
 		$data = [
 			'list' => $list,
 			'uid' => $id
 		];
 		$this->assign($data);
-        return $this->fetch();
-    }
-    //本月代理
-	public function listss() 
-    {
+		return $this->fetch();
+	}
+	//本月代理
+	public function listss()
+	{
 		$day = time();
 		$day1 = strtotime(date("Y-m-d"));
 		$ortb = ortb(time());
 		$id = input('param.uid');
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$type = input('param.utype');
 
 		$tb = tb();
 		$u = Db::name('user_tb')->where(['u_id'=>$id])->find();
 		if($u['u_leve'] == 3){
-			alert('你没有下级代理',url('index'));exit;
+			alert('你没有下级代理',url('index'));
 		}
 		$user = Db::name('user_tb')->where(['u_parent_u_id'=>$id])->select();
 		$aa = [];
@@ -301,23 +335,23 @@ class Index extends common
 			$where['o_u_id'] = ['in',$arr];
 			$where['or_u_id'] = session('usid');
 			$list = Db::name($tb)->join($ortb,$tb.'.o_ordernum = '.$ortb.'.or_o_ordernum',"LEFT")->order('o_creattime desc')->where($where)->paginate(5);
-				$data = [
+			$data = [
 				'list' => $list,
 				'uid' => $id
-				];
+			];
 			$this->assign($data);
-    		return $this->fetch();
+			return $this->fetch();
 		}else{
 			return $this->fetch('wdl');
 		}
-    }
-    //上月代理
-	public function sylistss() 
-    {
+	}
+	//上月代理
+	public function sylistss()
+	{
 		$id = input('param.uid');
 		$ortb = prevortb(time());
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$tb = prevtb();
 		$user = Db::name('user_tb')->where(['u_parent_u_id'=>$id])->select();
@@ -343,13 +377,13 @@ class Index extends common
 				'uid' => $id
 			];
 			$this->assign($data);
-	        return $this->fetch();
+			return $this->fetch();
 		}else{
 			return $this->fetch('wdl');
 		}
-		
-    }
-    //代理数量
+
+	}
+	//代理数量
 	public function dlnum(){
 		$leve = input('param.leve');
 		if($leve == 1){
@@ -370,7 +404,7 @@ class Index extends common
 		}else if($leve == 2){
 			$c[] = Db::name('user_tb')->where('u_parent_u_id',session('usid'))->select();
 			$e = array(
-				 array (
+				array (
 					"u_username" => "qwertyuiop123456"
 				),
 			);
@@ -380,9 +414,9 @@ class Index extends common
 				's'=>$c
 			];
 		}else if($leve == 3){
-			alert('你没有下级',url('index'));exit;
+			alert('你没有下级',url('index'));
 		}else{
-			alert('不可看',url('index'));exit;
+			alert('不可看',url('index'));
 		}
 		$this->assign($data);
 		return $this->fetch();
@@ -407,27 +441,27 @@ class Index extends common
 		}else if($tk['u_confirm'] == 0){
 			return $this->fetch('rank1');
 		}
-		
+
 	}
 	//提现
-    public function money() 
-    {
+	public function money()
+	{
 		$uid = input('param.uid');
 		if($uid != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = Db::name('user_tb')->where(['u_id'=>$uid])->find();
 		$u = Db::name('user_tb')->where('u_id',$user['u_u_idss'])->find();
 		if($user['u_leve'] == 0){
-			alert('管理员不能提现',url('index/my',['uid'=>$uid]));exit;
+			alert('管理员不能提现',url('index/my',['uid'=>$uid]));
 		}
-        
+
 		if($u['u_type'] == 1 || $u['u_type'] == 0){
 			$data = [
 				'money' => $user['u_money'],
 				'username' => $user['u_username'],
 				'uid' => $user['u_id'],
-			];	
+			];
 		}else if($u['u_type'] == 2){
 			$d = date('d',time());
 			if($d < 21){
@@ -437,7 +471,7 @@ class Index extends common
 				//echo $m;exit;
 				$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
 				$ff = Db::name('income_tb')->where(array('i_y_m'=>$mm,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-                
+
 				$data = [
 					'username' => $user['u_username'],
 					'uid' => $user['u_id'],
@@ -452,9 +486,9 @@ class Index extends common
 				}else{
 					$ffm = 0;
 				}
-                
+
 				//$data['money'] = $user['u_money'] - $fm -$ffm;
-                $data['money'] = bcsub($user['u_money'], bcadd($fm, $ffm, 2), 2);
+				$data['money'] = bcsub($user['u_money'], bcadd($fm, $ffm, 2), 2);
 				if($data['money'] < 0){
 					$data['money'] = 0;
 				}
@@ -468,7 +502,7 @@ class Index extends common
 				];
 				if($f){
 					//$data['money'] = $user['u_money'] - $f['i_money'];
-                    $data['money'] = bcsub($user['u_money'], $f['i_money'], 2);
+					$data['money'] = bcsub($user['u_money'], $f['i_money'], 2);
 					if($data['money'] < 0){
 						$data['money'] = 0;
 					}
@@ -479,18 +513,18 @@ class Index extends common
 			}
 		}
 		$this->assign($data);
-        return $this->fetch();
-    }
-    //提现操作
-	public function tx() 
-    {
+		return $this->fetch();
+	}
+	//提现操作
+	public function tx()
+	{
 		$alipayaccount = input('post.alipayaccount');
 		$alipayname = input('post.alipayname');
 		$username = input('post.username');
 		$txmoney = input('post.txmoney');
 		$uid = session('usid');
 		if($uid != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = Db::name('user_tb')->where(['u_id'=>$uid])->find();
 		$u = Db::name('user_tb')->where('u_id',$user['u_u_idss'])->find();
@@ -541,12 +575,12 @@ class Index extends common
 			}
 		}
 		if($txmoney > $money){
-			alert('你没那么多钱',url('index/money',['uid'=>$uid]));exit;
+			alert('你没那么多钱',url('index/money',['uid'=>$uid]));
 		}else{
 			$id = Db::name('user_tb')->where('u_username',$username)->find();
 			$min = Db::name('tkfcbl_tb')->where('fc_u_idss',$id['u_u_idss'])->find();
 			if($txmoney < $min['fc_minmoney']){
-				alert('提现金额不能小于'.$min['fc_minmoney'],url('index/my',['uid'=>$uid]));exit;
+				alert('提现金额不能小于'.$min['fc_minmoney'],url('index/my',['uid'=>$uid]));
 			}else{
 				$data = [
 					'm_alipayaccount' => $alipayaccount,
@@ -560,41 +594,41 @@ class Index extends common
 				$add = db('money_tb')->insert($data);
 				if($add){
 					$save = Db::name('user_tb')->where('u_id',$uid)->setDec('u_money',$txmoney);
-					alert('已提交给管理员，请等待',url('index/my',['uid'=>$uid]));exit;
-				}	
+					alert('已提交给管理员，请等待',url('index/my',['uid'=>$uid]));
+				}
 			}
-			
+
 		}
-    }
-    //邀请码
-	public function yqm() 
-    {
+	}
+	//邀请码
+	public function yqm()
+	{
 		$id = input('param.uid');
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = Db::name('user_tb')->where('u_id',$id)->find();
 		$data = [
 			'yqm' => $user['u_code'],
 		];
 		$this->assign($data);
-        return $this->fetch();
-    }
+		return $this->fetch();
+	}
 	//个人中心
-    public function my() 
-    {
+	public function my()
+	{
 		$id = input('param.uid');
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = Db::name('user_tb')->where('u_id',$id)->find();
 		$data = ['user' => $user,];
 		$this->assign($data);
 		return $this->fetch();
-    }
+	}
 	//修改密码
-    public function modify() 
-    {
+	public function modify()
+	{
 		header("Content-type:text/html;charset=utf-8");
 		$id = input('param.uid');
 		if($id == 937)
@@ -602,22 +636,22 @@ class Index extends common
 			alert('无权访问！');exit;
 		}
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = db('user_tb')->where('u_id',$id)->find();
 		$data = [
 			'user' => $user
 		];
 		$this->assign($data);
-        return $this->fetch();
-    }
-    //修改密码验证
-	public function ver(){ 
+		return $this->fetch();
+	}
+	//修改密码验证
+	public function ver(){
 		$pass1 = input('post.password1');
 		$pass2 = input('post.password2');
 		$id = input('post.id');
 		if($id != session('usid')){
-			alert('不要乱搞，我跟你讲',url('index'));exit;
+			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$a = substr( md5($pass1),12);
 		$password1 = substr($a,0,-10);
@@ -644,7 +678,7 @@ class Index extends common
 		$ortb = ortb(time());
 		$prevortb = prevortb(time());
 		if(!$num){
-			alert('请输入订单号',url('index/index'));exit;
+			alert('请输入订单号',url('index/index'));
 		}else{
 			$where['or_o_ordernum'] = array('like','%'.$num.'%');
 			$where['or_u_id'] = session('usid');
@@ -657,12 +691,14 @@ class Index extends common
 				$this->assign('ord',$ooo);
 				return $this->fetch();
 			}else if(!$ord && !$ord1){
-				alert('未查询到任何订单！',url('index/index'));exit;
-			}	
+				alert('未查询到任何订单！',url('index/index'));
+			}
 		}
 	}
 	//找品
 	public function searchp(){
+		//echo 222;exit;
+		header("Content-type: text/html; charset=utf-8");
 		$name = trim(input('get.name'));
 		$p = trim(input('get.p'));
 		if($p <= 1){
@@ -670,26 +706,26 @@ class Index extends common
 		}
 		try
 		{
-			//$z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."");
-			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
+			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
+			$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
 		}
 		catch(\Exception $e)
 		{
-			alert('网络不稳定,请稍候重试1!',url('index/index'));exit;
+			alert('网络不稳定,请稍候重试1!',url('index/index'));
 		}
-		
+
 		$zz = json_decode($z,true);
 		//echo '<pre>';
 		//print_r($zz);exit;
 		if(!$zz){
-			alert('没有数据',url('index/index'));exit;
+			//alert('没有数据2',url('index/index'));
+			alert('1212',url('index/index'));
 		}
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
 		if(!$t){
-			alert('管理员没有给你设置PID',url('index/index'));exit;
+			alert('管理员没有给你设置PID',url('index/index'));
 		}else{
 			if ($uu['u_dlzp'] != 1) {
 				return $this->fetch('searchss');
@@ -701,7 +737,7 @@ class Index extends common
 					'uid'=>$t[0]['t_u_id'],
 					'name'=>$name,
 					'zpzh'=>$uu['u_zpzh'],
-				];	
+				];
 				$this->assign($data);
 				return $this->fetch();
 			}
@@ -723,7 +759,7 @@ class Index extends common
 		$post = $_POST;
 		$tkid = $post['tkid'];
 		if(!$tkid){
-			alert('参数错误');exit;
+			alert('参数错误');
 		}
 		//$vv = sc($tkid); //Jane update 2017-4-21
 		//$vv = sc($post['jihua_type'],$post['coupon_id']);
@@ -737,10 +773,10 @@ class Index extends common
 		$title = $post['gname'];
 		$url_uland="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
 		$tkl_post['url'] = urlencode($url_uland);
-                $tkl_post['logo'] = $logo;
-                $tkl_post['title'] = $title;
-                $tkl = request_post('http://kl2.00o.cn/index.php',$tkl_post);
-                
+		$tkl_post['logo'] = $logo;
+		$tkl_post['title'] = $title;
+		$tkl = request_post('http://kl.00o.cn/index.php',$tkl_post);
+
 		//$resp = $c->execute($req);
 		$url="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
 		$surl = request_post('http://00o.cn/api.php',array('smallurl'=>$url));
@@ -765,9 +801,7 @@ class Index extends common
 
 		$add['h_goodsid'] = $post['gid'];
 		$add['h_alimamaid'] = $post['mm1'];
-		//$add['h_time'] = strtotime(date('Y-m-d',time()));
-		$add['h_time'] = strtotime(date('Y-m-d'));
-		//$add['h_time'] = time();
+		$add['h_time'] = strtotime(date('Y-m-d',time()));
 		$aa = Db::name('high_tb')->where($add)->find();
 		if(!$aa){
 			Db::name('high_tb')->insert($add);
@@ -775,4 +809,21 @@ class Index extends common
 		$this->assign($data);
 		return $this->fetch();
 	}
+	public function number(){
+		return $this->fetch();
+	}
+	public function numberber(){
+		return $this->fetch();
+	}
+	public function numberp(){
+		return $this->fetch();
+	}
+	public function numblast(){
+		return $this->fetch();
+	}
+	public function sanji(){
+		return $this->fetch();
+	}
+
 }
+
