@@ -122,57 +122,57 @@
 		<div class="scroller">
 			<ul class="clear">
 				<li>
-					<a href="javascript:;" onclick="tabNav(0)">
+					<a href="javascript:;" onclick="tabNav(0);">
 						精选
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(1)">
+					<a href="javascript:;" onclick="tabNav(1);">
 						女装
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(9)">
+					<a href="javascript:;" onclick="tabNav(9);">
 						男装
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(10)">
+					<a href="javascript:;" onclick="tabNav(10);">
 						内衣
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(2)">
+					<a href="javascript:;" onclick="tabNav(2);">
 						母婴
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(3)">
+					<a href="javascript:;" onclick="tabNav(3);">
 						化妆品
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(4)">
+					<a href="javascript:;" onclick="tabNav(4);">
 						居家
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(5)">
+					<a href="javascript:;" onclick="tabNav(5);">
 						鞋包配饰
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(6)">
+					<a href="javascript:;" onclick="tabNav(6);">
 						美食
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(7)">
+					<a href="javascript:;" onclick="tabNav(7);">
 						文体车品
 					</a>
 				</li>
 				<li>
-					<a href="javascript:;" onclick="tabNav(8)">
+					<a href="javascript:;" onclick="tabNav(8);">
 						数码家电
 					</a>
 				</li>
@@ -184,68 +184,71 @@
 <!--精选-->
 <div class="cnt" id="cnt_1" style="display:block;">
 	<div class="main3">
-		222
-		<ul>
-			{volist name='list' id='vo'}
-			<div class="ls">
-				<div class="pic">
-					<img src="{$vo.pic}" width="100%" height="100%">
-				</div>
-				<div class="r">
-					<li style="font-size: 14px;">
-						<img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
-						{$vo.title}
-					</li>
-					<li style="color:#999">
-						原价：
-						<a class="back">
-							{$vo.org_price}元
-						</a>
-					</li>
-					<li style="color:#999">
-						券后价：
+		<ul id="loaddata">
+			<div id="default">
+				{volist name='list' id='vo'}
+				<div class="ls" style="display: block;" >
+					<div class="pic">
+						<img src="{$vo.pic}" width="100%" height="100%">
+					</div>
+					<div class="r">
+						<li style="font-size: 14px;">
+							<img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
+							{$vo.title}
+						</li>
+						<li style="color:#999">
+							原价：
+							<a class="back">
+								{$vo.org_price}元
+							</a>
+						</li>
+						<li style="color:#999">
+							券后价：
                                 <span style="color:#333;font-size: 16px;">
                                     {$vo.price}元
                                 </span>
-					</li>
-					<!-- <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>                                 <li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  -->
-					<li>
-						<div class="votebox">
-							<dl class="barbox">
-								<dd class="barline">
-									<div w="80" style="width:0px;" class="charts">
-										&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.sales_num}张
-									</div>
-								</dd>
-							</dl>
-						</div>
-					</li>
+						</li>
+						&lt;!&ndash; <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>                                 <li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  &ndash;&gt;
+						<li>
+							<div class="votebox">
+								<dl class="barbox">
+									<dd class="barline">
+										<div w="80" style="width:0px;" class="charts">
+											&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.sales_num}张
+										</div>
+									</dd>
+								</dl>
+							</div>
+						</li>
+					</div>
 				</div>
+				<div class='b'>
+					<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+					   style="color:#f04343">
+						分享文案
+					</a>
+					<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
+					   style="display:block;">
+						发送到微信群
+					</a>
+				</div>
+				<div class='h'>
+				</div>
+				{/volist}
 			</div>
-			<div class='b'>
-				<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
-				   style="color:#f04343">
-					分享文案
-				</a>
-				<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
-				   style="display:block;">
-					发送到微信群
-				</a>
-			</div>
-			<div class='h'>
-			</div>
-			{/volist}
+
 			<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
 			</div>
 			<div id="lload">
 			</div>
-			<input type="hidden" id="ii" value="">
+			<input type="hidden" id="ii" >
+			<input type="hidden" id="keyword" >
 			<input type="hidden" id="p" value="">
 		</ul>
 	</div>
 </div>
 <!--女装-->
-<div class="cnt" id="cnt_2">
+<div class="cnt" id="cnt_2" >
 	<div>
 		这里是女装区
 	</div>
@@ -304,12 +307,35 @@
 	}
 	nav();
 
-	/*function tabNav(num) {
-	 for (var i = 1; i < 12; i++) {
-	 document.getElementById('cnt_' + i).style.display = 'none';
-	 }
-	 document.getElementById('cnt_' + num).style.display = 'block';
-	 }*/
+	function tabNav(num) {
+		//alert(num);
+		/*for (var i = 1; i < 12; i++) {document.getElementById('cnt_' + i).style.display = 'none';}document.getElementById('cnt_' + num).style.display = 'block';*/
+		//ajax操作数据
+		//点击分类则将默认显示的数据hidden
+		$('#default').CSS('display','none');
+		$.ajax({
+				url: "{:url('index/ajaxdata')}",
+				data:{cid:num},
+				type: 'get',
+				dataType: "json",
+				cache: false,
+				success: function(json_data, state) {
+					var data = $.parseJSON(json_data);
+					alert(data);
+					if (state == 'success') {
+						var httml = '';
+						//$('#jrdd').text(data.dlnowday);
+						$.each(data.datas, function (idx, obj) {
+							httml += "<div class='ls'><div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'></div><div class='r'><li> <img src='/index/images/" + pp + ".png'>" + obj.title + "</li><li>原价：<a class='back'>" + obj.org_price + "元</a><span>券后价：" + obj.price + "元</span></li><li>优惠券：<a class='rr'>" + obj.coupon_price + "元</a></li><li>优惠券剩余：<a class='rr'>" + obj.sales_num + "张</a></li></div></div><div class='b'>" + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a>" +
+									"</div><div class='h'></div>";
+						});
+						$('#ajaxdata').append(httml);
+					} else {
+						alert('error');
+					}
+				}
+		});
+	}
 
 
 </script>
