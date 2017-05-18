@@ -184,7 +184,7 @@
 <!--精选-->
 <div class="cnt" id="cnt_1" style="display:block;">
 	<div class="main3">
-		<ul id="loaddata">
+		<ul id="ajaxdata">
 			<div id="default">
 				{volist name='list' id='vo'}
 				<div class="ls" style="display: block;" >
@@ -322,7 +322,7 @@
 				success: function(data, state) {
 					//var data = $.parseJSON(json_data);
 					//var data = JSON.parse(data);
-					var data = JSON.stringify(data);
+					//var data = JSON.stringify(data);
 					//var data = '';
 					alert(data);
 					if (state == 'success') {
