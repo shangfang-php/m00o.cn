@@ -746,8 +746,8 @@ class Index extends common
 		//echo '<pre>';
 		//print_r($zz);exit;
 		if(!$zz){
-			//alert('没有数据2',url('index/index'));
-			alert('1212',url('index/index'));
+			alert('没有数据',url('index/index'));
+			//alert('1212',url('index/index'));
 		}
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
