@@ -346,8 +346,7 @@
 		<input type="hidden" name="coupon_id" id='coupon_id'>
 		<input type="hidden" name="jihua_type" id='jihua_type'>
 		<input type="hidden" name="idss" value="">
-		<input type="hidden" name="uid" value="{$uid}">
-		<input type="hidden" name="keyword" value="{$name}">
+		<input type="hidden" name="uid" value="{session('uid')}">
 		</form>
 	</div>
 	<!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
@@ -365,9 +364,8 @@
 			{/volist}
 			<input type="hidden" name="tkid" id='v1'>
 			<input type="hidden" name="gid" id='vv1'>
-			<input type="hidden" name="idss" value="{$idss}">
-			<input type="hidden" name="uid" value="{$uid}">
-			<input type="hidden" name="keyword" value="{$name}">
+			<input type="hidden" name="idss" value="">
+			<input type="hidden" name="uid" value="{session('uid')}">
 		</form>
 	</div>
 	<p class="t" id="fs" onclick="tjj()"><!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->发&nbsp;送</p>

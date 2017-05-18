@@ -8,6 +8,7 @@ class Index extends common
 {
 	public function index(){
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
+		//print_r($t);exit;
 		$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
