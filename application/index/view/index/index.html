@@ -491,11 +491,12 @@
 			};
 		});
 	});
-	var d = document.getElementById("con1").offsetHeight;
-	console.info(d);
+	/*var d = document.getElementById("con1").offsetHeight;
+	console.info(d);*/
 	window.addEventListener("scroll", function(event) {
 		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 		console.log(scrollTop);
+		alert(2121);
 		if(document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop ) {
 			var cid = $('#cid').val();
 			var zp = $('#zp').val();
@@ -503,6 +504,7 @@
 			if(p == ''){
 				p =1;
 			}
+			alert(11);
 			$('#load').show();
 			$.ajax({
 				url: "{:url('index/ajaxdata')}",
