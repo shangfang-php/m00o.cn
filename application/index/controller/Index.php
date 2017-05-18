@@ -8,7 +8,6 @@ class Index extends common
 {
 	public function index(){
 
-
 		$data = [
 			'nowday'        => 0, //今日付款数
 			'nowmonth'      => 0, //本月订单数
@@ -23,6 +22,19 @@ class Index extends common
 		];
 		$this->assign($data);
 		return $this->fetch();
+	}
+	//新版首页分类数据获取
+	public function ajaxdata(){
+		//接收参数
+		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
+		if($cid>0){
+			$url = "http://so.00o.cn/index.php?cid=".$cid." ";
+		}else{
+			$url = "http://so.00o.cn/index.php";
+		}
+		$data = file_get_contents($url);
+		//$list = json_decode($data,true);
+		exit($data);
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{

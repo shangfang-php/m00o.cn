@@ -312,7 +312,7 @@
 		/*for (var i = 1; i < 12; i++) {document.getElementById('cnt_' + i).style.display = 'none';}document.getElementById('cnt_' + num).style.display = 'block';*/
 		//ajax操作数据
 		//点击分类则将默认显示的数据hidden
-		$('#default').CSS('display','none');
+		$('#default').css('display','none');
 		$.ajax({
 				url: "{:url('index/ajaxdata')}",
 				data:{cid:num},
