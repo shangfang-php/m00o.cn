@@ -39,7 +39,8 @@ class Index extends common
 			//'page' => $p+1,
 		];
 		//$list = json_decode($data,true);
-		exit(json($data));
+		//exit(json_encode($data));
+		return json($data);
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
