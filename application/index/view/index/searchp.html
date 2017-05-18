@@ -76,7 +76,7 @@
 			{volist name='t' id='vv'}
 				<p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
 			{/volist}	
-				<input type="hidden" name="mm1" value='{$vv.t_mm1}'>
+				<input type="hidden" name="mm1" >
 				<input type="hidden" name="tkid" id='v'>
 				<input type="hidden" name="gid" id='vv'>
 				<input type="hidden" name="gname" id='vvv'>
@@ -88,7 +88,7 @@
 				<input type="hidden" name="num_iid" id='num_iid'>
 				<input type="hidden" name="coupon_id" id='coupon_id'>
 				<input type="hidden" name="jihua_type" id='jihua_type'>
-				<input type="hidden" name="idss" value="{$idss}">
+				<input type="hidden" name="idss" value="{idss}">
 				<input type="hidden" name="uid" value="{$uid}">
 				<input type="hidden" name="keyword" value="{$name}">
 		</form>
