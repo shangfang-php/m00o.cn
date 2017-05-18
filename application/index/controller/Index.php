@@ -25,6 +25,7 @@ class Index extends common
 	}
 	//新版首页分类数据获取
 	public function ajaxdata(){
+		echo 111;exit;
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		if($cid>0){
