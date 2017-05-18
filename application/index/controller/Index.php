@@ -7,7 +7,8 @@ include_once("tb/TopSdk.php");
 class Index extends common
 {
 	public function index(){
-
+		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
+		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
 		$data = [
 			'nowday'        => 0, //今日付款数
 			'nowmonth'      => 0, //本月订单数
@@ -17,8 +18,9 @@ class Index extends common
 			'yesmonthvalue' => 0,//本月预估
 			'click'         => 0,//点击数
 			'level'         => 1,
-			'list'=>array(),//Add By Jane 2017-5-9
+			'list'=>array(),
 			't'=>array(),
+			'zp'=>$uu['u_zpzh']
 		];
 		$this->assign($data);
 		return $this->fetch();

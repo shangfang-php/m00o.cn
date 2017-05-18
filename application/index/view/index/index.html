@@ -244,6 +244,7 @@
 			<input type="hidden" id="ii" >
 			<input type="hidden" id="keyword" >
 			<input type="hidden" id="p" value="">
+			<input type="hidden" id="zp" value="{$zp}">
 		</ul>
 	</div>
 </div>
@@ -312,6 +313,7 @@
 		/*for (var i = 1; i < 12; i++) {document.getElementById('cnt_' + i).style.display = 'none';}document.getElementById('cnt_' + num).style.display = 'block';*/
 		//ajax操作数据
 		//点击分类则将默认显示的数据hidden
+		var zp = $('#zp').val();
 		$('#default').css('display','none');
 		$.ajax({
 				url: "{:url('index/ajaxdata')}",
