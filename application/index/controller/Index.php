@@ -7,6 +7,7 @@ include_once("tb/TopSdk.php");
 class Index extends common
 {
 	public function index(){
+		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
@@ -20,7 +21,7 @@ class Index extends common
 			'click'         => 0,//点击数
 			'level'         => 1,
 			'list'=>array(),
-			't'=>array(),
+			't'=>$t,
 			'zp'=>$uu['u_zpzh'],
 			'list'=>$list,
 		];
@@ -48,7 +49,6 @@ class Index extends common
 		//print_r($list);exit;
 		//$list = json_decode($data,true);
 		exit(json_encode($data));
-		//return json($data);
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
