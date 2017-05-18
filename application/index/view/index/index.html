@@ -342,7 +342,8 @@
 									"</div><div class='h'></div>";
 						});
 						//alert(httml);
-						$('#ajaxdata').val(httml);
+						$('#ajaxdata').empty();
+						$('#ajaxdata').append(httml);
 					} else {
 						alert('error');
 					}
