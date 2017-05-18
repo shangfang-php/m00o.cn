@@ -24,7 +24,7 @@
         {/if}
         {if $type == 'month' || $type == 'lastmonth'}
             <span {if $type=='month'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}">本月订单</span>
-    		<span {if $type=='lastmonth'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}">>上月订单</a></span>
+    		<span {if $type=='lastmonth'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}">上月订单</a></span>
         {/if}
 	</div>
 	<div class="main2">

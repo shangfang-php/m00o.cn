@@ -7,17 +7,22 @@ include_once("tb/TopSdk.php");
 class Index extends common
 {
 	public function index(){
-	    
         $uid    =   session('usid');
         $today_start    =   strtotime(date('Y-m-d'));
         //var_dump($today_start);exit;
-        $todayData  =   getUserMoneyOrder($uid, $today_start);
+        $todayData  =   getUserMoneyOrder($uid, $today_start); ##获取当日数据
         
         $month_start    =   strtotime(date('Y-m'));
-        $monthData  =   getUserMoneyOrder($uid, $month_start);
+        $monthData  =   getUserMoneyOrder($uid, $month_start); ##获取当月数据
         
         $userInfo   =   getUserInfo(intval($uid)); ##获取代理商信息
-        
+       
+		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
+		//print_r($t);exit;
+		$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
+		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
+        $u  =   $userInfo;
+		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
 		$data = [
 			'todayData'      => $todayData, //今日订单数及收入
 			'monthData'      => $monthData, //本月订单数及收入
@@ -27,15 +32,20 @@ class Index extends common
 			'yesmonthvalue' => 0,//本月预估
 			'click'         => 0,//点击数
 			'level'         => 1,
-			'list'=>array(),//Add By Jane 2017-5-9
-			't'=>array(),
+			'list'=>array(),
+			't'=>$t,
+			'zp'=>$uu['u_zpzh'],
+			'list'=>$list,
+			'idss'=>$t[0]['u_u_idss'],
+			'uid'=>$t[0]['t_u_id'],
 		];
+		//print_r($data);exit;
 		$this->assign($data);
 		return $this->fetch();
 	}
 	//新版首页分类数据获取
 	public function ajaxdata(){
-		echo 111;exit;
+		//echo 111;exit;
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		if($cid>0){
@@ -45,13 +55,14 @@ class Index extends common
 		}
 		$datas = file_get_contents($url);
 		$list = json_decode($datas,true);
+
 		$data = [
 			'datas'=> $list,
 			//'page' => $p+1,
 		];
+		//print_r($list);exit;
 		//$list = json_decode($data,true);
-		//exit(json_encode($data));
-		return json($data);
+		exit(json_encode($data));
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
@@ -801,8 +812,8 @@ class Index extends common
 		//echo '<pre>';
 		//print_r($zz);exit;
 		if(!$zz){
-			//alert('没有数据2',url('index/index'));
-			alert('1212',url('index/index'));
+			alert('没有数据',url('index/index'));
+			//alert('1212',url('index/index'));
 		}
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
