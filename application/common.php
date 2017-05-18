@@ -251,7 +251,8 @@ function wa($gid){
 	return $match['dtk_wa'];
 }
 function cjapi($name,$i){
-	$z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$i);
+	//$z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$i);
+	$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$i);
 	$zz = json_decode($z,true);
 	return $zz;
 }

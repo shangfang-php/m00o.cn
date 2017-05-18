@@ -725,7 +725,9 @@ class Index extends common
 		try
 		{
 			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
+			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
+			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p);
+
 		}
 		catch(\Exception $e)
 		{
