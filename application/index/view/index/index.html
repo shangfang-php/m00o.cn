@@ -320,9 +320,9 @@
 				dataType: "json",
 				cache: false,
 				success: function(json_data, state) {
-					//var data = $.parseJSON(json_data);
-					var data = '';
-					alert(json_data);
+					var data = $.parseJSON(json_data);
+					//var data = '';
+					//alert(json_data);
 					if (state == 'success') {
 						var httml = '';
 						//$('#jrdd').text(data.dlnowday);
