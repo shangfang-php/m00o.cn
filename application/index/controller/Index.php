@@ -25,7 +25,7 @@ class Index extends common
 	}
 	//新版首页分类数据获取
 	public function ajaxdata(){
-		echo 111;exit;
+		//echo 111;exit;
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		if($cid>0){
@@ -35,13 +35,15 @@ class Index extends common
 		}
 		$datas = file_get_contents($url);
 		$list = json_decode($datas,true);
+
 		$data = [
 			'datas'=> $list,
 			//'page' => $p+1,
 		];
+		//print_r($list);exit;
 		//$list = json_decode($data,true);
-		//exit(json_encode($data));
-		return json($data);
+		exit(json_encode($data));
+		//return json($data);
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
