@@ -3,8 +3,9 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-		  name="viewport">
+	<!--<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+		  name="viewport">-->
+	<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
 	<meta content="yes" name="apple-mobile-web-app-capable">
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
@@ -333,7 +334,7 @@
 		{volist name='t' id='vv'}
 		<p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
 		{/volist}
-		<input type="hidden" name="mm1" value=''>
+		<input type="hidden" name="mm1" value='' id="mm1">
 		<input type="hidden" name="tkid" id='v'>
 		<input type="hidden" name="gid" id='vv'>
 		<input type="hidden" name="gname" id='vvv'>
@@ -345,8 +346,8 @@
 		<input type="hidden" name="num_iid" id='num_iid'>
 		<input type="hidden" name="coupon_id" id='coupon_id'>
 		<input type="hidden" name="jihua_type" id='jihua_type'>
-		<input type="hidden" name="idss" value="">
-		<input type="hidden" name="uid" value="{session('uid')}">
+		<input type="hidden" name="idss" value="{$idss}">
+		<input type="hidden" name="uid" value="{$uid}">
 		</form>
 	</div>
 	<!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
@@ -364,8 +365,8 @@
 			{/volist}
 			<input type="hidden" name="tkid" id='v1'>
 			<input type="hidden" name="gid" id='vv1'>
-			<input type="hidden" name="idss" value="">
-			<input type="hidden" name="uid" value="{session('uid')}">
+			<input type="hidden" name="idss" value="{$idss}">
+			<input type="hidden" name="uid" value="{$uid}">
 		</form>
 	</div>
 	<p class="t" id="fs" onclick="tjj()"><!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->发&nbsp;送</p>
@@ -432,7 +433,9 @@
 	}
 	function tj(pid,name){
 		$('#pid').val(pid);
-		$('#from').submit();
+		var mm1_arr = pid.split('_');
+		$('#mm1').val(mm1_arr[1]);
+		//$('#from').submit();
 		$('.bott').animate({bottom:"-300px"});
 		$('.btm').css('display','none');
 		$('#from').submit();
