@@ -32,9 +32,14 @@ class Index extends common
 		}else{
 			$url = "http://so.00o.cn/index.php";
 		}
-		$data = file_get_contents($url);
+		$datas = file_get_contents($url);
+		$list = json_decode($datas,true);
+		$data = [
+			'datas'=> $list,
+			//'page' => $p+1,
+		];
 		//$list = json_decode($data,true);
-		exit($data);
+		exit(json_encode($data));
 	}
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
