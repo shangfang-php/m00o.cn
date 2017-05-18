@@ -326,6 +326,16 @@
 						var httml = '';
 						//$('#jrdd').text(data.dlnowday);
 						$.each(data.datas, function (idx, obj) {
+							var pp = '';
+							if(obj.istmall == 0){
+								pp += 'tao';
+							}else if(obj.istmall == 1){
+								pp += 'tmall';
+							}
+							var zzp;
+							if(zp == 1){
+								zzp = 'none';
+							}
 							httml += "<div class='ls'><div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'></div><div class='r'><li> <img src='/index/images/" + pp + ".png'>" + obj.title + "</li><li>原价：<a class='back'>" + obj.org_price + "元</a><span>券后价：" + obj.price + "元</span></li><li>优惠券：<a class='rr'>" + obj.coupon_price + "元</a></li><li>优惠券剩余：<a class='rr'>" + obj.sales_num + "张</a></li></div></div><div class='b'>" + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a>" +
 									"</div><div class='h'></div>";
 						});
