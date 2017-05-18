@@ -319,8 +319,8 @@
 				type: 'get',
 				dataType: "json",
 				cache: false,
-				success: function(json_data, state) {
-					var data = $.parseJSON(json_data);
+				success: function(data, state) {
+					//var data = $.parseJSON(json_data);
 					//var data = '';
 					//alert(json_data);
 					if (state == 'success') {
