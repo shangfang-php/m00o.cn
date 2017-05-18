@@ -53,8 +53,9 @@ function alert($msg,$url=''){
 	echo "</script>";
 }
 function tb(){
-	$year = date('Y',time());
-	$month = date('m',time());
+	//$year = date('Y',time());
+//	$month = date('m',time());
+    list($year, $month) =   explode('-', date('Y-m'));
 	return 'order_'.$year.'_'.$month.'_tb';
 }
 function prevtb(){
@@ -301,4 +302,19 @@ function request_post($url = '', $param = '') {
         
         return $data;
     }
+
+/**
+ * getUserInfo()
+ * 获取代理商信息
+ * @param mixed $uid 
+ * @param mixed $type 1 uid查询 2 username查询
+ * @return void
+ */
+function getUserInfo($uid, $type = 1){
+    $field  =   $type == 1 ? 'u_id' : 'u_username';
+    $where[$field]  =   $uid;
+    $res    =   Db::table('user_tb')->where($where)->find();
+    //print_r($res);exit;
+    return $res;
+}
 

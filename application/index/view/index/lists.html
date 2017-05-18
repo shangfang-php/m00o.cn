@@ -18,8 +18,14 @@
 	</div>
 	<a href="{:url('index/index')}" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
 	<div class="tab">
-		<span class="on"><?php if(session('utype') == 1) echo '今日付款';else echo '本月'; ?>订单</span>
-		<span><a href="{:url('index/sylists',['uid'=>$uid])}">上月订单</a></span>
+        {if $type == 'today' || $type == 'yestorday'}
+            <span {if $type=='today'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'today'])}">今日订单</a></span>
+    		<span {if $type=='yestorday'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'yestorday'])}">昨日订单</a></span>
+        {/if}
+        {if $type == 'month' || $type == 'lastmonth'}
+            <span {if $type=='month'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}">本月订单</span>
+    		<span {if $type=='lastmonth'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}">>上月订单</a></span>
+        {/if}
 	</div>
 	<div class="main2">
 		<ul>
