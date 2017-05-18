@@ -321,6 +321,8 @@
 				cache: false,
 				success: function(data, state) {
 					//var data = $.parseJSON(json_data);
+					var data = JSON.parse(data);
+					//var data = JSON.stringify(data);
 					//var data = '';
 					alert(data);
 					if (state == 'success') {
