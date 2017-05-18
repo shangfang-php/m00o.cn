@@ -5,29 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>搜索结果</title>
     <link rel="stylesheet" href="/index/css/style.css">
+      <style type="text/css">
+    body{
+    	background:#eee;
+    }
+
+    </style>
 </head>
 <body>
-	<a id="ff" href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:160px;width:40px;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+ <div class="bgb">
+	<a id="ff" href="javascript:;" onclick="window.history.go(-1);" ><img src="/index/images/qqqq.png" width="100%"></a>
 	<div class="con1" id="con1">
 		<form action="{:url('index/searchp')}" method="get" id="forms">
 			<input type="text" name="name" placeholder="搜索商品关键字">
 			<button type="submit" id="but"></button>
 		</form>
 	</div>
+	
 	<div class="main3">
+
+	<ul class="sai">
+		    <li><a href="" style="color:#ff5500">综合排序</a></li>
+		    <li><a href="">优惠券  </a></li>
+		    <li><a href="">价格  <img src="/index/images/up.png" class="up">  <img src="/index/images/low.png" class="low"></a></li>
+		    <li><a href="">销量</a></li>
+		    <div class="clear"></div>
+	    </ul>
+
+	  
 		<ul>
 		{volist name='list' id='vo'}
 			<div class="ls">
 				<div class="pic"><img src="{$vo.pic}" width="100%" height="100%"></div>
 				<div class="r">
 					<li> <img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">{$vo.title}</li>
-					<li>原价：<a class="back">{$vo.org_price}元</a><span>券后价：{$vo.price}元</span></li>
-					<li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>
-		 			<li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>
+					<li style="color:#999">原价：<a class="back">{$vo.org_price}元</a></li>
+					<li style="color:#999">券后价：<span style="color:#333;font-size: 16px;">{$vo.price}元</span></li>
+					<!-- <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>
+		 			<li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  -->
+		 			<li>
+		 			<div class="votebox" >
+                           	<dl class="barbox">
+	                        	<dd class="barline">
+		                          	<div w="{$vo.coupon_last/$vo.coupon_total}" style="width:0px;" class="charts">&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.sales_num}张</div>
+		                       </dd>
+	                         </dl>
+                    </div>
+		 			</li> 
 				</div>
 			</div>
 			<div class='b'>				
-				<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')">分享文案</a>
+				<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')" style="color:#f04343">分享文案</a>
 				<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')" style="display:<?php if($zpzh == 1) echo 'none';?>">发送到微信群</a>	
 			</div>
 			<div class='h'></div>
@@ -41,14 +69,14 @@
 	</div>
 	<div class="btm" onclick="bgb()"></div>
 	<div class="bott">
+	
 		<div class="sco">
 		<!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post" id='from'> -->
 		<form action='{:url('index/tj')}' method="post" id='from'>
 			{volist name='t' id='vv'}
 				<p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
 			{/volist}	
-				<!--<input type="hidden" name="mm1" value='{$vv.t_mm1}'>-->
-				<input type="hidden" name="mm1" id="mm1">
+				<input type="hidden" name="mm1" >
 				<input type="hidden" name="tkid" id='v'>
 				<input type="hidden" name="gid" id='vv'>
 				<input type="hidden" name="gname" id='vvv'>
@@ -68,8 +96,10 @@
 		<!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
 	</div>
 	<div class="bottt">
+     	
 		<div class="sco">
 		<form action='http://up.t5166.com/api/api3.php' method="post" id='fromm'>
+
 			{volist name='t' id='vv'}
 				<p>{$vv.t_nicname}
 					<input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}">
@@ -85,13 +115,26 @@
 		</div>
 		<p class="t" id="fs" onclick="tjj()"><!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->发&nbsp;送</p>
 	</div>
+	</div>
 </body>
 </html>
 <script src="/index/js/jquery.js" language="javascript"></script>
+              <script language="javascript">
+function animate(){
+	$(".charts").each(function(i,item){
+		var a=parseInt($(item).attr("w")*100);
+		$(item).animate({
+			width: a+"%"
+		},1000);
+	});
+}
+animate();
+</script>
+
 <script type="text/javascript">
 	function tc(tkid,gid,gname,imgurl,zj,qj,qhj,num_iid,jihua_type,coupon_id){
 		$('.btm').css('display','block');
-		$('.bott').animate({bottom:"0px"},'200');
+		$('.bott').animate({bottom:"0px"},'300');
 		$('#v').val(tkid);
 		$('#vv').val(gid);
 		$('#vvv').val(gname);
@@ -113,7 +156,7 @@
 	}
 	function bgb(){
 		$('.bott').animate({bottom:"-300px"});
-		$('.bottt').animate({bottom:"-300px"});
+		$('.bottt').animate({bottom:"-350px"});
 		$('.btm').css('display','none');
 		$('.bottt .i').css('display','none');
 		$('#fromm p input').attr('name','');
@@ -122,10 +165,7 @@
 	}
 	function tj(pid,name){
 		$('#pid').val(pid);
-		//获取mm1的数据
-		var mm1_arr = pid.split("_");
-		$('#mm1').val(mm1_arr[1]);
-		//$('#from').submit();
+		$('#from').submit();
 		$('.bott').animate({bottom:"-300px"});
 		$('.btm').css('display','none');
 		$('#from').submit();
@@ -149,7 +189,7 @@
 		}else{
 			alert('请勾选对应群');
 		}
-		$('.bottt').animate({bottom:"-300px"});
+		$('.bottt').animate({bottom:"-350px"});
 		$('.bottt .i').css('display','none');
 		$('#fromm p input').attr('name','');
 		$('.btm').css('display','none');
@@ -162,19 +202,20 @@
 			var c = $('#fromm p input').attr('name');
 			if(c == ''){
 				$('#fs').css('background','#eee');
+
 			}else{
-				$('#fs').css('background','#14d212');
+				$('#fs').css('background','#f5a631');
 			}
 			if(i == 'none'){
 				$(this).find('.i').css('display','block');
 				$(this).children("input").attr('name','data[]');
-				$('#fs').css('background','#14d212');
+				$('#fs').css('background','#f5a631');
 			}else if(i == 'block'){
 				$(this).find('.i').css('display','none');
 				$(this).children("input").attr('name','');
 				var l = $('#fromm p input[name="data[]"]').length;
 				if(l > 0){
-					$('#fs').css('background','#14d212');
+					$('#fs').css('background','#f5a631');
 				}else{
 					$('#fs').css('background','#eee');
 				}
@@ -185,8 +226,7 @@
     console.info(d);
     window.addEventListener("scroll", function(event) {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        console.log(scrollTop);
-
+        console.log(scrollTop);    
         if(document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop ) {
         	var name = $('#names').val();
         	var zp = {$zpzh};
@@ -216,15 +256,20 @@
 						    if(zp == 1){
 						    	zzp = 'none';
 						    }
-						    httml +="<div class='ls'><div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'></div><div class='r'><li> <img src='/index/images/"+pp+".png'>"+obj.title+"</li><li>原价：<a class='back'>"+obj.org_price+"元</a><span>券后价："+obj.price+"元</span></li><li>优惠券：<a class='rr'>"+obj.coupon_price+"元</a></li><li>优惠券剩余：<a class='rr'>"+obj.sales_num+"张</a></li></div></div><div class='b'>"+						    
+						    /*httml +="<div class='ls'><div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'></div><div class='r'><li> <img src='/index/images/"+pp+".png'>"+obj.title+"</li><li>原价：<a class='back'>"+obj.org_price+"元</a><span>券后价："+obj.price+"元</span></li><li>优惠券：<a class='rr'>"+obj.coupon_price+"元</a></li><li>优惠券剩余：<a class='rr'>"+obj.sales_num+"张</a></li></div></div><div class='b'>"+
 						    "<a class='a1' href='javascript:;' onclick=\"tc('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\">分享文案</a>"+
 						    "<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a>"+
-						    "</div><div class='h'></div>";
+						    "</div><div class='h'></div>";*/
+
+							httml += "<div class='ls' > <div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/"+pp+".png'>"+obj.title+" </li> <li style='color:#999'> 原价：<a class='back'>"+obj.org_price+"元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>"+obj.price+"元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='"+obj.coupon_last/obj.coupon_total+"' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;"+obj.coupon_price+"元&nbsp;&nbsp;&nbsp;&nbsp;余<span >"+obj.coupon_last+"</span>张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\">分享文案</a>"+ "<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a> </div> <div class='h'> </div>";
+
+
 						    /*<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a>*/
 						});
 						$('#lload').append(httml);
                         $('#load').hide();
                         $('#p').val(data.page);
+						animate();
                     }else{
                         alert('error');
                     }
