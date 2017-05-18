@@ -295,12 +295,22 @@
 							if(zp == 1){
 								zzp = 'none';
 							}
-							httml += "<div class='ls'><div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'></div><div class='r'><li> <img src='/index/images/" + pp + ".png'>" + obj.title + "</li><li>原价：<a class='back'>" + obj.org_price + "元</a><span>券后价：" + obj.price + "元</span></li><li>优惠券：<a class='rr'>" + obj.coupon_price + "元</a></li><li>优惠券剩余：<a class='rr'>" + obj.sales_num + "张</a></li></div></div><div class='b'>" + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a>" +
-									"</div><div class='h'></div>";
+							/*httml += "<div class='ls'>" +
+									"<div class='pic'>" +
+									"<img src='" + obj.pic + "' width='100%' height='100%'>" + "</div><div class='r'>" + "<li> " +
+									"<img src='/index/images/" + pp + ".png'>" + obj.title + "</li>" +
+									"<li>原价：<a class='back'>" + obj.org_price + "元</a>" +
+									"<span>券后价：" + obj.price + "元</span>" + "</li>" +
+									"<li>优惠券：<a class='rr'>" + obj.coupon_price + "元</a></li>" +
+									"<li>优惠券剩余：<a class='rr'>" + obj.sales_num + "张</a></li></div>" +
+									"</div><div class='b'>" + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" +
+									"<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a>" +
+									"</div><div class='h'></div>";*/
+							html += "<div class='ls' > <div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/"+pp+".png'>"+obj.title+" </li> <li style='color:#999'> 原价：<a class='back'>"+obj.org_price+"元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>"+obj.price+"元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='80' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;"+obj.coupon_price+"元&nbsp;&nbsp;&nbsp;&nbsp;余"+obj.sales_num+"张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\">分享文案</a>"+ "<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a> </div> <div class='h'> </div>";
 						});
-						//alert(httml);
+
 						$('#ajaxdata').empty();
-						$('#ajaxdata').append(httml);
+						$('#ajaxdata').append(html);
 					} else {
 						alert('error');
 					}
