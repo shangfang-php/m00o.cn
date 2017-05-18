@@ -7,6 +7,7 @@ include_once("tb/TopSdk.php");
 class Index extends common
 {
 	public function index(){
+		$list = file_get_contents("http://so.00o.cn/index.php");
 		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
 		$data = [
@@ -20,7 +21,8 @@ class Index extends common
 			'level'         => 1,
 			'list'=>array(),
 			't'=>array(),
-			'zp'=>$uu['u_zpzh']
+			'zp'=>$uu['u_zpzh'],
+			'list'=>$list,
 		];
 		$this->assign($data);
 		return $this->fetch();
