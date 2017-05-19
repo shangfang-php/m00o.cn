@@ -37,6 +37,7 @@ class Index extends common
 		//echo 111;exit;
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
+		$p = isset($_GET['p'])?intval($_GET['p']):1;
 		if($cid>0){
 			$url = "http://so.00o.cn/index.php?cid=".$cid." ";
 		}else{
@@ -47,7 +48,7 @@ class Index extends common
 
 		$data = [
 			'datas'=> $list,
-			//'page' => $p+1,
+			'page' => $p+1,
 		];
 		//print_r($list);exit;
 		//$list = json_decode($data,true);
