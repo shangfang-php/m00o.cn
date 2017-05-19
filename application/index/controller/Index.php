@@ -64,6 +64,7 @@ class Index extends common
 		//$list = json_decode($data,true);
 		exit(json_encode($data));
 	}
+
 	public function index_bak() //首页  Jane 备注 2017-5-18
 	{
 		//echo 333;exit;
