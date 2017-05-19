@@ -794,6 +794,7 @@ class Index extends common
 		header("Content-type: text/html; charset=utf-8");
 		$name = trim(input('get.name'));
 		$p = trim(input('get.p'));
+		$type = isset(input('get.type'))?trim(input('get.type')):'';
 		if($p <= 1){
 			$p = 1;
 		}
@@ -801,12 +802,12 @@ class Index extends common
 		{
 			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
 			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p);
+			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type);
 
 		}
 		catch(\Exception $e)
 		{
-			alert('网络不稳定,请稍候重试1!',url('index/index'));
+			alert('网络不稳定,请稍候重试!',url('index/index'));
 		}
 
 		$zz = json_decode($z,true);
@@ -832,6 +833,7 @@ class Index extends common
 					'uid'=>$t[0]['t_u_id'],
 					'name'=>$name,
 					'zpzh'=>$uu['u_zpzh'],
+					'type'=>$type,
 				];
 				$this->assign($data);
 				return $this->fetch();
@@ -839,7 +841,7 @@ class Index extends common
 		}
 	}
 	//找品下拉
-	public function loadss(){
+	public function loadss_bak(){
 		$name = input('post.name');
 		$p = input('post.p');
 		$pp = $p+1;
@@ -848,6 +850,20 @@ class Index extends common
 			'page' => $p+1,
 		];
 		return json($data);
+	}
+	public function loadss(){
+		$name = input('post.name');
+		$p = input('post.p');
+		$pp = $p+1;
+		//当前的排序方法
+		$type = input('post.type');
+		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
+		$datas = json_decode($z,true);
+		$data = array(
+			'datas'=>$datas,
+			'page'=>$pp
+		);
+		exit(json_encode($data));
 	}
 	//生成文案
 	public function tj(){
