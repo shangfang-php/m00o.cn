@@ -58,7 +58,7 @@ class Index extends common
 		$list = json_decode($datas,true);
 		$data = [
 			'datas'=> $list,
-			'page' => $p,
+			'page' => $p+1,
 		];
 		//print_r($list);exit;
 		//$list = json_decode($data,true);
