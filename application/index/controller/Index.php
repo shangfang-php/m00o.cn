@@ -50,16 +50,15 @@ class Index extends common
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		$p = isset($_GET['p'])?intval($_GET['p']):1;
 		if($cid>0){
-			$url = "http://so.00o.cn/index.php?cid=".$cid." ";
+			$url = "http://so.00o.cn/index.php?cid=".$cid."&p=".$p." ";
 		}else{
 			$url = "http://so.00o.cn/index.php";
 		}
 		$datas = file_get_contents($url);
 		$list = json_decode($datas,true);
-
 		$data = [
 			'datas'=> $list,
-			'page' => $p+1,
+			'page' => $p,
 		];
 		//print_r($list);exit;
 		//$list = json_decode($data,true);
