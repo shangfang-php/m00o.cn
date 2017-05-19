@@ -53,48 +53,30 @@
 				合伙人系统
 			</p>
 			<div class="pabox">
-                        <span>
-                            56.68
-                        </span>
-				<p>
-					今日收入
-				</p>
+                <span>{$todayData.allMoney}</span>
+				<p>今日收入</p>
 			</div>
 			<div class="pashu">
 				<img src="/index/images/shushu.png">
 			</div>
-			<a href="{:url('index/lists',['uid'=>$Think.session.usid])}" style="color: #333"><div class="pabox">
-                        <span>
-                            32
-                        </span>
-				<p>
-
-					今日订单
-
-				</p>
+			<a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'today'])}" style="color: #333"><div class="pabox">
+                <span>{$todayData.orderNums}</span>
+				<p>今日订单</p>
 			</div>
 			</a>
 			<div class="pashu">
 				<img src="/index/images/shushu.png">
 			</div>
-			<a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color: #333"><div class="pabox">
-                        <span>
-                            4581
-                        </span>
-				<p>
-
-					本月订单
-
-				</p>
+			<a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}" style="color: #333"><div class="pabox">
+                <span>{$monthData.orderNums}</span>
+				<p>本月订单</p>
 			</div>
 			</a>
 			<div class="pashu">
 				<img src="/index/images/shushu.png">
 			</div>
 			<div class="pabox">
-                        <span>
-                            1245
-                        </span>
+                <span>{$userInfo.u_click}</span>
 				<p>
 					昨日点击
 				</p>

@@ -7,15 +7,26 @@ include_once("tb/TopSdk.php");
 class Index extends common
 {
 	public function index(){
+        $uid    =   session('usid');
+        $today_start    =   strtotime(date('Y-m-d'));
+        //var_dump($today_start);exit;
+        $todayData  =   getUserMoneyOrder($uid, $today_start); ##获取当日数据
+        
+        $month_start    =   strtotime(date('Y-m'));
+        $monthData  =   getUserMoneyOrder($uid, $month_start); ##获取当月数据
+        
+        $userInfo   =   getUserInfo(intval($uid)); ##获取代理商信息
+       
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
 		$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
-		$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
+		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
+        $u  =   $userInfo;
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
 		$data = [
-			'nowday'        => 0, //今日付款数
-			'nowmonth'      => 0, //本月订单数
-			'nowdayvalue'   => 0,//今日预估
+			'todayData'      => $todayData, //今日订单数及收入
+			'monthData'      => $monthData, //本月订单数及收入
+			'userInfo'       => $userInfo,//代理商信息
 			'yesdayvalue'   => 0,//昨日预估
 			'nowmonthvalue' => 0,//上月预估
 			'yesmonthvalue' => 0,//本月预估
@@ -273,9 +284,61 @@ class Index extends common
 		];
 		return json($data);
 	}
-	//本月自己
-	public function lists()
+	
+	/**
+	 * Index::order_lists()
+	 * 订单列表
+	 * @return
+	 */
+	public function order_lists()
 	{
+        $type   =   input('type');
+        $uid    =   input('uid');
+
+        if(Session('usid') != $uid){
+            alert('非法用户', url('index'));
+        }
+        
+        $date   =   date('Y-m-d');
+        switch($type){
+            case 'today':
+                $start_date =   strtotime($date); ##当天0点
+                $end_date   =   '';
+                break;
+            case 'yestorday':
+                $start_date =   strtotime(date('Y-m-d', strtotime('-1 day'))); ##前一天0点
+                $end_date   =   strtotime($date) - 1; ##前一天23：59：59
+                break;
+            case 'month':
+                $start_date =   strtotime(date('Y-m')); ##当月1号0点
+                $end_date   =   '';
+                break;
+            case 'lastmonth':
+                $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
+                $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
+                break;
+            default:
+                 alert('类型非法', url('index'));
+        }
+        
+        ##拼接sql条件
+        $where['a.o_creattime'] =   ['>=', $start_date];
+        if($end_date){
+            $where['a.o_creattime'] =   ['<=', $end_date];
+        }
+        $where['a.o_u_id']  =   $uid;
+        ###拼接结束##
+        
+        $tb     =   tb();
+        $ortb   =   ortb(time());
+        $list   =   Db::name($tb)->alias('a')->join($ortb.' b','a.o_ordernum = b.or_o_ordernum and a.o_u_id=b.or_u_id', "LEFT")->order('a.o_creattime desc')->where($where)->paginate(5);
+    	$data = [
+    		'list' => $list,
+    		'uid' => $uid,
+            'type'=> $type,
+    		];
+        /*
+        
 		$day = time();
 		$day1 = strtotime(date("Y-m-d"));
 		$ortb = ortb(time());
@@ -298,9 +361,9 @@ class Index extends common
 		$data = [
 			'list' => $list,
 			'uid' => $id
-		];
+		];*/
 		$this->assign($data);
-		return $this->fetch();
+		return $this->fetch('lists');
 	}
 	//上月自己
 	public function sylists()
