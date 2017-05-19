@@ -207,11 +207,11 @@
 			if(name !=''){
 				//$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+",'type'=>"+ordertype+"))}");
 				$("#url"+num).attr('href',"{:url('index/searchp')}?name="+name+"&type="+ordertype);
-				//alert("{:url('index/searchp')}?name="+name+"&type="+ordertype);
+				alert("{:url('index/searchp')}?name="+name+"&type="+ordertype);
 			}else{
 				//$("#url"+num).attr('href',"{:url('index/searchp',array('type'=>"+ordertype+"))}");
 				$("#url"+num).attr('href',"{:url('index/searchp')}?type="+ordertype);
-				//alert("{:url('index/searchp')}/type/"+ordertype);
+				alert("{:url('index/searchp')}?type="+ordertype);
 			}
 
 		}
