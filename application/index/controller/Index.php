@@ -52,13 +52,13 @@ class Index extends common
 		if($cid>0){
 			$url = "http://so.00o.cn/index.php?cid=".$cid."&p=".$p." ";
 		}else{
-			$url = "http://so.00o.cn/index.php";
+			$url = "http://so.00o.cn/index.php?p=".$p;
 		}
 		$datas = file_get_contents($url);
 		$list = json_decode($datas,true);
 		$data = [
 			'datas'=> $list,
-			'page' => $p+1,
+			'page' => $p,
 		];
 		//print_r($list);exit;
 		//$list = json_decode($data,true);

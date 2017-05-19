@@ -252,7 +252,7 @@
 		$('#default').css('display','none');
 		$.ajax({
 				url: "{:url('index/ajaxdata')}",
-				data:{cid:num},
+				data:{cid:num,p:1},
 				type: 'get',
 				dataType: "json",
 				cache: false,
@@ -292,7 +292,7 @@
 
 						//修改分类ID
 						$('#cid').val(num);
-						$('#p').val(1);
+						$('#p').val(2);
 						animate();
 					} else {
 						alert('error');
@@ -481,7 +481,7 @@
 			var zp = $('#zp').val();
 			var p = $('#p').val();
 			if(p == ''){
-				p =2;
+				p = 2;
 			}
 			//alert(11);
 			$('#load').show();
@@ -518,7 +518,7 @@
 						});
 						$('#lload').append(httml);
 						$('#load').hide();
-						$('#p').val(data.page);
+						$('#p').val(data.page+1);
 						animate();
 					}else{
 						alert('error');
