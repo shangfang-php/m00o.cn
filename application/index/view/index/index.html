@@ -86,7 +86,7 @@
 		</div>
 	</div>
 	<div class="con2">
-		<!-- <ul>                       <a href="{:url('index/lists',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd1.png" width="100%"><p>我的订单</p></li></a>            <a href="{:url('index/listss',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd2.png" width="100%"><p>代理订单</p></li></a>            <a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd4.png" width="100%"><p>收入排行</p></li></a>            <a href="{:url('index/my',['uid'=>$Think.session.usid])}"><li><img src="/index/images/dd3.png" width="100%"><p>个人中心</p></li></a>            </ul>    -->
+		
 		<a href="{:url('index/number')}" style="display: block;width: 100%;color: #333;">
 			<div class="more">
 				<!-- <a href="/index/view/index/number.html">更多数据》</a> -->
@@ -164,7 +164,7 @@
 </div>
 
 <!--精选-->
-<div class="cnt" id="cnt_1" style="display:block;">
+<div class="cnt" id="cnt_1" style="display:block;overflow: hidden">
 	<div class="main3">
 		<ul id="ajaxdata">
 				{volist name='list' id='vo'}
@@ -292,6 +292,7 @@
 
 						//修改分类ID
 						$('#cid').val(num);
+						$('#p').val(1);
 						animate();
 					} else {
 						alert('error');
@@ -327,7 +328,7 @@
 		<input type="hidden" name="uid" value="{$uid}">
 		</form>
 	</div>
-	<!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
+	
 </div>
 <div class="bottt">
 
@@ -466,7 +467,7 @@
 				}else{
 					$('#fs').css('background','#eee');
 				}
-			};
+			}
 		});
 	});
 	/*var d = document.getElementById("con1").offsetHeight;
@@ -480,7 +481,7 @@
 			var zp = $('#zp').val();
 			var p = $('#p').val();
 			if(p == ''){
-				p =1;
+				p =2;
 			}
 			//alert(11);
 			$('#load').show();
@@ -527,46 +528,3 @@
 		}
 	});
 </script>
-<!--
-<script>
-	var d = document.getElementById("nav").offsetHeight;
-	console.info(d);
-	window.addEventListener("scroll",
-			function(event) {
-				var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-				console.log(scrollTop);
-				if (document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop) {
-					var le = {
-						$level
-					};
-					if (le != 3) {
-						if ($("#con3").is(":hidden")) {
-							$('#load').show();
-							$.ajax({
-								url: "{:url('index/loads')}",
-								type: 'Post',
-								dataType: "json",
-								cache: false,
-								success: function(data, state) {
-									if (state == 'success') {
-										$('#jrdd').text(data.dlnowday);
-										$('#zrdd').text(data.dlnowmonth);
-										$('#jr').text(data.dlnowdayvalue);
-										$('#zr').text(data.dlyesdayvalue);
-										$('#con3').css({
-											'display': 'flex',
-											'display': '-webkit-box',
-											'display': '-webkit-flex'
-										});
-										$('#load').hide();
-										$('#ii').val(1);
-									} else {
-										alert('error');
-									}
-								}
-							});
-						}
-					}
-				}
-			});
-</script>-->
