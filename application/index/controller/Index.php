@@ -795,7 +795,7 @@ class Index extends common
 		$name = trim(input('get.name'));
 		$p = trim(input('get.p'));
 		$type = isset($_GET['type'])?$_GET['type']:'';
-		$order = isset($_GET['order'])?$_GET['order']:'';
+		$order = isset($_GET['order'])?$_GET['order']:'desc';
 		if($p <= 1){
 			$p = 1;
 		}
@@ -827,8 +827,8 @@ class Index extends common
 			if ($uu['u_dlzp'] != 1) {
 				return $this->fetch('searchss');
 			}else{
-				//echo '<pre>';
-				//print_r($zz);exit;
+				echo '<pre>';
+				print_r($zz);exit;
 				$data = [
 					'list'=>$zz,
 					't'=>$t,
