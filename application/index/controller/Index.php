@@ -864,7 +864,7 @@ class Index extends common
 		$pp = $p+1;
 		//当前的排序方法
 		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
-		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
+		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
 		$datas = json_decode($z,true);
 		$data = array(
 			'datas'=>$datas,
