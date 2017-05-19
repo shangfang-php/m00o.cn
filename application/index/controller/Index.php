@@ -795,6 +795,7 @@ class Index extends common
 		$name = trim(input('get.name'));
 		$p = trim(input('get.p'));
 		$type = isset($_GET['type'])?$_GET['type']:'';
+		$order = isset($_GET['order'])?$_GET['order']:'';
 		if($p <= 1){
 			$p = 1;
 		}
@@ -802,7 +803,7 @@ class Index extends common
 		{
 			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
 			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type);
+			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
 
 		}
 		catch(\Exception $e)
@@ -826,6 +827,8 @@ class Index extends common
 			if ($uu['u_dlzp'] != 1) {
 				return $this->fetch('searchss');
 			}else{
+				//echo '<pre>';
+				//print_r($zz);exit;
 				$data = [
 					'list'=>$zz,
 					't'=>$t,
@@ -835,6 +838,7 @@ class Index extends common
 					'zpzh'=>$uu['u_zpzh'],
 					'type'=>$type,
 				];
+
 				$this->assign($data);
 				return $this->fetch();
 			}
