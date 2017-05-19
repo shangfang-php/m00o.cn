@@ -10,6 +10,8 @@
     	background:#eee;
     }
 
+
+
     </style>
 </head>
 <body>
@@ -21,18 +23,23 @@
 			<button type="submit" id="but"></button>
 		</form>
 	</div>
-	
-	<div class="main3">
-
-	<ul class="sai">
-		    <li><a href="{:url('index/searchp',array('name'=>$name))}" style="color:#ff5500">综合排序</a></li>
-		    <li><a href="{:url('index/searchp',array('name'=>$name,'type'=>'coupon_price'))}">优惠券  </a></li>
-		    <li><a href="">价格  <img src="/index/images/up.png" class="up">
+	<div class="wrapper wrapper01" id="wrapper01">
+	<div class="scroller" style="width: 100%;overflow: hidden;">
+	 <ul class="sai">
+		    <li><a href="{:url('index/searchp',array('name'=>$name))}" >综合排序</a></li>
+		    <li><a href="{:url('index/searchp',array('name'=>$name,'type'=>'Quan_price'))}">优惠券  </a></li>
+		    <li><a href="javascript:void(0)">价格 <img src="/index/images/up.png" class="up">
 				<img src="/index/images/low.png" class="low"></a></li>
-		    <li><a href="{:url('index/searchp',array('name'=>$name,'type'=>'sales_num'))}">销量</a></li>
+		    <li><a href="{:url('index/searchp',array('name'=>$name,'type'=>'Sales_num')}">销量</a></li>
 		    <div class="clear"></div>
 	    </ul>
-
+</div>
+	</div>
+	
+	<div class="main3">
+     
+	  
+	   
 	  
 		<ul>
 		{volist name='list' id='vo'}
@@ -65,9 +72,13 @@
 		<div id="lload"></div>
 		<input type="hidden" id="ii" value="">
 		<input type="hidden" id="names" value="{$name}">
+		<input type="hidden" id="type" value="{$type}">
 		<input type="hidden" id="p" value="">
 		</ul>
 	</div>
+
+
+
 	<div class="btm" onclick="bgb()"></div>
 	<div class="bott">
 	
@@ -120,7 +131,20 @@
 </body>
 </html>
 <script src="/index/js/jquery.js" language="javascript"></script>
-              <script language="javascript">
+<script type="text/javascript" src="/index/js/jquery.min.js">
+</script>
+<script type="text/javascript" src="/index/js/flexible.js">
+</script>
+<script type="text/javascript" src="/index/js/iscroll.js">
+</script>
+<script type="text/javascript" src="/index/js/navbarscroll.js">
+</script>
+<script type="text/javascript">
+	$(function() {
+		$('.wrapper').navbarscroll();
+	});
+</script>
+<script language="javascript">
 function animate(){
 	$(".charts").each(function(i,item){
 		var a=parseInt($(item).attr("w")*100);
