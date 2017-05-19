@@ -794,7 +794,7 @@ class Index extends common
 		header("Content-type: text/html; charset=utf-8");
 		$name = trim(input('get.name'));
 		$p = trim(input('get.p'));
-		$type = trim(input('get.type'));
+		$type = isset($_GET['type'])?$_GET['type']:'';
 		if($p <= 1){
 			$p = 1;
 		}
