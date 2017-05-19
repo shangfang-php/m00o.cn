@@ -26,7 +26,7 @@
 	<div class="wrapper wrapper01" id="wrapper01">
 	<div class="scroller" style="width: 100%;overflow: hidden;">
 	 <ul class="sai">
-		    <li><a href="javascript:void(0)" id="url1" onclick="changeUrl(1);">综合排序</a></li>
+		    <li><a href="javascript:void(0)" id="url1" onclick="changeUrl(1);"  >综合排序</a></li>
 		    <li><a href="javascript:void(0)" id="url2" onclick="changeUrl(2);">优惠券  </a></li>
 		    <li><a href="javascript:void(0)" onclick="changeUrl(3);" id="url3">价格 <img src="/index/images/up.png" class="up">
 				<img src="/index/images/low.png" class="low"></a></li>
@@ -68,6 +68,7 @@
 		<input type="hidden" id="ii" value="">
 		<input type="hidden" id="names" value="{$name}">
 		<input type="hidden" id="type" value="{$type}">
+		<input type="hidden" id="order" value="{$order}">
 		<input type="hidden" id="p" value="">
 		</ul>
 	</div>
@@ -341,13 +342,17 @@
         	var name = $('#names').val();
         	var zp = {$zpzh};
         	var p = $('#p').val();
+			//获取type order
+			var type = $('#type').val();
+			var order = $('#order').val();
+			var
         	if(p == ''){
         		p =1;
         	}
 			$('#load').show();
 			$.ajax({
                 url: "{:url('index/loadss')}",
-                data:{name:name,p:p},
+                data:{name:name,p:p,type:type,order:order},
                 type: 'Post',
                 dataType: "json",
                 cache: false,

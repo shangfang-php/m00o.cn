@@ -837,6 +837,7 @@ class Index extends common
 					'name'=>$name,
 					'zpzh'=>$uu['u_zpzh'],
 					'type'=>$type,
+					'order'=>$order
 				];
 
 				$this->assign($data);
@@ -858,10 +859,12 @@ class Index extends common
 	public function loadss(){
 		$name = input('post.name');
 		$p = input('post.p');
+		$type = input('post.type');
+		$order = input('post.order');
 		$pp = $p+1;
 		//当前的排序方法
-		$type = input('post.type');
-		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
+		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
+		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
 		$datas = json_decode($z,true);
 		$data = array(
 			'datas'=>$datas,
