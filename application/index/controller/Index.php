@@ -827,8 +827,8 @@ class Index extends common
 			if ($uu['u_dlzp'] != 1) {
 				return $this->fetch('searchss');
 			}else{
-				echo '<pre>';
-				print_r($zz);exit;
+				//echo '<pre>';
+				//print_r($zz);exit;
 				$data = [
 					'list'=>$zz,
 					't'=>$t,
