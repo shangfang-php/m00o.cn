@@ -23,16 +23,16 @@
                 <img src="/index/images/qqqq.png" width="100%">
             </a>
 
-			<div class="topHeight" style="position: relative;">
-            <div class="con1" id="con1">
+			<div class="topHeight"  >
+              <div class="con1" id="con1" >
                 <form action="{:url('index/searchp')}" method="get" id="forms">
                     <input type="text" name="name" placeholder="搜索商品关键字">
                     <button type="submit" id="but">
                     </button>
                 </form>
-            </div>
-				</div>
-            <ul class="sai">
+             </div>
+			</div>
+            <ul class="sai" id="shareMoney" style="z-index: 999999999">
                 <li >
                     <a id="url1" onclick="changeUrl(1);" >
                         综合排序
@@ -61,6 +61,9 @@
 
 
             <script  type="text/javascript" >
+
+
+
 				window.onload = function () {
 					//判断加载的type 给LI添加样式
 					var type = $('#type').val();
@@ -109,21 +112,7 @@
 						$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
 					}
 				}
-				function nav() {
-					var height = 0;
-					height = $(".topHeight").height();
-					$(window).scroll(function() {
-						var w = $("body").scrollTop() || $(document).scrollTop(); //获取滚动值
-						if (w > height) {
-							$("#shareMoney").addClass("titleTap");
-						} else if (w <= 0) {
-							$("#shareMoney").removeClass("titleTap");
-						} else {
-							$("#shareMoney").removeClass("titleTap");
-						}
-					});
-				}
-				nav();
+				
 
 			</script>
             <div class="main3">
@@ -265,6 +254,23 @@
 </script>
 <script src="/index/js/jquery.js" language="javascript"></script>
 <script type="text/javascript" src="/index/js/jquery.min.js"></script>
+<script>
+    function nav() {
+        var height = 0;
+        height = $(".topHeight").height();
+        $(window).scroll(function() {
+            var w = $("body").scrollTop() || $(document).scrollTop(); //获取滚动值
+            if (w > height) {
+                $("#shareMoney").addClass("titleTap");
+            } else if (w <= 0) {
+                $("#shareMoney").removeClass("titleTap");
+            } else {
+                $("#shareMoney").removeClass("titleTap");
+            }
+        });
+    }
+    nav();
+    </script>
 <script type="text/javascript">
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
         $('.btm').css('display', 'block');
