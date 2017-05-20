@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>数据</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+
+    <style type="text/css">
+    body{background: #eee;}
+ 
+    </style>
+</head>
+<body>
+<div class="bgb">
+	<a href="javascript:;" onclick="window.history.go(-1);" id="back">
+	<img src="/index/images/qqqq.png" width="100%"></a>
+
+    <div class="con1" >
+    <form action="{:url('count/show_agent', ['agentId'=>$agentId, 'type'=>'today'])}" method="get" id="forms">
+      <input type="text" name="searchAgent" placeholder="搜索合伙人数据" value="{$searchAgent}">
+      <button type="submit" id="but"></button>
+    </form>
+  </div>
+
+	<div class="day">
+	    <ul>
+            <li><a {if $type=='today'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/show_agent', ['agentId'=>$agentId,'searchAgent'=>$searchAgent, 'type'=>'today'])}"{/if}>今日</a></li>
+			<li><a {if $type=='yestorday'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/show_agent', ['agentId'=>$agentId,'searchAgent'=>$searchAgent, 'type'=>'yestorday'])}"{/if}>昨日</a></li>
+			<li><a {if $type=='month'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/show_agent', ['agentId'=>$agentId,'searchAgent'=>$searchAgent, 'type'=>'month'])}"{/if}>本月</a></li>
+			<li><a {if $type=='lastmonth'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/show_agent', ['agentId'=>$agentId,'searchAgent'=>$searchAgent, 'type'=>'lastmonth'])}"{/if}>上月</a></li>
+		</ul>		
+	</div>
+    
+    <div class="papapa" style="margin-top: 2%">
+    {foreach $agentsDataCount as $uid=>$val}
+    
+        <p class="tip">
+            <img src="/index/images/sanpa.png" class="erimg">&nbsp;三级合伙人({$val.u_username})
+        </p>
+        <div class="erpa">
+            <div class="erbox" style="text-align: left;border-bottom: none">
+                <img src="/index/images/hshu.png" >
+            </div>
+            <div class="erbox">
+                <span>{$val.nums}</span>
+                <p>订单数</p>
+            </div>
+            <div class="eshu"> <img src="/index/images/shushu.png" ></div>
+              <div class="erbox">
+                <span>{$val.money}</span>
+                <p>他的预估</p>
+            </div>
+             <div class="eshu"> <img src="/index/images/shushu.png" ></div>
+              <div class="erbox">
+                <span>{$val.agentMoney}</span>
+                <p>我的提成</p>
+            </div>
+        </div>
+        <div class="line"></div>
+    {/foreach}
+    </div>
+    
+
+     
+
+
+
+<script type="text/javascript" src="/index/js/jquery.min.js">
+</script>
+<script  type="text/javascript">
+// function fun(a){
+//   $(".on"+a).toggle();
+//   $(".up"+a).hide();
+//   $(".do"+a).show();
+// }
+// function fpp(b){
+//   $(".on"+b).toggle();
+//   $(".do"+b).hide();
+//   $(".up"+b).show();
+// }
+</script>
+
+
+</body>
+</html>

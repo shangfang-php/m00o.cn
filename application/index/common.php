@@ -73,3 +73,24 @@ function getUserChildAgents($uid, $userInfo = '', $isDepth = true){
     }
     return $return;
 }
+
+/**
+ * checkAgentRelation()
+ * 检测两个代理商是否存在代理关系
+ * @param mixed $parentId 上级供应商
+ * @param mixed $agentId 检索的代理商
+ * @return void
+ */
+function checkAgentRelation($parentId, $agentId){
+    $agentsInfo =   getUserChildAgents($parentId);
+    if(!$agentsInfo){
+        return FALSE;
+    }
+    
+    foreach($agentsInfo as $val){
+        if(in_array($agentId, $val)){
+            return TRUE;
+        }
+    }
+    return FALSE;
+}

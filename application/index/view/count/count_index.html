@@ -20,10 +20,10 @@
 
 	<div class="day">
 	    <ul>
-            <li><a {if $type=='today'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'today'])}"{/if}>今日</a></li>
-			<li><a {if $type=='yestorday'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'yestorday'])}"{/if}>昨日</a></li>
-			<li><a {if $type=='month'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'month'])}"{/if}>本月</a></li>
-			<li><a {if $type=='lastmonth'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'lastmonth'])}"{/if}>上月</a></li>
+            <li><a {if $type=='today'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'today','searchAgent'=>$searchAgent])}"{/if}>今日</a></li>
+			<li><a {if $type=='yestorday'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'yestorday','searchAgent'=>$searchAgent])}"{/if}>昨日</a></li>
+			<li><a {if $type=='month'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'month','searchAgent'=>$searchAgent])}"{/if}>本月</a></li>
+			<li><a {if $type=='lastmonth'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'lastmonth','searchAgent'=>$searchAgent])}"{/if}>上月</a></li>
 		</ul>
 	</div>
 	<div class="mynum">
@@ -56,15 +56,15 @@
     </div>
 
     <div class="con1" style="padding-top: 7%;">
-    <form action="{:url('index/search')}" method="post" id="forms" style="    margin-bottom: 0%; position: relative; top: -13px;">
-      <input type="text" name="num" placeholder="搜索合伙人数据">
+    <form action="{:url('count/index', ['type'=>$type])}" method="get" id="forms" style="margin-bottom: 0%; position: relative; top: -13px;">
+      <input type="text" name="searchAgent" placeholder="搜索合伙人数据" value="{$searchAgent}">
       <button type="submit" id="but"></button>
     </form>
   </div>
 
-    {foreach $agentsDataCount as $val}
+    {foreach $agentsDataCount as $uid=>$val}
     <div class="papapa" style="margin-top: 2%">
-        <a {if $val.u_leve ==2 }href="{:url('index/sanji')}"{/if}>
+        <a {if $val.u_leve ==2 }href="{:url('count/show_agent', ['agentId'=>$uid,'searchAgent'=>0, 'type'=>'today'])}"{/if}>
             <p class="tip">
                 <img src="/index/images/{if $val.u_leve ==2 }erpa{else}sanpa{/if}.png" class="erimg">&nbsp;{if $val.u_leve ==2 }二级{else}三级{/if}合伙人({$val.u_username})
                 <img src="/index/images/dowww.png" class="dowww do1"/>
