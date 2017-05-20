@@ -875,10 +875,14 @@ class Index extends common
 	//生成文案
 	public function tj(){
 		$post = $_POST;
-		$tkid = $post['tkid'];
-		if(!$tkid){
+		$tkid = isset($_POST['tkid'])?$post['tkid']:0;
+		if($tkid == 0 || empty($tkid)){
 			alert('参数错误');
 		}
+		//$tkid = $post['tkid'];
+		/*if(!$tkid){
+			alert('参数错误');
+		}*/
 		//$vv = sc($tkid); //Jane update 2017-4-21
 		//$vv = sc($post['jihua_type'],$post['coupon_id']);
 
@@ -940,6 +944,10 @@ class Index extends common
 		return $this->fetch();
 	}
 	public function sanji(){
+		return $this->fetch();
+	}
+
+	public function ceshi(){
 		return $this->fetch();
 	}
 
