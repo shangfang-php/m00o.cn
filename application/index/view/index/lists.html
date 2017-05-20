@@ -8,6 +8,12 @@
 	<meta content="telephone=no" name="format-detection">
     <title>订单明细</title>
     <link rel="stylesheet" href="/index/css/style.css">
+    <style type="text/css">
+    body{
+    	background:#eee;
+    }
+
+    </style>
 </head>
 <body>
 	<div class="con1">
@@ -16,22 +22,29 @@
 			<button type="submit" id="but"></button>
 		</form>
 	</div>
-	<a href="{:url('index/index')}" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	<a href="{:url('index/index')}" style="position:fixed;right:0px;bottom:100px;width:18%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
 	<div class="tab">
-        {if $type == 'today' || $type == 'yestorday'}
-            <span {if $type=='today'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'today'])}">今日订单</a></span>
-    		<span {if $type=='yestorday'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'yestorday'])}">昨日订单</a></span>
+        {if $type == 'today'}
+            <span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;">今日订单</span>
+            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'yestorday'])}" style="color: #eac919"><span>昨日订单</span></a>
+        {elseif $type =='yestorday'}
+            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'today'])}" style="color: #eac919"><span>今日订单</span></a>
+            <span class="on" style="    border-top-right-radius: 5px;    border-bottom-right-radius: 5px;">昨日订单</a></span>
+        {elseif $type == 'month'}
+            <span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;">本月订单</span>
+            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}" style="color: #eac919"><span>上月订单</span></a>
+        {else}
+            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}" style="color: #eac919"><span>本月订单</span></a>
+            <span class="on" style="    border-top-right-radius: 5px;    border-bottom-right-radius: 5px;">上月订单</a></span>
         {/if}
-        {if $type == 'month' || $type == 'lastmonth'}
-            <span {if $type=='month'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}">本月订单</span>
-            <span {if $type=='lastmonth'} class="on"{/if}><a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}">昨日订单</a></span>
-        {/if}
+		<!--<span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;"><?php if(session('utype') == 1) echo '今日付款';else echo '本月'; ?>订单</span>
+		<a href="{:url('index/sylists',['uid'=>$uid])}" style="color: #eac919"><span>上月订单</span></a>-->
 	</div>
 	<div class="main2">
 		<ul>
 		{foreach name="list" item="vo"}
 			<li>
-				<div class="time"><span style="background: <?php if($vo['o_state'] == 14){echo '#ff8a00';}elseif ($vo['o_state'] == 12) {echo '#14d212';}elseif ($vo['o_state'] == 3) {echo '#098eff';}elseif ($vo['o_state'] == 13) {echo '#ff0909';}?>">
+				<div class="time"><span style="background: <?php if($vo['o_state'] == 14){echo '#ff8a00';}elseif ($vo['o_state'] == 12) {echo '#14d212';}elseif ($vo['o_state'] == 3) {echo '#098eff';}elseif ($vo['o_state'] == 13) {echo '#999';}?>">
 					<?php if($vo['o_state'] == 14){echo '已成功';}elseif ($vo['o_state'] == 12) {echo '已付款';}elseif ($vo['o_state'] == 3) {echo '已结算';}elseif ($vo['o_state'] == 13) {echo '已失效';}?>
 				</span>下单时间：{$vo.o_creattime|date="Y-m-d H:i:s",###}&nbsp;&nbsp;</div>
 				<div class="pic"><img src="{$vo.o_goodsimg}" width="100%" height="100%"></div>

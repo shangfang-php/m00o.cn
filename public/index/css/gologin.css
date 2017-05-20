@@ -54,13 +54,21 @@ input{
     text-decoration: none;
     color: #fff;
 }
+
+.zc span a{display: block; position: relative; color: #fff}
+.zc  span a:before,   .zc  span a:after { content: ''; position: absolute; top: 52%; background: #fff;  width: 32%; height: 1px;}
+.zc  span a:before{   left: 3%;        }
+.zc  span a:after {right: 3%; }
+
+
 .formreg{
-    position:absolute;
+    
     top:15%;
     width:80%;
     height:43.1%;
     margin-left:10%;
     margin-right:10%;
+    position: absolute
 }
 .formreg .inputregs
 {
@@ -484,22 +492,12 @@ body:nth-of-type(1) .input_blocks input{
     width:50%;vertical-align: middle; position: static;
 }
 
-  .zc .zc_img1{
-       width:35%;height:2px;vertical-align: middle;
-    }
-     .zc .zc_img2{
-       width:35%;height:2px;vertical-align: middle;
-    }
+ 
      .zc a{
         vertical-align: middle;
      }
 @media screen and (max-width:640px) and (min-width:320px){
-    .zc .zc_img1{
-        width:33%;
-    }
-     .zc .zc_img2{
-        width:33%;
-    }
+   
    
 }
 

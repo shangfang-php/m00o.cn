@@ -52,10 +52,11 @@ function alert($msg,$url=''){
 	}
 	echo "</script>";
 }
-function tb(){
+function tb($time = 0){
 	//$year = date('Y',time());
 //	$month = date('m',time());
-    list($year, $month) =   explode('-', date('Y-m'));
+    $time   =   $time ? $time : time();
+    list($year, $month) =   explode('-', date('Y-m', $time));
 	return 'order_'.$year.'_'.$month.'_tb';
 }
 function prevtb(){
@@ -318,3 +319,31 @@ function getUserInfo($uid, $type = 1){
     return $res;
 }
 
+/**
+ * get_field_array()
+ * 获取二维数组中指定键对应值的数组集合
+ * @param mixed $field 指定键名或数组
+ * @param array $array 循环的二维数组
+ * @return array 返回二维数组
+ */
+function get_field_array($field, $array){
+    $return =   array();
+    if(is_array($array)){
+        if(is_array($field)){
+            foreach($field as $v){
+                $return[$v] =   array();
+            }
+        }
+        
+        foreach($array as $val){
+            if(is_array($field)){
+                foreach($field as $v){
+                    $return[$v][]   =   isset($val[$v]) ? $val[$v] : '';
+                }
+            }else{
+                $return[] = isset($val[$field]) ? $val[$field] : '';   
+            }
+        }
+    }
+    return array_filter($return); 
+}

@@ -322,13 +322,14 @@ class Index extends common
         }
         
         ##拼接sql条件
-        $where['a.o_creattime'] =   ['>=', $start_date];
-        if($end_date){
-            $where['a.o_creattime'] =   ['<=', $end_date];
+        if($start_date && $end_date){
+            $where['a.o_creattime'] =   ['between', [$start_date, $end_date]];
+        }else{
+            $where['a.o_creattime'] =   ['>=', $start_date];
         }
         $where['a.o_u_id']  =   $uid;
         ###拼接结束##
-        
+        //print_r($where);exit;
         $tb     =   tb($start_date);
         $ortb   =   ortb($start_date);
         $list   =   Db::name($tb)->alias('a')->join($ortb.' b','a.o_ordernum = b.or_o_ordernum and a.o_u_id=b.or_u_id', "LEFT")->order('a.o_creattime desc')->where($where)->paginate(5);
