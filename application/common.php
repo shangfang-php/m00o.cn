@@ -318,3 +318,5 @@ function getUserInfo($uid, $type = 1){
     return $res;
 }
 
+
+
