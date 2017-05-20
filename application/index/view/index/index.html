@@ -217,14 +217,19 @@
 				</div>
 				{/volist}
 			<div id="lload"></div>
-
+			<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
+				<input type="hidden" id="cid" value="0">
+				<input type="hidden" id="ii" >
+				<input type="hidden" id="p" value="">
+				<input type="hidden" id="zp" value="{$zp}">
+			</div>
 		</ul>
-	<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
+	<!--<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
 		<input type="hidden" id="cid" value="0">
 		<input type="hidden" id="ii" >
-		<input type="hidden" id="p" value="1">
+		<input type="hidden" id="p" value="">
 		<input type="hidden" id="zp" value="{$zp}">
-	</div>
+	</div>-->
 </div>
 <script>
 	function nav() {
@@ -235,9 +240,9 @@
 			if (w > height) {
 				$("#shareMoney").addClass("titleTap");
 			} else if (w <= 0) {
-				$("#shareMoney").removeClass("titleTap")
+				$("#shareMoney").removeClass("titleTap");
 			} else {
-				$("#shareMoney").removeClass("titleTap")
+				$("#shareMoney").removeClass("titleTap");
 			}
 		});
 	}
@@ -248,11 +253,12 @@
 		/*for (var i = 1; i < 12; i++) {document.getElementById('cnt_' + i).style.display = 'none';}document.getElementById('cnt_' + num).style.display = 'block';*/
 		//ajax操作数据
 		//点击分类则将默认显示的数据hidden
-		var zp = $('#zp').val();
+		//var zp = $('#zp').val();
+		var zp = {$zp};
 		$('#default').css('display','none');
 		$.ajax({
 				url: "{:url('index/ajaxdata')}",
-				data:{cid:num},
+				data:{cid:num,p:1},
 				type: 'get',
 				dataType: "json",
 				cache: false,
@@ -286,13 +292,13 @@
 									"</div><div class='h'></div>";*/
 							httml += "<div class='ls' > <div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/"+pp+".png'>"+obj.title+" </li> <li style='color:#999'> 原价：<a class='back'>"+obj.org_price+"元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>"+obj.price+"元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='"+obj.coupon_last/obj.coupon_total+"' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;"+obj.coupon_price+"元&nbsp;&nbsp;&nbsp;&nbsp;余"+obj.coupon_last+"张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\">分享文案</a>"+ "<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a> </div> <div class='h'> </div>";
 						});
-						httml += "<div id='lload'></div>";
+						httml += "<div id='lload'></div><div id='load' style='background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none'><input type='hidden' id='cid' value='0'> <input type='hidden' id='ii' > <input type='hidden' id='p' value=''> <input type='hidden' id='zp' value='"+zp+"'> </div>"
 						$('#ajaxdata').empty();
 						$('#ajaxdata').append(httml);
 
 						//修改分类ID
 						$('#cid').val(num);
-						$('#p').val(1);
+						$('#p').val(2);
 						animate();
 					} else {
 						alert('error');
@@ -481,7 +487,7 @@
 			var zp = $('#zp').val();
 			var p = $('#p').val();
 			if(p == ''){
-				p =2;
+				p = 2;
 			}
 			//alert(11);
 			$('#load').show();
@@ -518,7 +524,7 @@
 						});
 						$('#lload').append(httml);
 						$('#load').hide();
-						$('#p').val(data.page);
+						$('#p').val(data.page+1);
 						animate();
 					}else{
 						alert('error');
