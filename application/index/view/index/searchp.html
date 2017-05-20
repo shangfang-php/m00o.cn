@@ -23,18 +23,18 @@
 			<button type="submit" id="but"></button>
 		</form>
 	</div>
-	<div class="wrapper wrapper01" id="wrapper01">
-	<div class="scroller" style="width: 100%;overflow: hidden;">
+
+	
 	 <ul class="sai">
-		    <li><a href="javascript:void(0)" id="url1" onclick="changeUrl(1);"  >综合排序</a></li>
-		    <li><a href="javascript:void(0)" id="url2" onclick="changeUrl(2);">优惠券  </a></li>
-		    <li><a href="javascript:void(0)" onclick="changeUrl(3);" id="url3">价格 <img src="/index/images/up.png" class="up">
+		    <li><a  id="url1" onclick="changeUrl(1);"  >综合排序</a></li>
+		    <li><a  id="url2" onclick="changeUrl(2);">优惠券  </a></li>
+		    <li><a  id="url3"  onclick="changeUrl(3);" >价格 <img src="/index/images/up.png" class="up">
 				<img src="/index/images/low.png" class="low"></a></li>
-		    <li><a href="javascript:void(0)" id="url4" onclick="changeUrl(4);">销量</a></li>
+		    <li><a  id="url4" onclick="changeUrl(4);">销量</a></li>
 		    <div class="clear"></div>
 	    </ul>
-</div>
-	</div>
+
+
 	<div class="main3">
 		<ul>
 		{volist name='list' id='vo'}
@@ -46,15 +46,25 @@
 					<li style="color:#999">券后价：<span style="color:#333;font-size: 16px;">{$vo.price}元</span></li>
 					<!-- <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li>
 		 			<li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  -->
-		 			<li>
-		 			<div class="votebox" >
-                           	<dl class="barbox">
-	                        	<dd class="barline">
-		                          	<div w="{$vo.coupon_last/$vo.coupon_total}" style="width:0px;" class="charts">&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.sales_num}张</div>
-		                       </dd>
-	                         </dl>
-                    </div>
-		 			</li> 
+		 				<li>
+							<div class="shu">
+							<div class="votebox">
+								<dl class="barbox">
+									<dd class="barline">
+										<div w="{$vo.coupon_last/$vo.coupon_total}" style="width:0px;" class="charts">
+										</div>
+									</dd>
+								</dl>
+							</div>
+
+							
+
+							<div class="shuliang">
+								&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.coupon_last}张
+							</div>
+								
+							</div>
+						</li>
 				</div>
 			</div>
 			<div class='b'>				
@@ -128,17 +138,6 @@
 </html>
 <script src="/index/js/jquery.js" language="javascript"></script>
 <script type="text/javascript" src="/index/js/jquery.min.js">
-</script>
-<script type="text/javascript" src="/index/js/flexible.js">
-</script>
-<script type="text/javascript" src="/index/js/iscroll.js">
-</script>
-<script type="text/javascript" src="/index/js/navbarscroll.js">
-</script>
-<script type="text/javascript">
-	$(function() {
-		$('.wrapper').navbarscroll();
-	});
 </script>
 <script language="javascript">
 	function animate(){
