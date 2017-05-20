@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+	<meta content="yes" name="apple-mobile-web-app-capable">     
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+	<meta content="telephone=no" name="format-detection">
+    <title>数据</title>
+    <link rel="stylesheet" href="/index/css/style.css">
+
+    <style type="text/css">
+    body{background: #eee;height: auto}
+    </style>
+</head>
+<body>
+<div class="bgb">
+	<a href="javascript:;" onclick="window.history.go(-1);" id="back">
+	<img src="/index/images/qqqq.png" width="100%"></a>
+
+	<div class="day">
+	    <ul>
+            <li><a {if $type=='today'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'today'])}"{/if}>今日</a></li>
+			<li><a {if $type=='yestorday'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'yestorday'])}"{/if}>昨日</a></li>
+			<li><a {if $type=='month'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'month'])}"{/if}>本月</a></li>
+			<li><a {if $type=='lastmonth'} style="font-size:18px;color:#ff5500" {else} href="{:url('count/index', ['type'=>'lastmonth'])}"{/if}>上月</a></li>
+		</ul>
+	</div>
+	<div class="mynum">
+	    <p class="mm">我的数据</p>
+	    <div class="order">
+	        <a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color: #fff;"> <div class="enend">
+	        	<p><img src="/index/images/order.png" >&nbsp;我的订单</p>
+	        	  <span>{$mydata.orderNums}</span>
+	        </div>
+             </a>
+	        <div class="enend" style="background: #ffbf79">
+	        	 <p><img src="/index/images/income.png" >&nbsp;预估收入</p>
+	        	  <span>{$mydata.allMoney}</span>
+	        </div>
+	       
+	    </div>
+	</div>
+    
+    <div class="partnerData">
+       <p class="mm">合伙人数据({$agentNums}人)</p>
+       <div class="pabox">
+    
+         <div class="onono">
+              <span>{$orderCount.total}</span>
+         </div>
+         <div class="ofofo">
+             <span>{$orderCount.money}</span>
+         </div>
+       </div>
+    </div>
+
+    <div class="con1" style="padding-top: 7%;">
+    <form action="{:url('index/search')}" method="post" id="forms" style="    margin-bottom: 0%; position: relative; top: -13px;">
+      <input type="text" name="num" placeholder="搜索合伙人数据">
+      <button type="submit" id="but"></button>
+    </form>
+  </div>
+
+    {foreach $agentsDataCount as $val}
+    <div class="papapa" style="margin-top: 2%">
+        <a {if $val.u_leve ==2 }href="{:url('index/sanji')}"{/if}>
+            <p class="tip">
+                <img src="/index/images/{if $val.u_leve ==2 }erpa{else}sanpa{/if}.png" class="erimg">&nbsp;{if $val.u_leve ==2 }二级{else}三级{/if}合伙人({$val.u_username})
+                <img src="/index/images/dowww.png" class="dowww do1"/>
+                {if $val.u_leve ==2 } <img src="/index/images/more.png" class="uppp up1"/> {/if}
+            </p>
+        </a>
+        <div class="erpa">
+            <div class="erbox" style="text-align: left;border-bottom: none">
+                <img src="/index/images/hshu.png" >
+            </div>
+            <div class="erbox">
+                <span>{$val.nums}</span>
+                <p>订单数</p>
+            </div>
+            <div class="eshu"> <img src="/index/images/shushu.png" ></div>
+              <div class="erbox">
+                <span>{$val.money}</span>
+                <p>他的预估</p>
+            </div>
+             <div class="eshu"> <img src="/index/images/shushu.png" ></div>
+              <div class="erbox">
+                <span>{$val.agentMoney}</span>
+                <p>我的提成</p>
+            </div>
+        </div>
+    </div>
+    {/foreach}
+
+    <div class="qianshi">
+
+     <span>只展示前10名 其他请搜索</span>
+      
+    </div>
+
+
+  
+<script type="text/javascript" src="/index/js/jquery.min.js">
+</script>
+<script  type="text/javascript">
+// function fun(a){
+//   $(".on"+a).toggle();
+//   $(".up"+a).hide();
+//   $(".do"+a).show();
+// }
+// function fpp(b){
+//   $(".on"+b).toggle();
+//   $(".do"+b).hide();
+//   $(".up"+b).show();
+// }
+</script>
+
+
+</body>
+</html>
