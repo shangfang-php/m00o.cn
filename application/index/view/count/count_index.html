@@ -64,7 +64,7 @@
 
     {foreach $agentsDataCount as $uid=>$val}
     <div class="papapa" style="margin-top: 2%">
-        <a {if $val.u_leve ==2 }href="{:url('count/show_agent', ['agentId'=>$uid,'searchAgent'=>0, 'type'=>'today'])}"{/if}>
+        <a {if $val.u_leve ==2 }href="{:url('count/show_agent', ['agentId'=>$uid,'searchAgent'=>0, 'type'=>$type])}"{/if}>
             <p class="tip">
                 <img src="/index/images/{if $val.u_leve ==2 }erpa{else}sanpa{/if}.png" class="erimg">&nbsp;{if $val.u_leve ==2 }二级{else}三级{/if}合伙人({$val.u_username})
                 <img src="/index/images/dowww.png" class="dowww do1"/>
