@@ -22,6 +22,8 @@
             <a id="ff" href="{:url('index/index')}">
                 <img src="/index/images/qqqq.png" width="100%">
             </a>
+
+			<div class="topHeight" style="position: relative;">
             <div class="con1" id="con1">
                 <form action="{:url('index/searchp')}" method="get" id="forms">
                     <input type="text" name="name" placeholder="搜索商品关键字">
@@ -29,6 +31,7 @@
                     </button>
                 </form>
             </div>
+				</div>
             <ul class="sai">
                 <li >
                     <a id="url1" onclick="changeUrl(1);" >
@@ -106,7 +109,23 @@
 						$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
 					}
 				}
-            </script>
+				function nav() {
+					var height = 0;
+					height = $(".topHeight").height();
+					$(window).scroll(function() {
+						var w = $("body").scrollTop() || $(document).scrollTop(); //获取滚动值
+						if (w > height) {
+							$("#shareMoney").addClass("titleTap");
+						} else if (w <= 0) {
+							$("#shareMoney").removeClass("titleTap");
+						} else {
+							$("#shareMoney").removeClass("titleTap");
+						}
+					});
+				}
+				nav();
+
+			</script>
             <div class="main3">
                 <ul>
                     {volist name='list' id='vo'}
@@ -186,7 +205,7 @@
                             {$vv.t_nicname}
                         </p>
                         {/volist}
-                        <input type="hidden" name="mm1">
+                        <input type="hidden" name="mm1" id="mm1">
                         <input type="hidden" name="tkid" id='v'>
                         <input type="hidden" name="gid" id='vv'>
                         <input type="hidden" name="gname" id='vvv'>
@@ -293,7 +312,10 @@
     }
     function tj(pid, name) {
         $('#pid').val(pid);
-        $('#from').submit();
+		var mm1_arr = pid.split('_');
+		var mm1 = mm1_arr[1];
+		$('#mm1').val(mm1);
+        //$('#from').submit();
         $('.bott').animate({
             bottom: "-300px"
         });
