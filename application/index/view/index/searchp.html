@@ -8,6 +8,9 @@
             搜索结果
         </title>
         <link rel="stylesheet" href="/index/css/style.css">
+		<!--<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>-->
+<!--		<script src="/index/jquery-1.8.3/jquery.js" language="javascript"></script>
+		<script type="text/javascript" src="/index/jquery-1.8.3/jquery.min.js"></script>-->
         <style type="text/css">
             body{ background:#eee; }
         </style>
@@ -15,7 +18,8 @@
     
     <body>
         <div class="bgb">
-            <a id="ff" href="javascript:;" onclick="window.history.go(-1);">
+            <!--<a id="ff" href="javascript:;" onclick="window.history.go(-1);">-->
+            <a id="ff" href="{:url('index/index')}">
                 <img src="/index/images/qqqq.png" width="100%">
             </a>
             <div class="con1" id="con1">
@@ -26,24 +30,24 @@
                 </form>
             </div>
             <ul class="sai">
-                <li>
-                    <a id="url1" onclick="changeUrl(1);">
+                <li >
+                    <a id="url1" onclick="changeUrl(1);" >
                         综合排序
                     </a>
-                </li>
-                <li>
+                </li >
+                <li >
                     <a id="url2" onclick="changeUrl(2);">
                         优惠券
                     </a>
                 </li>
-                <li>
-                    <a id="url3" onclick="changeUrl(3);" style="display: block"> 
+                <li >
+                   <a id="url3" onclick="changeUrl(3);" >
                         价格
                         <img src="/index/images/up.png" class="up">
                         <img src="/index/images/low.png" class="low">
                     </a>
                 </li>
-                <li>
+                <li >
                     <a id="url4" onclick="changeUrl(4);">
                         销量
                     </a>
@@ -54,76 +58,54 @@
 
 
             <script  type="text/javascript" >
- function changeUrl(num) {
-        //alert(num);
-        var ordertype = '';
-        //var url = $("#url"+num);
-        var name = $("#names").val();
-        //alert(name);
-        if (num == 1) {
-            //alert(num);
-            //综合
-            if (name != '') {
-                //$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+"))}");
-                $("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name);
-            } else {
-                $("#url" + num).attr('href', "{:url('index/searchp')}");
-            }
-        }
-        if (num == 2) {
-            //alert(num);
-            //优惠券
-            var ordertype = 'Quan_price';
-            if (name != '') {
-                //$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+",'type'=>"+ordertype+"))}");
-                $("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
-            } else {
-                //$("#url"+num).attr('href',"{:url('index/searchp',array('type'=>"+ordertype+"))}");
-                $("#url" + num).attr('href', "{:url('index/searchp')}?type=" + ordertype);
-            }
+				window.onload = function () {
+					//判断加载的type 给LI添加样式
+					var type = $('#type').val();
+					//alert(typeof(type));
+					if(type == ''){
+						//$('#url1').parentElement.className = 'cur';
+						$('#url1').css('color','#f5a631');
+					}
+					if(type == 'Quan_price'){
+						$('#url2').css('color','#f5a631');
+					}
+					if(type == 'Price'){
+						$('#url3').css('color','#f5a631');
+					}
+					if(type == 'Sales_num'){
+						//$('#url4').parent().addClass('cur');
+						$('#url4').css('color','#f5a631');
+					}
+				}
 
-        }
-        if (num == 3) {
-            //价格 toggle
-            var ordertype = 'Price';
-            $("#url" + num).toggle(function() {
-                if (name != '') {
-                    //$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+",'type'=>"+ordertype+",'order'=>'desc'))}");
-                    $("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype + "&order=asc");
-                } else {
-                    //$("#url"+num).attr('href',"{:url('index/searchp',array('type'=>"+ordertype+",'order'=>'desc'))}");
-                    $("#url" + num).attr('href', "{:url('index/searchp')}?&type=" + ordertype + "&order=asc");
-                }
-
-            },
-            function() {
-                if (name != '') {
-                    //$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+",'type'=>"+ordertype+",'order'=>'asc'))}");
-                    $("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype + "&order=desc");
-                } else {
-                    //$("#url"+num).attr('href',"{:url('index/searchp',array('type'=>"+ordertype+",'order'=>'asc'))}");
-                    $("#url" + num).attr('href', "{:url('index/searchp')}?type=" + ordertype + "&order=desc");
-                }
-
-            });
-        }
-        if (num == 4) {
-            //销量
-            var ordertype = 'Sales_num';
-            if (name != '') {
-                //$("#url"+num).attr('href',"{:url('index/searchp',array('name'=>"+name+",'type'=>"+ordertype+"))}");
-                $("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
-                //alert("{:url('index/searchp')}?name="+name+"&type="+ordertype);
-            } else {
-                //$("#url"+num).attr('href',"{:url('index/searchp',array('type'=>"+ordertype+"))}");
-                $("#url" + num).attr('href', "{:url('index/searchp')}?type=" + ordertype);
-                //alert("{:url('index/searchp')}?type="+ordertype);
-            }
-
-        }
-       
-    }
-
+			 function changeUrl(num) {
+					var name = $("#names").val();
+					if (num == 1) {
+						//综合
+						$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name);
+					}
+					if (num == 2) {
+						//alert(num);
+						//优惠券
+						var ordertype = 'Quan_price';
+						$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
+					}
+					if (num == 3) {
+						//价格 toggle
+						var ordertype = 'Price';
+						var order = $('#order').val();
+						if (order == 'asc') {
+							$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype + "&order=desc");
+						} else {
+							$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype + "&order=asc");
+						}
+					}
+					if (num == 4) {
+						//销量
+						var ordertype = 'Sales_num';
+						$("#url" + num).attr('href', "{:url('index/searchp')}?name=" + name + "&type=" + ordertype);
+					}
+				}
             </script>
             <div class="main3">
                 <ul>
@@ -137,13 +119,13 @@
                                 <img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
                                 {$vo.title}
                             </li>
-                            <li style="color:#999">
+                            <li style="color:#5b5b5b">
                                 原价：
                                 <a class="back">
                                     {$vo.org_price}元
                                 </a>
                             </li>
-                            <li style="color:#999">
+                            <li style="color:#5b5b5b">
                                 券后价：
                                 <span style="color:#333;font-size: 16px;">
                                     {$vo.price}元
@@ -249,8 +231,6 @@
     </body>
 
 </html>
-<script src="/index/js/jquery.js" language="javascript"></script>
-<script type="text/javascript" src="/index/js/jquery.min.js"></script>
 <script language="javascript">
     function animate() {
         $(".charts").each(function(i, item) {
@@ -264,6 +244,8 @@
     animate();
    
 </script>
+<script src="/index/js/jquery.js" language="javascript"></script>
+<script type="text/javascript" src="/index/js/jquery.min.js"></script>
 <script type="text/javascript">
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
         $('.btm').css('display', 'block');
@@ -384,14 +366,14 @@
             };
         });
     });
-    var d = document.getElementById("con1").offsetHeight;
-    console.info(d);
-    window.addEventListener("scroll",
-    function(event) {
+   /* var d = document.getElementById("con1").offsetHeight;
+    console.info(d);*/
+    window.addEventListener("scroll", function(event) {
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         console.log(scrollTop);
         if (document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop) {
-            var name = $('#names').val();
+
+			var name = $('#names').val();
             var zp = {
                 $zpzh
             };
@@ -416,7 +398,7 @@
                 cache: false,
                 success: function(data, state) {
                     if (state == 'success') {
-                        /*alert(data);*/
+
                         var httml = '';
                         $.each(data.datas,
                         function(idx, obj) {
@@ -436,7 +418,6 @@
 						    "</div><div class='h'></div>";*/
 
                             httml += "<div class='ls' > <div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/" + pp + ".png'>" + obj.title + " </li> <li style='color:#999'> 原价：<a class='back'>" + obj.org_price + "元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>" + obj.price + "元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='" + obj.coupon_last / obj.coupon_total + "' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;" + obj.coupon_price + "元&nbsp;&nbsp;&nbsp;&nbsp;余<span >" + obj.coupon_last + "</span>张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a> </div> <div class='h'> </div>";
-
                             /*<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a>*/
                         });
                         $('#lload').append(httml);
