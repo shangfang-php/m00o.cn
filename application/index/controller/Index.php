@@ -621,6 +621,7 @@ class Index extends common
         $money  =   getUserTxBalance($uid, $user['u_u_idss'], $user, $u);
         $data['money']  =   $money;
 		
+        $data['taokeInfo'] = $u;
 		$this->assign($data);
 		return $this->fetch();
 	}
