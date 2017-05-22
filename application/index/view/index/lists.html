@@ -26,15 +26,15 @@
 	<div class="tab">
         {if $type == 'today'}
             <span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;">今日订单</span>
-            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'yestorday'])}" style="color: #eac919"><span>昨日订单</span></a>
+            <a href="{:url('index/'.$action,['uid'=>$Think.session.usid, 'type'=>'yestorday'])}" style="color: #eac919"><span>昨日订单</span></a>
         {elseif $type =='yestorday'}
-            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'today'])}" style="color: #eac919"><span>今日订单</span></a>
+            <a href="{:url('index/'.$action,['uid'=>$Think.session.usid, 'type'=>'today'])}" style="color: #eac919"><span>今日订单</span></a>
             <span class="on" style="    border-top-right-radius: 5px;    border-bottom-right-radius: 5px;">昨日订单</a></span>
         {elseif $type == 'month'}
             <span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;">本月订单</span>
-            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}" style="color: #eac919"><span>上月订单</span></a>
+            <a href="{:url('index/'.$action,['uid'=>$Think.session.usid, 'type'=>'lastmonth'])}" style="color: #eac919"><span>上月订单</span></a>
         {else}
-            <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>'month'])}" style="color: #eac919"><span>本月订单</span></a>
+            <a href="{:url('index/'.$action,['uid'=>$Think.session.usid, 'type'=>'month'])}" style="color: #eac919"><span>本月订单</span></a>
             <span class="on" style="    border-top-right-radius: 5px;    border-bottom-right-radius: 5px;">上月订单</a></span>
         {/if}
 		<!--<span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;"><?php if(session('utype') == 1) echo '今日付款';else echo '本月'; ?>订单</span>

@@ -11,6 +11,9 @@
 
     <style type="text/css">
     body{background: #eee;height: auto}
+    .onono{color:black}
+    .onono:visited{color:black}
+    .onono:hover{color:black}
     </style>
 </head>
 <body>
@@ -29,7 +32,7 @@
 	<div class="mynum">
 	    <p class="mm">我的数据</p>
 	    <div class="order">
-	        <a href="{:url('index/listss',['uid'=>$Think.session.usid])}" style="color: #fff;"> <div class="enend">
+	        <a href="{:url('index/order_lists',['uid'=>$Think.session.usid, 'type'=>$type])}" style="color: #fff;"> <div class="enend">
 	        	<p><img src="/index/images/order.png" >&nbsp;我的订单</p>
 	        	  <span>{$mydata.orderNums}</span>
 	        </div>
@@ -45,10 +48,12 @@
     <div class="partnerData">
        <p class="mm">合伙人数据({$agentNums}人)</p>
        <div class="pabox">
-    
-         <div class="onono">
-              <span>{$orderCount.total}</span>
-         </div>
+        
+         <a href="{:url('index/show_agent_order',['type'=>$type])}">
+             <div class="onono">
+                  <span>{$orderCount.total}</span>
+             </div>
+         </a>
          <div class="ofofo">
              <span>{$orderCount.money}</span>
          </div>

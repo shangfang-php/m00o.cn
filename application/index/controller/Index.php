@@ -334,9 +334,10 @@ class Index extends common
         $ortb   =   ortb($start_date);
         $list   =   Db::name($tb)->alias('a')->join($ortb.' b','a.o_ordernum = b.or_o_ordernum and a.o_u_id=b.or_u_id', "LEFT")->order('a.o_creattime desc')->where($where)->paginate(5);
     	$data = [
-    		'list' => $list,
-    		'uid' => $uid,
-            'type'=> $type,
+    		'list'    => $list,
+    		'uid'     => $uid,
+            'type'    => $type,
+            'action'  => 'order_lists'
     		];
         /*
         
@@ -387,9 +388,71 @@ class Index extends common
 		$this->assign($data);
 		return $this->fetch();
 	}
-	//本月代理
-	public function listss()
+	/**
+	 * Index::listss()
+	 * 展示下级所有代理订单信息
+	 * @return
+	 */
+	public function show_agent_order()
 	{
+        $type   =   input('type');
+        $uid    =   session('usid');
+        
+        $date   =   date('Y-m-d');
+        switch($type){
+            case 'today':
+                $start_date =   strtotime($date); ##当天0点
+                $end_date   =   '';
+                break;
+            case 'yestorday':
+                $start_date =   strtotime(date('Y-m-d', strtotime('-1 day'))); ##前一天0点
+                $end_date   =   strtotime($date) - 1; ##前一天23：59：59
+                break;
+            case 'month':
+                $start_date =   strtotime(date('Y-m')); ##当月1号0点
+                $end_date   =   '';
+                break;
+            case 'lastmonth':
+                $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
+                $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
+                break;
+            default:
+                 alert('类型非法', url('index'));
+        }
+        
+        $childAgents    =   getUserChildAgents($uid);
+        if($childAgents){
+            $agentIds   =   array();
+            foreach($childAgents as $val){
+                $agentIds   =   array_merge($agentIds, $val);
+            }
+            unset($childAgents);
+            
+            ##拼接sql条件
+            if($start_date && $end_date){
+                $where['a.o_creattime'] =   ['between', [$start_date, $end_date]];
+            }else{
+                $where['a.o_creattime'] =   ['>=', $start_date];
+            }
+            $where['a.o_u_id']  =   ['in', $agentIds];
+            ###拼接结束##
+            $tb     =   tb($start_date);
+            $ortb   =   ortb($start_date);
+            $list   =   Db::name($tb)->alias('a')->join($ortb.' b','a.o_ordernum = b.or_o_ordernum and b.or_u_id='.$uid, "LEFT")->where($where)->order('or_o_creattime desc')->paginate(10);
+        }else{
+            $list   =   '';
+        }
+        
+    	$data = [
+    		'list'    => $list,
+    		'uid'     => $uid,
+            'type'    => $type,
+            'action'  => 'show_agent_order'
+    		];
+        $this->assign($data);
+		return $this->fetch('lists');
+       
+       
 		$day = time();
 		$day1 = strtotime(date("Y-m-d"));
 		$ortb = ortb(time());
@@ -549,63 +612,14 @@ class Index extends common
 		if($user['u_leve'] == 0){
 			alert('管理员不能提现',url('index/my',['uid'=>$uid]));
 		}
-
-		if($u['u_type'] == 1 || $u['u_type'] == 0){
-			$data = [
-				'money' => $user['u_money'],
-				'username' => $user['u_username'],
-				'uid' => $user['u_id'],
-			];
-		}else if($u['u_type'] == 2){
-			$d = date('d',time());
-			if($d < 21){
-				//alert('21号开始提现',url('index/my',array('uid'=>$user['u_id'])));
-				$m = date('Y-m',time());
-				$mm = date('Y-m',strtotime("last month"));
-				//echo $m;exit;
-				$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-				$ff = Db::name('income_tb')->where(array('i_y_m'=>$mm,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-
-				$data = [
+        
+        $data = [
 					'username' => $user['u_username'],
 					'uid' => $user['u_id'],
 				];
-				if($f){
-					$fm = $f['i_money'];
-				}else{
-					$fm = 0;
-				}
-				if($ff){
-					$ffm = $ff['i_money'];
-				}else{
-					$ffm = 0;
-				}
-
-				//$data['money'] = $user['u_money'] - $fm -$ffm;
-				$data['money'] = bcsub($user['u_money'], bcadd($fm, $ffm, 2), 2);
-				if($data['money'] < 0){
-					$data['money'] = 0;
-				}
-				//echo $data['money'];exit;
-			}else{
-				$m = date('Y-m',time());
-				$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-				$data = [
-					'username' => $user['u_username'],
-					'uid' => $user['u_id'],
-				];
-				if($f){
-					//$data['money'] = $user['u_money'] - $f['i_money'];
-					$data['money'] = bcsub($user['u_money'], $f['i_money'], 2);
-					if($data['money'] < 0){
-						$data['money'] = 0;
-					}
-				}else{
-					$data['money'] = $user['u_money'];
-				}
-				//dump($data);exit;
-			}
-		}
+        $money  =   getUserTxBalance($uid, $user['u_u_idss'], $user, $u);
+        $data['money']  =   $money;
+		
 		$this->assign($data);
 		return $this->fetch();
 	}
@@ -622,52 +636,9 @@ class Index extends common
 		}
 		$user = Db::name('user_tb')->where(['u_id'=>$uid])->find();
 		$u = Db::name('user_tb')->where('u_id',$user['u_u_idss'])->find();
-		if($u['u_type'] == 1 || $u['u_type'] == 0){
-			$money = $user['u_money'];
-		}else if($u['u_type'] == 2){
-			$d = date('d',time());
-			if($d<21){
-				$m = date('Y-m',time());
-				$mm = date('Y-m',strtotime("last month"));
-				//echo $m;exit;
-				$f = db('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-				$ff = db('income_tb')->where(array('i_y_m'=>$mm,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-				$data = [
-					'username' => $user['u_username'],
-					'uid' => $user['u_id'],
-				];
-				if($f){
-					$fm = $f['i_money'];
-				}else{
-					$fm = 0;
-				}
-				if($ff){
-					$ffm = $ff['i_money'];
-				}else{
-					$ffm = 0;
-				}
-
-				$data['money'] = $user['u_money'] - $fm -$ffm;
-				if($data['money'] < 0){
-					$data['money'] = 0;
-				}
-				$money = $data['money'];
-			}else{
-				$m = date('Y-m',time());
-				$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$user['u_id'],'i_idss'=>$user['u_u_idss']))->find();
-				$data = [
-					'username' => $user['u_username'],
-					'uid' => $user['u_id'],
-				];
-				if($f){
-					$data['money'] = $user['u_money'] - $f['i_money'];
-					if($data['money'] < 0){
-						$data['money'] = 0;
-					}
-				}
-				$money = $data['money'];
-			}
-		}
+		
+        $money  =   getUserTxBalance($uid, $user['u_u_idss'], $user, $u); ##获取可提现余额
+        
 		if($txmoney > $money){
 			alert('你没那么多钱',url('index/money',['uid'=>$uid]));
 		}else{
