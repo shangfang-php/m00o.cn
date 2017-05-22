@@ -198,7 +198,9 @@
                         <input type="hidden" name="gid" id='vv'>
                         <input type="hidden" name="gname" id='vvv'>
                         <input type="hidden" name="imgurl" id='im'>
-                        <input type="hidden" name="pid" id='pid'>
+                        <!--<input type="hidden" name="pid" id='pid'>-->
+                        <input type="hidden" name="pid" id='pid'
+                               value="{if condition='$len' eq 0}0{else/}mm_{$t[0]['t_mm1']}}_{$t[0]['t_mm1']}}_{$t[0]['t_mm1']}{/if}">
                         <input type="hidden" name="zj" id='zj'>
                         <input type="hidden" name="qj" id='qj'>
                         <input type="hidden" name="qhj" id='qhj'>
@@ -294,8 +296,7 @@
         }
 //判断$t是否有多个推广位 2017-5-22 add start
         if(len == 1){
-            var pid = "mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$t[0]['t_mm3']}";
-            $('#pid').val(pid);
+            var pid = $('#pid').val();
             var mm1_arr = pid.split('_');
             $('#mm1').val(mm1_arr[1]);
             $('#from').submit();
