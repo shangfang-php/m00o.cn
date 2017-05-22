@@ -8,6 +8,7 @@
 	<meta content="yes" name="apple-mobile-web-app-capable">
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
+	<meta name="msapplication-tap-highlight" content="no">
 	<link rel="stylesheet" href="/index/css/style.css">
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js">
 	</script>
@@ -17,12 +18,18 @@
 	<style type="text/css">
 		body{background:#eee;}
 		.cnt{display:none;}
+
 	</style>
 </head>
 
 <body>
-<!-- <a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:10px;bottom:30px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a> -->
-<!-- <a href="{:url('index/index')}"><div class="nav" id="nav"><img src="/index/images/banner.png" width="100%"></div></a> -->
+<div  id="huacontainer" style="width:100%;">
+<!-- 
+  <div style="height:60px; line-height:60px; text-align:center; width:100%; ">
+            释放即可刷新...
+        </div>  -->
+
+
 <div class="topHeight" style="position: relative;">
 	<div class="conkey">
 		<a href="{:url('index/rank',['uid'=>$Think.session.usid])}">
@@ -177,13 +184,13 @@
 							<img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
 							{$vo.title}
 						</li>
-						<li style="color:#999">
+						<li style="color:#5b5b5b">
 							原价：
 							<a class="back">
 								{$vo.org_price}元
 							</a>
 						</li>
-						<li style="color:#999">
+						<li style="color:#5b5b5b">
 							券后价：
                                 <span style="color:#333;font-size: 16px;">
                                     {$vo.price}元
@@ -191,26 +198,44 @@
 						</li>
 						<!-- &lt;!&ndash; <li>优惠券：<a class="rr">{$vo.coupon_price}元</a></li> <li>优惠券剩余：<a class="rr">{$vo.sales_num}张</a></li>  &ndash;&gt; -->
 						<li>
+						<div class="shu">
 							<div class="votebox">
 								<dl class="barbox">
 									<dd class="barline">
-										<div w="{$vo.coupon_last/$vo.coupon_total}" style="width:0px;" class="charts">&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.coupon_last}张
+										<div w="{$vo.coupon_last/$vo.coupon_total}" style="width:0px;" class="charts">
 										</div>
 									</dd>
 								</dl>
+							</div>
+							<div class="shuliang">
+								&nbsp;&nbsp;券&nbsp;|&nbsp;{$vo.coupon_price}元&nbsp;&nbsp;&nbsp;&nbsp;余{$vo.coupon_last}张
+							</div>
+								
 							</div>
 						</li>
 					</div>
 				</div>
 				<div class='b'>
-					<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
-					   style="color:#f04343">
-						分享文案
-					</a>
-					<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
-					   style="display:block;">
-						发送到微信群
-					</a>
+					<if condition="count($t) gt 1">
+						<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+						   style="color:#f04343">
+							分享文案
+						</a>
+						<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
+						   style="display:block;">
+							发送到微信群
+						</a>
+						<else/>
+						<a class="a1" href="javascript:;" onclick="tcajax('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+						   style="color:#f04343">
+							分享文案
+						</a>
+						<a class="a2" href="javascript:;" onclick="tccajax('{$vo.dtkid}','{$vo.num_iid}')"
+						   style="display:block;">
+							发送到微信群
+						</a>
+					</if>
+
 				</div>
 
 				<div class='h'>
@@ -355,6 +380,9 @@
 	</div>
 	<p class="t" id="fs" onclick="tjj()"><!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->发&nbsp;送</p>
 </div>
+</div>
+
+
 </div>
 </body>
 
@@ -533,4 +561,143 @@
 			});
 		}
 	});
+
+	function proMove() {
+	var agent = navigator.userAgent.toLowerCase(); //检测是否是ios
+	var iLastTouch = null; //缓存上一次tap的时间
+	if(agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0) {
+		document.body.addEventListener('touchend', function(event) {
+			var iNow = new Date().getTime();
+
+			iLastTouch = iLastTouch || iNow + 1 /** 第一次时将iLastTouch设为当前时间+1 */ ;
+			var delta = iNow - iLastTouch;
+			if(delta < 500 && delta > 0) {
+				event.preventDefault();
+				return false;
+			}
+			iLastTouch = iNow;
+		}, false);
+	}
+}
 </script>
+<!-- 
+<script type="text/javascript" >
+/*
+    *obj--滑动对象
+    *offset--滑动距离（当滑动距离大于等于offset时将调用callback）
+    *callback--滑动完成后的回调函数
+    */
+    var slide = function (obj, offset, callback) {
+        var start,
+            end,
+            isLock = false,//是否锁定整个操作
+            isCanDo = false,//是否移动滑块
+            isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
+            hasTouch = 'ontouchstart' in window && !isTouchPad;
+
+        //将对象转换为jquery的对象
+        obj = $(obj);
+
+        var objparent = obj.parent();
+
+        /*操作方法*/
+        var fn =
+            {
+                //移动容器
+                translate: function (diff) {
+                    obj.css({
+                        "-webkit-transform": "translate(0," + diff + "px)",
+                        "transform": "translate(0," + diff + "px)"
+                    });
+                },
+                //设置效果时间
+                setTranslition: function (time) {
+                    obj.css({
+                        "-webkit-transition": "all " + time + "s",
+                        "transition": "all " + time + "s"
+                    });
+                },
+                //返回到初始位置
+                back: function () {
+                    fn.translate(0 - offset);
+                    //标识操作完成
+                    isLock = false;
+                }
+            };
+
+        //滑动开始
+        obj.bind("touchstart", function (e) {
+
+            if (objparent.scrollTop() <= 0 && !isLock) {
+                var even = typeof event == "undefined" ? e : event;
+                //标识操作进行中
+                isLock = true;
+                isCanDo = true;
+                //保存当前鼠标Y坐标
+                start = hasTouch ? even.touches[0].pageY : even.pageY;
+                //消除滑块动画时间
+                fn.setTranslition(0);
+            }
+        });
+
+        //滑动中
+        obj.bind("touchmove", function (e) {
+
+            if (objparent.scrollTop() <= 0 && isCanDo) {
+
+                var even = typeof event == "undefined" ? e : event;
+
+                //保存当前鼠标Y坐标
+                end = hasTouch ? even.touches[0].pageY : even.pageY;
+
+                if (start < end) {
+                    even.preventDefault();
+                    //消除滑块动画时间
+                    fn.setTranslition(0);
+                    //移动滑块
+                    fn.translate(end - start - offset);
+                }
+
+            }
+        });
+
+
+        //滑动结束
+        obj.bind("touchend", function (e) {
+            if (isCanDo) {
+                isCanDo = false;
+                //判断滑动距离是否大于等于指定值
+                if (end - start >= offset) {
+                    //设置滑块回弹时间
+                    fn.setTranslition(1);
+                    //保留提示部分
+                    fn.translate(0);
+
+                    //执行回调函数
+                    if (typeof callback == "function") {
+                        callback.call(fn, e);
+                    }
+                } else {
+                    //返回初始状态
+                    fn.back();
+                }
+            }
+        });
+    }
+
+
+    $(function () {
+
+        slide("#huacontainer", 61, function (e) {
+            var that = this;
+
+            setTimeout(function () {
+                that.back.call();
+            }, 1000);
+
+        });
+    });
+
+
+</script>
+ -->
