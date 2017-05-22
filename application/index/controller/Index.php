@@ -33,7 +33,8 @@ class Index extends common
 			'click'         => 0,//点击数
 			'level'         => 1,
 			't'				=>$t,
-			'zp'			=>$uu['u_zpzh'],
+			/*'zp'			=>$uu['u_zpzh'],*/
+			'uu'			=>$uu,
 			'list'			=>$list,
 			'idss'			=>$userInfo['u_u_idss'],
 			'uid'			=>$uid,
