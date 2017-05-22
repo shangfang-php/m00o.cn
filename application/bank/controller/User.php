@@ -670,6 +670,32 @@ class User extends common
 
     }
 
-
+    /**
+     * User::agent_login()
+     * 一键跳转到代理商界面
+     * @return void
+     */
+    function agent_login(){
+        $code       =   200;
+        $codeMsg    =   '成功';
+        $agentId    =   input('post.agentId');
+        $taokeId    =   session('taokeid');
+        $agentInfo  =   getUserInfo($agentId);
+        if($taokeId == $agentInfo['u_u_idss']){
+            cookie(['expire'=>86400]);
+            cookie('usid', $agentInfo['u_id']);
+            cookie('uname', $agentInfo['u_username']);
+            cookie('level', $agentInfo['u_leve']);
+            
+            session('uname', $agentInfo['u_username']);
+            session('usid', $agentInfo['u_id']);
+            session('level', $agentInfo['u_leve']);
+            session('u_pass', $agentInfo['u_pass']);
+        }else{
+            $code   =   301;
+            $codeMsg=   '非法操作！';
+        }
+        return json(array('code'=>$code, 'codeMsg'=>$codeMsg));
+    }
     
 }

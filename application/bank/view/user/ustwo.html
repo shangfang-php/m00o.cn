@@ -39,6 +39,9 @@
                               <label>上级用户</label>
                               {$su.u_username}
                           </div>
+                          <div class="info-group">
+                              <button class="btn btn-primary" onclick="agentLogin('{$u.u_id}')" >一键跳转到用户界面</button>
+                          </div>
                       </div>
                   </div>
               </div>
@@ -285,4 +288,18 @@
             });
         }
     });
+    
+    /** 跳转到代理商界面**/
+    function agentLogin(agentId){
+        var data    =   {agentId:agentId};
+        var url     =   "{:url('user/agent_login')}";
+        $.post(url, data, function(msg){
+            console.log(msg);
+            if(msg.code == 200){
+                window.open("{:url('index/login/index')}")
+            }else{
+                alert(msg.codeMsg);
+            }
+        }, "json");
+    }
 </script>
