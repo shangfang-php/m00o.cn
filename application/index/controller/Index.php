@@ -440,7 +440,7 @@ class Index extends common
             $ortb   =   ortb($start_date);
             $list   =   Db::name($tb)->alias('a')->join($ortb.' b','a.o_ordernum = b.or_o_ordernum and b.or_u_id='.$uid, "LEFT")->where($where)->order('or_o_creattime desc')->paginate(10);
         }else{
-            $list   =   '';
+            $list   =   array();
         }
         
     	$data = [
