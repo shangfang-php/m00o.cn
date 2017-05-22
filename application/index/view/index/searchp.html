@@ -61,9 +61,6 @@
 
 
             <script  type="text/javascript" >
-
-
-
 				window.onload = function () {
 					//判断加载的type 给LI添加样式
 					var type = $('#type').val();
@@ -181,6 +178,7 @@
                     <input type="hidden" id="order" value="{$order}">
                     <input type="hidden" id="p" value="">
                 </ul>
+                <input type="hidden" id="len" value="{$len}">
             </div>
             <div class="btm" onclick="bgb()">
             </div>
@@ -274,11 +272,11 @@
     </script>
 <script type="text/javascript">
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
-        $('.btm').css('display', 'block');
-        $('.bott').animate({
-            bottom: "0px"
-        },
-        '300');
+        var dizp = $('#dlzp').val();
+        var len = $('#len').val();
+        if(dizp != 1){
+            alert('未开启');return false;
+        }
         $('#v').val(tkid);
         $('#vv').val(gid);
         $('#vvv').val(gname);
@@ -293,13 +291,27 @@
         } else {
             $('#jihua_type').val(jihua_type);
         }
-
-        $('#ff').hide();
-        /*$('#from p input').attr('name','');*/
-        $('body,html').css({
-            'height': 'auto',
-            'overflow': 'hidden'
-        });
+//判断$t是否有多个推广位 2017-5-22 add start
+        if(len == 1){
+            var pid = "mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$t[0]['t_mm3']}";
+            $('#pid').val(pid);
+            var mm1_arr = pid.split('_');
+            $('#mm1').val(mm1_arr[1]);
+            $('#from').submit();
+            //return false;//2017-5-22 add end
+        }else{
+            $('.btm').css('display', 'block');
+            $('.bott').animate({
+                        bottom: "0px"
+                    },
+                    '300');
+            $('#ff').hide();
+            /*$('#from p input').attr('name','');*/
+            $('body,html').css({
+                'height': 'auto',
+                'overflow': 'hidden'
+            });
+        }
     }
     function bgb() {
         $('.bott').animate({
@@ -335,19 +347,31 @@
         });
     }
     function tcc(tkid, gid) {
-        $('.btm').css('display', 'block');
-        $('.bottt').animate({
-            bottom: "0px"
-        },
-        '300');
+        var dizp = $('#dlzp').val();
+        var len = $('#len').val();
+        if(dizp != 1){
+            alert('未开启');return false;
+        }
         $('#v1').val(tkid);
         $('#vv1').val(gid);
-        $('#ff').hide();
-        $('#fromm p input').attr('name', '');
-        $('body,html').css({
-            'height': 'auto',
-            'overflow': 'hidden'
-        });
+        if(len == 1){
+            //自动勾选name=data[]值 直接提交form
+            $('.wxdata').attr('name','data[]');
+            $('#fromm').submit();
+            //return false;//2017-5-22 add end
+        }else{
+            $('#ff').hide();
+            $('#fromm p input').attr('name', '');
+            $('.btm').css('display', 'block');
+            $('.bottt').animate({
+                        bottom: "0px"
+                    },
+                    '300');
+            $('body,html').css({
+                'height': 'auto',
+                'overflow': 'hidden'
+            });
+        }
     }
     function tjj() {
         var l = $('#fromm p input[name="data[]"]').length;
@@ -431,7 +455,7 @@
 							if(zp == 1){
 								zzp = 'none';
 							}
-							httml += "<div class='ls' > <div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/" + pp + ".png'>" + obj.title + " </li> <li style='color:#999'> 原价：<a class='back'>" + obj.org_price + "元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>" + obj.price + "元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='" + obj.coupon_last / obj.coupon_total + "' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;" + obj.coupon_price + "元&nbsp;&nbsp;&nbsp;&nbsp;余<span >" + obj.coupon_last + "</span>张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\">分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a> </div> <div class='h'> </div>";
+							httml += "<div class='ls' > <div class='pic'><img src='" + obj.pic + "' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/" + pp + ".png'>" + obj.title + " </li> <li style='color:#999'> 原价：<a class='back'>" + obj.org_price + "元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>" + obj.price + "元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='" + obj.coupon_last / obj.coupon_total + "' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;" + obj.coupon_price + "元&nbsp;&nbsp;&nbsp;&nbsp;余<span >" + obj.coupon_last + "</span>张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " + "<a class='a1' href='javascript:;' onclick=\"tc('" + obj.dtkid + "','" + obj.num_iid + "','" + obj.title + "','" + obj.pic + "','" + obj.org_price + "','" + obj.coupon_price + "','" + obj.price + "','" + obj.num_iid + "','" + obj.jihua_type + "','" + obj.coupon_id + "')\" style='color:#f04343'>分享文案</a>" + "<a class='a2' href='javascript:;' onclick=\"tcc('" + obj.dtkid + "','" + obj.num_iid + "')\" style='display:" + zzp + "'>发送到微信群</a> </div> <div class='h'> </div>";
 						});
 						$('#lload').append(httml);
 						$('#load').hide();
@@ -444,10 +468,5 @@
 			});
 		}
 	});
-
-    //2017-5-22 添加 BY JANE
-    function tcajax(tkid,gid,gname,imgurl,zj,qj,qhj,num_iid,jihua_type,coupon_id){
-
-    }
     
 </script>
