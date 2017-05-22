@@ -810,6 +810,7 @@ class Index extends common
 					'uid'=>$t[0]['t_u_id'],
 					'name'=>$name,
 					'zpzh'=>$uu['u_zpzh'],
+					'dlzp'=>$uu['u_dlzp'],
 					'type'=>$type,
 					'order'=>$order
 				];
