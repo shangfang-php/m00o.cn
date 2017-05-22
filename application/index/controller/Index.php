@@ -32,12 +32,11 @@ class Index extends common
 			'yesmonthvalue' => 0,//本月预估
 			'click'         => 0,//点击数
 			'level'         => 1,
-			'list'=>array(),
-			't'=>$t,
-			'zp'=>$uu['u_zpzh'],
-			'list'=>$list,
-			'idss'=>$userInfo['u_u_idss'],
-			'uid'=>$uid,
+			't'				=>$t,
+			'zp'			=>$uu['u_zpzh'],
+			'list'			=>$list,
+			'idss'			=>$userInfo['u_u_idss'],
+			'uid'			=>$uid,
 		];
 		//print_r($data);exit;
 		$this->assign($data);
