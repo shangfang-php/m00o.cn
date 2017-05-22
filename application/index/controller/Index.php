@@ -805,10 +805,12 @@ class Index extends common
 				$data = [
 					'list'=>$zz,
 					't'=>$t,
+					'len'=>count($t),
 					'idss'=>$t[0]['u_u_idss'],
 					'uid'=>$t[0]['t_u_id'],
 					'name'=>$name,
 					'zpzh'=>$uu['u_zpzh'],
+					'dlzp'=>$uu['u_dlzp'],
 					'type'=>$type,
 					'order'=>$order
 				];
