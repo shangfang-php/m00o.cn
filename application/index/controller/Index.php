@@ -38,6 +38,7 @@ class Index extends common
 			'list'			=>$list,
 			'idss'			=>$userInfo['u_u_idss'],
 			'uid'			=>$uid,
+			'len'			=>count($t),
 		];
 		//print_r($data);exit;
 		$this->assign($data);
