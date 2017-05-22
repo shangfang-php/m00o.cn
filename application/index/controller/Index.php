@@ -36,8 +36,8 @@ class Index extends common
 			't'=>$t,
 			'zp'=>$uu['u_zpzh'],
 			'list'=>$list,
-			'idss'=>$t[0]['u_u_idss'],
-			'uid'=>$t[0]['t_u_id'],
+			'idss'=>$userInfo['u_u_idss'],
+			'uid'=>$uid,
 		];
 		//print_r($data);exit;
 		$this->assign($data);
