@@ -389,6 +389,7 @@
 	animate();
 	function tc(tkid,gid,gname,imgurl,zj,qj,qhj,num_iid,jihua_type,coupon_id){
 		var dizp = $('#dlzp').val();
+		var len = 1;//{count($t)};
 		if(dizp != 1){
 			alert('未开启');return false;
 		}
@@ -409,14 +410,14 @@
 			$('#jihua_type').val(jihua_type);
 		}
 		//判断$t是否有多个推广位 2017-5-22 add start
-		{if condition='count($t) eq 1'}
+		if(len == 1){
 			var pid = "mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$t[0]['t_mm3']}";
 			$('#pid').val(pid);
 			var mm1_arr = pid.split('_');
 			$('#mm1').val(mm1_arr[1]);
 			$('#form').submit();
 			return false;
-		{/if}
+		}
 		//2017-5-22 add end
 
 		$('#ff').hide();
@@ -446,19 +447,19 @@
 	}
 	function tcc(tkid,gid){
 		var dizp = $('#dlzp').val();
+		var len = 1;//{count($t)};
 		if(dizp != 1){
 			alert('未开启');return false;
 		}
 		$('#v1').val(tkid);
 		$('#vv1').val(gid);
 		//判断$t是否有多个推广位 2017-5-22 add start
-		{if condition='count($t) eq 1'}
+		if(len == 1){
 			//自动勾选name=data[]值 直接提交form
 			$('.wxdata').attr('name','data[]');
 			$('#formm').submit();
 			return false;
-		{/if}
-
+		}
 		//2017-5-22 add end
 		$('.btm').css('display','block');
 		$('.bottt').animate({bottom:"0px"},'300');
