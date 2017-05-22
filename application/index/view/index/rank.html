@@ -7,31 +7,52 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
 	<meta content="telephone=no" name="format-detection">
     <title>排行榜</title>
-    <link rel="stylesheet" href="/index/css/style.css">
+    <link rel="stylesheet" href="/index/css/style1.css">
+    <style type="text/css" media="screen">
+  
+    .bg{
+    	background: url(/index/images/rank1.jpg) no-repeat center center;height:100%;background-size: cover;}
+    .rank{   
+    
+
+       background: #fff;
+    width: 90%;
+    position: relative;
+    top: 234px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+    .sp{text-align:center;background: url(/index/images/pai.png) no-repeat center center;height:100%;background-size: 50% 50%; }
+    p span{color: red;}	
+    </style>
+    
+    
 </head>
 <body>
-	<a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
-	<div class="nav"><a href="{:url('index/rank',['uid'=>$Think.session.usid])}"><img src="/index/images/banner1.png" width="100%" style="flost:left;"></a></div>
-	<div style="text-align:center;font-size:20px;line-height:40px;">
-		{$title}
-	</div>
+	<div class="bg">
+	<a href="javascript:;" onclick="window.history.go(-1);" id="back">
+	<img src="/index/images/qqqq.png" width="100%"></a>
+	
 	<div class="rank">
+	<h1 class="sp">{$title}</h1>
 		{volist name="rank" id="vo" offset="0" length='10'}
 		<p>
 			{if condition = "$i eq 1"}
-			<img src="/index/images/one.png">
+			<img src="/index/images/one.png" style="width: 7%;vertical-align: middle;">
 			{elseif condition = "$i eq 2"}
-			<img src="/index/images/two.png">
+			<img src="/index/images/two.png" style="width: 7%;vertical-align: middle;">
 			{elseif condition = "$i eq 3"}
-			<img src="/index/images/three.png">
+			<img src="/index/images/three.png" style="width: 7%;vertical-align: middle;">
 			{else /}
-			&nbsp;&nbsp;{$i},
+			&nbsp;&nbsp;{$i}
 			{/if}
 			&nbsp;<!--{$vo.u_username|subtext1=3}***-->
             {$vo.u_username}
 			<span style="float:right;">{$vo.u_allmoney} 元</span>
 		</p>
 		{/volist}
+	</div>
 	</div>
 </body>
 </html>
