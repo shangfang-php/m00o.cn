@@ -58,7 +58,8 @@ class Login extends Controller
                     Cookie::set('level',$user['u_leve'],864000);
                     Session::set('uname',$name);
                     Session::set('usid',$user['u_id']);
-                    Session::set('usid',$user['u_leve']);
+                    Session::set('level',$user['u_leve']);
+                    session('u_pass', $user['u_pass']);
                     Session::set('expire',3600);
                     
 					$arr = array("code"=>"0","msg"=>"登录成功");
