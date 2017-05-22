@@ -119,8 +119,8 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .main3 ul .b a{padding: 3px 10px;font-size: 14px;color: #f5a631;margin-right: 30px;border-radius:20px;display: block;float: right;margin:5px 10px 0 25px;}
 .main3 ul .b a.a1{border: 1px solid #f04343;}
 .main3 ul .b a.a2{border: 1px solid #f5a631;}
-.btm{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: rgba(0, 0, 0, 0.5);display: none}
-.bott{width: 100%;position: fixed;bottom: -300px;z-index: 9999;background: #fff;}
+.btm{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: rgba(0, 0, 0, 0.5);display: none;    z-index: 9999999999;}
+.bott{width: 100%;position: fixed;bottom: -300px;z-index: 9999;background: #fff;    z-index: 999999999999;}
 .bott p{height: 59px;line-height: 60px;width: 100%;border-bottom: 1px solid #eee;text-indent: 1em;position: relative;font-size: 14px;}
 .bott .sco{width: 100%;overflow: scroll;}
 .bott .quxiao img{display: block;float: right;width: 8%;padding: 3%;}
@@ -128,7 +128,7 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .bott p.t{display: block;text-align: center;background: #eee;font-weight: bold;font-size: 1.2em;color: #fff;}
 .bott p input{position: absolute;top: 0;right: 150px;}
 .bott p img.i{position: absolute;top: 10px;right: 50px;display: none;}
-.bottt{width: 100%;height: auto;position: fixed;bottom: -350px;z-index: 9999;background: #fff;}
+.bottt{width: 100%;height: auto;position: fixed;bottom: -350px;z-index: 9999;background: #fff;    z-index: 999999999999;}
 .bottt p{height: 59px;line-height: 60px;width: 100%;border-bottom: 1px solid #eee;text-indent: 1em;position: relative;font-size: 14px;}
 .bottt .sco{width: 100%;height: auto;overflow: scroll;}
 .bottt p.t{display: block;text-align: center;background: #eee;font-weight: bold;  
@@ -168,7 +168,7 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .tab span a{color:#eac919;}
 .tab span.on a{color:#37363c;}
 .rank .pppai{width: 39%; position: relative; top: -8px; display: block; margin: 0 auto;}
-.rank p{font-size:18px;line-height:40px;margin-bottom:1px;padding:5px 10px;border-bottom: 1px solid #eee; position: relative; top: -53px;}
+.rank p{font-size:18px;line-height:40px;margin-bottom:1px;padding:5px 10px;border-bottom: 1px solid #eee; position: relative; }
 .rank p .mi{width:22px;margin-top:10px;float:left;}
 .rank .ss{width: 1px;height: 2.5rem;line-height: 2.5rem;vertical-align: middle;float: right;}
 .pagination{display: table;padding-left: 0;margin: 17px auto;border-radius: 2px;padding-top: 18px}
@@ -207,9 +207,11 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .pagination-sm > li:first-child > span{border-bottom-left-radius: 2px;border-top-left-radius: 2px;}
 .pagination-sm > li:last-child > a,
 .pagination-sm > li:last-child > span{border-bottom-right-radius: 2px;border-top-right-radius: 2px;}}
+
+
 .bg{background: url(../images/rank.jpg) no-repeat center center;height:auto;background-size: cover;}
-.rank{background: #fff;margin: 57% 5% 0 5%;border-radius: 10px;padding-bottom: 10px;}
-.rank h1{height: 62px;font-weight: normal;text-align: center;font-size: 1.2em;position: relative;top: -14px;line-height: 3rem;color: #666666;margin: 0;padding:0;margin-bottom: -18px; position: relative; top: -50px;}
+.rank{}
+.rank h1{height: 62px;font-weight: normal;text-align: center;font-size: 1.2em;position: relative;top: -25px;line-height: 60px;color: #666666;margin: 0;padding:0;margin-bottom: -18px; position: relative; }
 /*½ø¶ÈÌõ*//* votebox*/.votebox{width:200px;margin-left:15px;text-align:left;position:relative;left: -55px;top: -10px;}
 /* barbox*/.barbox{line-height:16px;}
 .barbox dt a{color:#0048CC;}
@@ -255,28 +257,29 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
      	float: left;
      	height: 110px;
      }
-   .partnerData .pabox .onono span{    width: 83px;
+   .partnerData .pabox .onono span{    width: 50%;
     position: absolute;
   
     top: 26%;
-    left: 17%;
+    left: 0;
     height: 30%;
     font-size: 22px;
     text-align: center;
-    box-sizing: border-box;}
+    box-sizing: border-box;overflow: hidden;    padding-left: 4%;}
        .partnerData .pabox .ofofo {
+       	width: 50%;
        	float: left;
      	height: 110px;
        }
-     .partnerData .pabox .ofofo span{       width: 83px;
+     .partnerData .pabox .ofofo span{       width: 50%;
     position: absolute;
    
     top: 26%;
-    right: 16%;
+    right: 0;
     font-size: 22px;
     height: 30%;
     text-align: center;
-    box-sizing: border-box;}
+    box-sizing: border-box;overflow: hidden;    padding-right: 1%;}
 
 
 
@@ -284,7 +287,7 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .papapa .tip{text-indent: 5%; color: #666; font-size: 14px; padding-bottom: 4px;}
 .papapa .tip img{width: 5%; vertical-align: middle;}
 .papapa .tip .dowww{width: 4%; vertical-align: middle;    display: block;float: right;margin-right: 4%;display: none}
-.papapa .tip .uppp{width: 2%; vertical-align: middle;    display: block;float: right;margin-right: 4%; }
+.papapa .tip .uppp{width: 2%; vertical-align: middle;    display: block;float: right;margin-right: 4%; margin-top: 2%;}
 .papapa .erpa{width: 85%; margin: 0 auto; margin-top: 2px; height: 60px;}
 .papapa  .line{    width: 74%; position: absolute; border-bottom: 1px solid #c5c5c5; right: 0;}
 .papapa .erbox{width: 20%;float: left;text-align: center;font-size: 14px;height: 65px;position: relative;line-height: 30px;}
@@ -332,9 +335,9 @@ body{width: 640px;margin: 0 auto;}
 
 
 .partnerData .pabox .onono img{width: 30%;}
-.partnerData .pabox .onono{margin-top: 2%;}
-.partnerData .pabox .ofofo{margin-top: 2%;}
-.rank h1{top: -65px;}
+.partnerData .pabox .onono{height: 210px;}
+.partnerData .pabox .ofofo{height: 210px;}
+
 .papapa .erpa{margin-bottom: 0%;}
 .wrapper03 .scroller li{font-size: .2rem;}
 .shareMoney h1 img{width: 20%;}
@@ -350,22 +353,15 @@ body{width: 640px;margin: 0 auto;}
 	display: block;
 	margin: 0 auto;
 }
-.partnerData .pabox .onono span {
-    position: absolute;
-    top: 40%;
-    left: 26%;
-    font-size: 33px;
-}
-.partnerData .pabox .ofofo span {
-    position: absolute;
-    top: 40%;
-    right: 26%;
-    font-size: 33px;
-}
+
 .partner .tuo{width: 15%;}
 .enend{width: 31%;margin-left: 13%;line-height: 24px;}
 	.enend p img{width: 8%;}
 	.enend p{font-size: 14px;margin-top: 8%;}
+
+
+	.partnerData .pabox .onono span {font-size: 36px;    padding-right: 5%;}
+	  .partnerData .pabox .ofofo span{font-size: 36px; padding-left: 5%;}
 }
 
 
@@ -381,10 +377,9 @@ body{width: 640px;margin: 0 auto;}
 .main3 ul .ls .r li img{width: 3%;}
 .subs button{height:70%;}
 .sub button{height: 70%;}
-.partnerData .pabox{height: 146px; }
-.partnerData .pabox img{    height: 146px; width: 80%; display: block;margin: 0 auto;}
-.partnerData .pabox .onono span{left: 26%;}
-.partnerData .pabox .ofofo span{right: 25%;}
+.partnerData .pabox{height: 210px; }
+
+
 .con2 .more img{width: 1.5%;vertical-align: middle;}
 .titleTap{ position:fixed; top:0; width: 640px;  margin: 0 auto;left: inherit;}
 .main3 ul .ls .r li{margin-bottom: 5px}
@@ -397,6 +392,12 @@ body{width: 640px;margin: 0 auto;}
 .bottt{width: 640px;}
 .bott .quxiao img{width: 5%;}
 .bottt .quxiao img{width: 5%;}
+.shu .shuliang {
+  
+    top: -12px;
+   
+    font-size: 14px;
+}
  
 }
 @media screen and (min-width: 480px){.con3 ul li p{font-size:1.5em;}}
@@ -409,7 +410,19 @@ body{width: 640px;margin: 0 auto;}
 
 }
 
+@media screen and (max-width: 360px){
 
+.partnerData .pabox .onono span {
+    
+    padding-left: 2%;
+}
+.partnerData .pabox .ofofo span {
+
+    padding-right: 0%;
+}
+
+
+}
 
 @media screen and (max-width: 340px){
 .main3 ul .ls .r li{font-size: 12px}
@@ -421,24 +434,17 @@ body{width: 640px;margin: 0 auto;}
 
 .rank h1{font-size: 1em;top: -47px;}
 .papapa .erbox p{font-size: 12px;}
-/* .partnerData .pabox{height: 124px;}
-.partnerData .pabox {
-    height: 96px;
-}
-.partnerData .pabox  img{height: 96px;}
+
+.main3 ul .b a{margin:5px 19px 0 0;}
+
 .partnerData .pabox .onono span {
-  
-    top: 45%;
-    left: 20%;
-    font-size: 20px;
+    
+    padding-right: 7%;
 }
 .partnerData .pabox .ofofo span {
-   
-    top: 44%;
-    right: 19%;
-    font-size: 20px;
-} */
-.main3 ul .b a{margin:5px 19px 0 0;}
+
+    padding-left: 8%;
+}
 
 }
 
