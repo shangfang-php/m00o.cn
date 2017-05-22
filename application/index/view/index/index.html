@@ -221,7 +221,7 @@
 						分享文案
 					</a>
 					<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
-					   style="display:block;">
+					   style="display:{if condition='{$uu['u_zpzh']} eq 1'}none{/if};">
 						发送到微信群
 					</a>
 				</div>
@@ -289,10 +289,10 @@
 								zzp = 'none';
 							}
 							httml += "<div class='ls' > <div class='pic'><img src='"+obj.pic+"' width='100%' height='100%'> </div> <div class='r'> <li style='font-size: 14px;'> <img src='/index/images/"+pp+".png'>"+obj.title+" </li> <li style='color:#999'> 原价：<a class='back'>"+obj.org_price+"元 </a> </li> <li style='color:#999'>券后价： <span style='color:#333;font-size: 16px;'>"+obj.price+"元 </span> </li> <li> <div class='votebox'> <dl class='barbox'> <dd class='barline'> <div w='"+obj.coupon_last/obj.coupon_total+"' style='width:0px;' class='charts'> &nbsp;&nbsp;券&nbsp;|&nbsp;"+obj.coupon_price+"元&nbsp;&nbsp;&nbsp;&nbsp;余"+obj.coupon_last+"张 </div> </dd> </dl> </div> </li> </div> </div> <div class='b'> " ;
-								httml +="<a class='a1' href='javascript:;' onclick=\"tcajax('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\" style='color:#f04343'>分享文案</a>"+ "<a class='a2' href='javascript:;' onclick=\"tccajax('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a> " ;
+								httml +="<a class='a1' href='javascript:;' onclick=\"tc('"+obj.dtkid+"','"+obj.num_iid+"','"+obj.title+"','"+obj.pic+"','"+obj.org_price+"','"+obj.coupon_price+"','"+obj.price+"','"+obj.num_iid+"','"+obj.jihua_type+"','"+obj.coupon_id+"')\" style='color:#f04343'>分享文案</a>"+ "<a class='a2' href='javascript:;' onclick=\"tcc('"+obj.dtkid+"','"+obj.num_iid+"')\" style='display:"+zzp+"'>发送到微信群</a> " ;
 								httml +="</div> <div class='h'> </div>";
 						});
-						httml += "<div id='lload'></div><div id='load' style='background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none'><input type='hidden' id='cid' value='0'> <input type='hidden' id='ii' > <input type='hidden' id='p' value=''> <input type='hidden' id='dlzp' value='"+dlzp+"'><input type='hidden' id='zp' value='"+zp+"'> </div>"
+						httml += "<div id='lload'></div><div id='load' style='background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none'><input type='hidden' id='cid' value='0'> <input type='hidden' id='ii' > <input type='hidden' id='p' value=''>  </div>"
 						$('#ajaxdata').empty();
 						$('#ajaxdata').append(httml);
 
