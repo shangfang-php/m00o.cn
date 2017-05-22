@@ -347,3 +347,55 @@ function get_field_array($field, $array){
     }
     return array_filter($return); 
 }
+
+/**
+ * getUserTxBalance()
+ * 获取用户可提现余额
+ * @param mixed $uid 查询的代理商ID
+ * @param mixed $u_idss 上级淘客ID
+ * @param mixed $userInfo 代理商信息
+ * @param mixed $u_idss_info 淘客信息
+ * @return void
+ */
+function getUserTxBalance($uid, $u_idss = 0, $userInfo = 0, $u_idss_info = 0){
+    if(!$userInfo){
+        $userInfo   =   getUserInfo($uid);
+    }
+    
+    !$u_idss && $u_idss = $userInfo['u_u_idss'];
+    if(!$u_idss_info){
+        $u_idss_info    =   getUserInfo($u_idss);
+    }
+    
+    $userMoney  =   $userInfo['u_money']; ##代理商总余额
+    
+    if($u_idss_info['u_type'] == 1 || $u_idss_info['u_type'] == 0){
+        $money  =   $userMoney;
+	}else if($u_idss_info['u_type'] == 2){
+		$d = date('d',time());
+    	if($d < 21){
+    		//alert('21号开始提现',url('index/my',array('uid'=>$user['u_id'])));
+    		$m = date('Y-m',time());
+    		$mm = date('Y-m',strtotime("last month"));
+    		//echo $m;exit;
+    		$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$uid,'i_idss'=>$u_idss))->find();
+    		$ff = Db::name('income_tb')->where(array('i_y_m'=>$mm,'i_uid'=>$uid,'i_idss'=>$u_idss))->find();
+
+    		$fm   =   empty($f) ? 0 : $f['i_money'];
+    		$ffm  =   empty($ff) ? 0 : $ff['i_money'];
+    
+    		//$data['money'] = $user['u_money'] - $fm -$ffm;
+    		$money    =   bcsub($userMoney, bcadd($fm, $ffm, 2), 2);
+    
+    	}else{
+    		$m = date('Y-m',time());
+    		$f = Db::name('income_tb')->where(array('i_y_m'=>$m,'i_uid'=>$uid,'i_idss'=>$u_idss))->find();
+            $fmoney = empty($f) ? 0 : $f['i_money'];
+    		$money  = bcsub($userMoney, $fmoney, 2);
+    		//dump($data);exit;
+    	}
+	}
+    
+    $money < 0 && $money = 0;
+    return $money;
+}
