@@ -216,14 +216,26 @@
 					</div>
 				</div>
 				<div class='b'>
-					<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
-					   style="color:#f04343">
-						分享文案
-					</a>
-					<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
-					   style="display:block;">
-						发送到微信群
-					</a>
+					<if condition="count($t) gt 1">
+						<a class="a1" href="javascript:;" onclick="tc('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+						   style="color:#f04343">
+							分享文案
+						</a>
+						<a class="a2" href="javascript:;" onclick="tcc('{$vo.dtkid}','{$vo.num_iid}')"
+						   style="display:block;">
+							发送到微信群
+						</a>
+						<else/>
+						<a class="a1" href="javascript:;" onclick="tcajax('{$vo.dtkid}','{$vo.num_iid}','{$vo.title}','{$vo.pic}','{$vo.org_price}','{$vo.coupon_price}','{$vo.price}','{$vo.num_iid}','{$vo.jihua_type}','{$vo.coupon_id}')"
+						   style="color:#f04343">
+							分享文案
+						</a>
+						<a class="a2" href="javascript:;" onclick="tccajax('{$vo.dtkid}','{$vo.num_iid}')"
+						   style="display:block;">
+							发送到微信群
+						</a>
+					</if>
+
 				</div>
 
 				<div class='h'>
@@ -234,7 +246,8 @@
 				<input type="hidden" id="cid" value="0">
 				<input type="hidden" id="ii" >
 				<input type="hidden" id="p" value="">
-				<input type="hidden" id="zp" value="{$zp}">
+				<input type="hidden" id="zp" value="{$uu['u_zpzh']}">
+				<input type="hidden" id="dlzp" value="{$uu['u_dlzp']}">
 			</div>
 		</ul>
 	<!--<div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
@@ -401,6 +414,10 @@
 	}
 	animate();
 	function tc(tkid,gid,gname,imgurl,zj,qj,qhj,num_iid,jihua_type,coupon_id){
+		var dizp = $('#dlzp').val();
+		if(dizp != 1){
+			alert('未开启');return false;
+		}
 		$('.btm').css('display','block');
 		$('.bott').animate({bottom:"0px"},'300');
 		$('#v').val(tkid);
@@ -422,6 +439,21 @@
 		/*$('#from p input').attr('name','');*/
 		$('body,html').css({'height':'auto','overflow':'hidden'});
 	}
+	//2017-5-22 添加 start
+	function tcajax(){
+		var dizp = $('#dlzp').val();
+		if(dizp != 1){
+			alert('未开启');return false;
+		}
+
+	}
+	function tccajax(){
+		var dizp = $('#dlzp').val();
+		if(dizp != 1){
+			alert('未开启');return false;
+		}
+	}
+	//end
 	function bgb(){
 		$('.bott').animate({bottom:"-300px"});
 		$('.bottt').animate({bottom:"-350px"});
@@ -443,6 +475,10 @@
 		$('body,html').css({'height':'auto','overflow':''});
 	}
 	function tcc(tkid,gid){
+		var dizp = $('#dlzp').val();
+		if(dizp != 1){
+			alert('未开启');return false;
+		}
 		$('.btm').css('display','block');
 		$('.bottt').animate({bottom:"0px"},'300');
 		$('#v1').val(tkid);
@@ -549,6 +585,7 @@
 			});
 		}
 	});
+
 
 	function proMove() {
 	var agent = navigator.userAgent.toLowerCase(); //检测是否是ios
