@@ -3,7 +3,7 @@
     <div class="contentpanel">
       <ol class="breadcrumb breadcrumb-quirk">
         <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
-        <li><a href="{:url('User/index')}">代理管理</a></li>
+        <li><a href="{:url('User/index')}">合伙人管理</a></li>
         <li class="active">用户详情</li>
       </ol>
       <div class="panel">
@@ -16,7 +16,7 @@
                       <div class="panel-heading">
                           <div class="text-center">
                               <h4 class="panel-profile-name">{$u.u_username}[{$u.u_nic}]</h4>
-                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级代理{elseif condition="$u.u_leve eq 2" /}二级代理{elseif condition="$u.u_leve eq 3" /}三级代理{/if}</p>
+                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级合伙人{elseif condition="$u.u_leve eq 2" /}二级合伙人{elseif condition="$u.u_leve eq 3" /}三级合伙人{/if}</p>
                           </div>
                       </div>
                       <div class="panel-body people-info">
@@ -31,10 +31,13 @@
                               <label>分成比率</label>
                               <?php echo $u['u_fcbl']*100;?>%
                           </div>
+                          {if $u.u_leve != 3}
                           <div class="info-group">
                               <label>邀请码</label>
                               {$u.u_code}
                           </div>
+                          {/if}
+                          
                           <div class="info-group">
                               <label>上级用户</label>
                               {$su.u_username}
@@ -289,12 +292,12 @@
         }
     });
     
-    /** 跳转到代理商界面**/
+    /** 跳转到合伙人商界面**/
     function agentLogin(agentId){
         var data    =   {agentId:agentId};
         var url     =   "{:url('user/agent_login')}";
         $.post(url, data, function(msg){
-            console.log(msg);
+            //console.log(msg);
             if(msg.code == 200){
                 window.open("{:url('index/login/index')}")
             }else{
