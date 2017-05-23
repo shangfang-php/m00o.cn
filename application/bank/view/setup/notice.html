@@ -1,0 +1,190 @@
+{include file="public/head" /}
+<link rel="stylesheet" href="/bank/lib/jquery-ui/jquery-ui.css">
+<link rel="stylesheet" href="/bank/lib/select2/select2.css">
+<link rel="stylesheet" href="/bank/lib/dropzone/dropzone.css">
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+<link rel="stylesheet" href="/bank/lib/timepicker/jquery.timepicker.css">
+<script src="/bank/lib/modernizr/modernizr.js"></script>
+<style>
+    .select2{height:35px!important;}
+    .select2-selection{height:38px!important;}
+    #select2-select5-container{height:37px!important;line-height: 37px;}
+    #select2-select1-container{height:37px!important;line-height: 37px;}
+    .select2-selection__arrow{height:34px!important;}
+</style>
+    <div class="mainpanel">
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li><a>设置中心</a></li>
+        <li class="active">公告设置</li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <h4 class="panel-title">公告设置</h4>
+          <hr>
+        </div>
+          
+        <div class="panel-body">
+          <div class="table-responsive xdc">
+              <div class="col-md-12">
+              <form action="{:url('setup/save_notice')}" method="post">
+                <input type="hidden" value="{$id}" name="id"/>
+                 <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">公告内容<span class="text-danger">*</span></label>
+                        <div class="col-sm-3">
+                            <textarea style="min-height: 120px;" class="text-success form-control" name="content" placeholder="请输入公告内容" required="" aria-required="true">
+                                {if $notice}{$notice.content}{/if}
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                         <label class="col-sm-2 control-label">首页弹窗提醒:</label>
+                         <div class="col-sm-8">
+                             <label class="rdiobox rdiobox-success" style="float:left;margin-top:10px;">
+                                 <input type="radio" name="is_close" checked="" value="0" id="zj">
+                                 <span>开启</span>
+                             </label>
+                             <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;" id="js">
+                                 <input type="radio" name="is_close" {if $notice && $notice.is_close == '1'} checked=""{/if} value="1">
+                                 <span>关闭</span>
+                             </label>
+                         </div>
+                     </div>
+
+                    <hr>
+                    <div class="col-sm-9 col-sm-offset-2">
+                      <button class="btn btn-success btn-quirk btn-wide mr5"> 提 交 </button>
+                      <button class="btn btn-quirk btn-wide btn-default" type="reset"> 重 置 </button>
+                    </div>
+                    
+                 </div>
+                 </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}
+<script src="/bank/lib/jquery-ui/jquery-ui.js"></script>
+<script src="/bank/lib/jquery-autosize/autosize.js"></script>
+<script src="/bank/lib/select2/select2.js"></script>
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+<script src="/bank/lib/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/bank/lib/timepicker/jquery.timepicker.js"></script>
+<script src="/bank/lib/dropzone/dropzone.js"></script>
+<script src="/bank/lib/bootstrapcolorpicker/js/bootstrap-colorpicker.js"></script>
+<script>
+    $(function() {
+        // Textarea Auto Resize
+        autosize($('#autosize'));
+        // Select2 Box
+        $('#select1, #select2, #select3').select2();
+        $("#select4").select2({ maximumSelectionLength: 2 });
+        $("#select5").select2({ minimumResultsForSearch: Infinity });
+        $("#select6").select2({ tags: true });
+        // Toggles
+        $('.toggle').toggles({
+            on: true,
+            height: 26
+        });
+        // Input Masks
+        $("#date").mask("99/99/9999");
+        $("#phone").mask("(999) 999-9999");
+        $("#ssn").mask("999-99-9999");
+        // Date Picker
+        $('#datepicker').datepicker();
+        $('#datepicker-inline').datepicker();
+        $('#datepicker-multiple').datepicker({ numberOfMonths: 2 });
+
+        // Time Picker
+        $('#tpBasic').timepicker();
+        $('#tp2').timepicker({'scrollDefault': 'now'});
+        $('#tp3').timepicker();
+
+        $('#setTimeButton').on('click', function (){
+            $('#tp3').timepicker('setTime', new Date());
+        });
+
+        // Colorpicker
+        $('#colorpicker1').colorpicker();
+        $('#colorpicker2').colorpicker({
+            customClass: 'colorpicker-lg',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: { maxTop: 200 },
+                alpha: { maxTop: 200 }
+            }
+        });
+
+    });
+
+</script>
+<script>
+  $('#select5').change(function(){
+      var id = $(this).val();
+      $('#fcbl2').removeAttr("style");
+      $('#fcbl3').removeAttr("style");
+      $('#erj').html('提取二级佣金比率');
+      if(id!='')
+      {
+          if(id==1||id==2){
+              $('#erj').html('提取三级佣金比率');
+              $('#fcbl3').attr("style","display:none;");
+              $('#san').val('');
+              if(id==2)
+              {
+                  $('#fcbl2').attr("style","display:none;");
+                  $('#er').val('');
+              }
+              $('#sjy').attr("style","display:none;");
+
+              $.ajax({
+                  url: "{:url('user/jis')}",
+                  data: {id: id},
+                  type: 'POST',
+                  dataType: "json",
+                  cache: false,
+                  success: function (data, state) {
+                      if (state == 'success' && data.code == '0') {
+                          var htmls = '<option value="">-选择所属上级合伙人-</option>';
+                          arra = data.us;
+                          $.each(arra,function(key,val){
+                              htmls+='<option value="'+val.usid+'">'+val.username+'['+val.u_nic+']</option>'
+                          });
+                          $('#select1').empty();
+                          $('#select1').html(htmls);
+                          $('#sjy').removeAttr("style");
+                      }else
+                      {
+                          alert('没有上级用户！');
+                      }
+                  }
+              });
+           }
+          else
+          {
+              $('#sjy').removeAttr("style");
+              $('#sjy').attr("style","display:none;");
+          }
+      }
+      else
+      {
+          $('#sjy').removeAttr("style");
+          $('#sjy').attr("style","display:none;");
+      }
+  });
+  var manage = {
+
+}
+
+</script>

@@ -9,6 +9,8 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
 	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="full-screen" content="yes">
+<meta name="x5-fullscreen" content="true">
 	<link rel="stylesheet" href="/index/css/style.css">
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js">
 	</script>
@@ -30,7 +32,7 @@
         </div>  -->
 
 
-<div class="topHeight" style="position: relative;">
+<div class="topHeight" style="position: relative;height: auto">
 	<div class="conkey">
 		<a href="{:url('index/rank',['uid'=>$Think.session.usid])}">
 			<div class="ranking">
@@ -103,6 +105,16 @@
 		</a>
 	</div>
 </div>
+
+
+<div class="huh" onclick="huh()" {if !$notice}style="display:none;"{/if}></div>
+<div class="gonggao" onclick="gonggao()" {if !$notice}style="display:none;"{/if}> 
+    <img src="/index/images/ggtu.png">
+     <p>{$notice}</p>
+     <input type="button" name="" value="我知道了" onclick="huh()">
+</div>
+
+
 <div class="shareMoney" id="shareMoney">
 	<h1>
 		<img src="/index/images/shrmon.png">
@@ -239,6 +251,9 @@
 		<input type="hidden" id="dlzp" value="{$uu['u_dlzp']}">
 		<input type="hidden" id="len" value="{$len}">
 </div>
+
+
+
 <script>
 	function nav() {
 		var height = 0;
@@ -359,6 +374,12 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 
 
 </div>
+
+
+
+
+
+
 </body>
 
 </html>
@@ -428,12 +449,28 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 	}
 
 	function bgb(){
-		$('.bott').animate({bottom:"-300px"});
-		$('.bottt').animate({bottom:"-350px"});
+		$('.bott').animate({bottom:"-450px"});
+		$('.bottt').animate({bottom:"-450px"});
 		$('.btm').css('display','none');
 		$('.bottt .i').css('display','none');
 		$('#fromm p input').attr('name','');
 		$('#ff').show();
+		$('body,html').css({'height':'auto','overflow':''});
+	}
+	function huh(){
+		
+		$('.huh').css('display','none');
+		$('.bottt .i').css('display','none');
+		$('#fromm p input').attr('name','');
+		$('.gonggao').css('display','none');
+		$('#ff').show();
+		$('body,html').css({'height':'auto','overflow':''});
+	}
+	function gonggao(){
+		
+		$('.huh').css('display','none');
+
+		
 		$('body,html').css({'height':'auto','overflow':''});
 	}
 	function tj(pid,name){

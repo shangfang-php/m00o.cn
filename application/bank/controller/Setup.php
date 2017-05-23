@@ -203,4 +203,52 @@ class Setup extends common
             alert('修改失败！');exit;
         }
     }
+    
+    /**
+     * Setup::notice()
+     * 公告设置
+     * @return void
+     */
+    public function notice(){
+        $taokeId    =   session('taokeid');
+        $where      =   array('u_idss'=>$taokeId, 'is_delete'=>0);
+        $notice     =   Db::table('notice_set')->field('content, is_close, id')->where($where)->find();
+        $data       =   array(
+                            'notice'    =>  $notice,
+                            'id'        =>  $notice ? $notice['id'] : '0',
+                            'a'         =>  5,
+                            'b'         =>  12,
+                        );
+        $this->assign($data);
+        return $this->fetch();
+    }
+    
+    /**
+     * Setup::save_notice()
+     * 保存公告设置
+     * @return void
+     */
+    function save_notice(){
+        $id         =   intval(trim(input('post.id')));
+        $content    =   trim(input('post.content'));
+        $is_close   =   intval(trim(input('post.is_close')));
+        if(!$content){
+            alert('请填写公告内容');exit;
+        }
+        
+        $data   =   array('content'=>$content, 'is_close'=>$is_close);
+        if(!$id){
+            $data['u_idss'] =   session('taokeid');
+            $data['createTime'] =   time();
+            $info   =   Db::table('notice_set')->insert($data);
+        }else{
+            $info   =   Db::table('notice_set')->where('id', $id)->update($data);
+        }
+        
+        if($info !== FALSE){
+            alert('公告保存成功',url('setup/notice'));exit;
+        }else{
+            alert('公告保存失败');exit;
+        }
+    }
 }

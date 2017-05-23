@@ -94,3 +94,20 @@ function checkAgentRelation($parentId, $agentId){
     }
     return FALSE;
 }
+
+/**
+ * getNotice()
+ * 获取公告内容
+ * @param mixed $uid 登录代理ID
+ * @param string $userInfo 代理信息
+ * @return void
+ */
+function getNotice($uid, $userInfo = ''){
+    if(!$userInfo){
+        $userInfo   =   getUserInfo($uid);
+    }
+    $u_idss =   $userInfo['u_u_idss'];
+    $where  =   array('u_idss'=>$u_idss, 'is_close'=>0);
+    $notice =   Db::table('notice_set')->field('content')->where($where)->find();
+    return $notice ? $notice['content'] : '';
+}
