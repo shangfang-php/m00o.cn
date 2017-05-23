@@ -614,6 +614,10 @@ class Index extends common
 			alert('管理员不能提现',url('index/my',['uid'=>$uid]));
 		}
         
+        if($user['u_state'] != 1){
+            alert('用户禁止提现',url('index/my',['uid'=>$uid]));exit;
+        }
+        
         $data = [
 					'username' => $user['u_username'],
 					'uid' => $user['u_id'],
@@ -638,6 +642,10 @@ class Index extends common
 		}
 		$user = Db::name('user_tb')->where(['u_id'=>$uid])->find();
 		$u = Db::name('user_tb')->where('u_id',$user['u_u_idss'])->find();
+        
+        if($user['u_state'] != 1){
+            alert('用户禁止提现',url('index/my',['uid'=>$uid]));exit;
+        }
 		
         $money  =   getUserTxBalance($uid, $user['u_u_idss'], $user, $u); ##获取可提现余额
         
