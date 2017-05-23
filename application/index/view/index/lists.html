@@ -16,13 +16,14 @@
     </style>
 </head>
 <body>
+  <div class="bgb">
 	<div class="con1">
 		<form action="{:url('index/search')}" method="post" id="forms">
 			<input type="text" name="num" placeholder="搜索订单号">
 			<button type="submit" id="but"></button>
 		</form>
 	</div>
-	<a href="{:url('index/index')}" style="position:fixed;right:0px;bottom:100px;width:18%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+	<a href="{:url('index/index')}" id="back"><img src="/index/images/qqqq.png" width="100%"></a>
 	<div class="tab">
         {if $type == 'today'}
             <span class="on" style="border-top-left-radius:5px;border-bottom-left-radius: 5px;">今日订单</span>
@@ -59,5 +60,6 @@
 		{/foreach}
 		</ul>
 	</div>{if $list}{$list->render()}{/if}
+	</div>
 </body>
 </html>

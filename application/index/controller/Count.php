@@ -20,27 +20,9 @@ class Count extends common
         $type   =   input('type');
         $searchAgent=input('searchAgent') ? input('searchAgent') : '';
         
-        $date   =   date('Y-m-d');
-        switch($type){
-            case 'today':
-                $start_date =   strtotime($date); ##当天0点
-                $end_date   =   '';
-                break;
-            case 'yestorday':
-                $start_date =   strtotime(date('Y-m-d', strtotime('-1 day'))); ##前一天0点
-                $end_date   =   strtotime($date) - 1; ##前一天23：59：59
-                break;
-            case 'month':
-                $start_date =   strtotime(date('Y-m')); ##当月1号0点
-                $end_date   =   '';
-                break;
-            case 'lastmonth':
-                $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
-                $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
-                break;
-            default:
-                 alert('类型非法', url('index/index'));
-        }
+        $times  =   getStartAndEndTime($type);
+        $start_date =   $times['startTime'];
+        $end_date   =   $times['endTime'];
         
         $where['u_username']   =   ['like', '%'.$searchAgent.'%'];
         $where['u_parent_u_id'] =   $uid;
@@ -127,42 +109,37 @@ class Count extends common
         }
         $order_table    =   tb($start_date);
         $order_record_table=ortb($start_date);
+        $user_table     =   'user_tb';
         if($end_date){
             $where['o_creattime']   =   ['between', [$start_date, $end_date]];
+            $joinWhere  =   "o_creattime between '{$start_date}' and '{$end_date}'";
         }else{
             $where['o_creattime']   =   ['>=', $start_date];
+            $joinWhere  =   "o_creattime >= '{$start_date}'";
         }
-        $where['o_u_id']    =   ['in', $agents];
         
-        //代理商贡献金额
-        //$userMoney  =   Db::table($order_table)->Alias('a')->field('sum(or_money) money,o_u_id')->join($order_record_table.' b', 'a.o_ordernum = b.or_o_ordernum and or_u_id = '.$uid, 'left')->where($where)->group('o_u_id')->select();
-        $agentOrders    =   Db::table($order_table)->Alias('a')->field('sum(or_money) money,count(o_id) nums, o_u_id')->join($order_record_table.' b', 'a.o_ordernum = b.or_o_ordernum and or_u_id = o_u_id', 'left')->where($where)->group('o_u_id')->order('money', 'desc')->limit(10)->select();
+        ###获取代理订单总数及预估金额
+        $agentOrders    =   Db::table($user_table)->Alias('a')->field('u_id,u_leve,u_username,count(o_id) nums,SUM(or_money) as money')->join($order_table.' b', 'u_id=o_u_id and '.$joinWhere, 'left')
+                            ->join($order_record_table.' c', 'or_o_ordernum=o_ordernum and or_u_id = o_u_id', 'left')->where('u_id', 'in', $agents)->group('u_id')->order('sum(or_money)', 'desc')->limit(10)->select();
+        //print_r($agentOrders);exit;
         if(!empty($agentOrders)){
-            $agents =   array();
+            $agents     =   array();
             foreach($agentOrders as $val){
-                $o_u_id =   $val['o_u_id'];
+                $u_id       =   $val['u_id'];
+                $agents[]   =   $u_id;
+                !$val['money'] && $val['money'] = 0;
                 $val['agentMoney']  =   0; ##上级提成
-                $val['u_leve']      =   0;
-                $return[$o_u_id]    =   $val;
-                $agents[]           =   $o_u_id;    
-            }
-            $userMoney  =   Db::table($order_table)->Alias('a')->field('sum(or_money) money,o_u_id')->join($order_record_table.' b', 'a.o_ordernum = b.or_o_ordernum and or_u_id = '.$uid, 'left')->where($where)->group('o_u_id')->select();
-            if(!empty($userMoney)){
-                foreach($userMoney as $val){
-                    $o_u_id =   $val['o_u_id'];
-                    $return[$o_u_id]['agentMoney']  =   $val['money'];  
-                }
+                $return[$u_id]      =   $val;
             }
             
-            $userInfos  =   Db::table('user_tb')->field('u_leve,u_id,u_username')->where('u_id', 'in', $agents)->select();
-            if(!empty($userInfos)){
-                foreach($userInfos as $val){
-                    $o_u_id =   $val['u_id'];
-                    $return[$o_u_id]['u_leve']      =   $val['u_leve'];
-                    $return[$o_u_id]['u_username']  =   $val['u_username'];
-                }
+            ##获取代理商向上级贡献金额
+            $where['a.o_u_id']    =   ['in', $agents];
+            $userMoney  =   Db::table($order_table)->Alias('a')->field('sum(or_money) money, o_u_id')->join($order_record_table.' b', 'a.o_ordernum = b.or_o_ordernum and or_u_id = '.$uid, 'left')->where($where)->group('o_u_id')->select();
+            foreach($userMoney as $v){
+                $return[$v['o_u_id']]['agentMoney'] = $v['money'];
             }
         }
+        
         return $return;
     }
     
