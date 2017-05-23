@@ -135,13 +135,13 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">排　　行</label>
                         <div class="col-sm-8">
-                            <input type="number" name="sort" class="form-control" placeholder="排行" required="" aria-required="true">
+                            <input type="number" name="sort" class="form-control" placeholder="排行" required="" aria-required="true" onkeyup="checkNumber(this)">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">虚拟金额</label>
                         <div class="col-sm-8">
-                            <input type="text" name="money" class="form-control" placeholder="虚拟金额" required="" aria-required="true">
+                            <input type="text" name="money" class="form-control" placeholder="虚拟金额" required="" aria-required="true" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
                         </div>
                     </div>
                 </div>
@@ -174,13 +174,13 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">排　　行</label>
                             <div class="col-sm-8">
-                                <input type="number" id="fsort" name="sorts" class="form-control" placeholder="排行" required="" aria-required="true">
+                                <input type="number" id="fsort" name="sorts" class="form-control" placeholder="排行" required="" aria-required="true" onkeyup="checkNumber(this)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">虚拟金额</label>
                             <div class="col-sm-8">
-                                <input type="text" id="allmoney" name="moneys" class="form-control" placeholder="虚拟金额" required="" aria-required="true">
+                                <input type="text" id="allmoney" name="moneys" class="form-control" placeholder="虚拟金额" required="" aria-required="true" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
                             </div>
                         </div>
                     </div>
@@ -242,6 +242,15 @@
                     }
                 });
             }
+        }
+    }
+    
+    function checkNumber(obj){
+        var number  =   $(obj).val();
+        var preg    =   /^\d*$/
+        if(!preg.test(number)){
+            alert('请输入正整数!');
+            $(obj).select();
         }
     }
 </script>
