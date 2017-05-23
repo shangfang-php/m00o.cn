@@ -512,6 +512,17 @@ class User extends common
         $nic = trim(input('post.nic'));
         $jis  = trim(input('post.jis'));
         $se5  = trim(input('post.se5'));
+        
+        if($fcbl>1){
+            alert('本人佣金比例不能大于100');exit;
+        }
+        if($fcbl2>1){
+            alert('二级佣金比例不能大于100');exit;
+        }
+        if($fcbl3>1){
+            alert('三级佣金比例不能大于100');exit;
+        }
+        
         if(empty($uid))
         {
             $arr = array("code"=>"-1","res"=>"错误参数2006！");
@@ -648,6 +659,16 @@ class User extends common
             $password   = substr($a,0,-10);
             $co         = getcode();
             $code       = iscode($co);
+            if($fcbl>1){
+                alert('本人佣金比例不能大于100');exit;
+            }
+            if($fcbl2>1){
+                alert('二级佣金比例不能大于100');exit;
+            }
+            if($fcbl3>1){
+                alert('三级佣金比例不能大于100');exit;
+            }
+            
            $add['u_username'] = $phone;
            $add['u_pass']   = $password;
            $add['u_code']   = $code;

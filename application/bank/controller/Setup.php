@@ -30,7 +30,7 @@ class Setup extends common
     }
     public function moneys()
     {
-        $num    = input('post.num');
+        $num    = intval(input('post.num'));
         $link   = input('post.link');
         $type['u_dlzp']   = trim(input('post.dlzp'));
         $type['u_zpzh']   = trim(input('post.zpzh'));
@@ -52,6 +52,11 @@ class Setup extends common
 //                }
 //            }
 //        }
+        
+        if($type['u_type'] == 1 && $num<=0){
+            alert('最小金额必须大于0且为整数');exit;
+        }
+
         if($link)
         {
             $add['link'] = $link;
@@ -161,6 +166,26 @@ class Setup extends common
         $two2  = input('post.two2')/100;
         $two   = input('post.two')/100;
         $three = input('post.three')/100;
+        
+        if($one3>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        if($one2>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        if($one>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        if($two2>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        if($two>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        if($three>1){
+            alert('佣金比例不能大于100');exit;
+        }
+        
         $save['fc_one'] = $one;
         $save['fc_one2'] = $one2;
         $save['fc_one3'] = $one3;

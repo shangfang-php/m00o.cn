@@ -357,24 +357,30 @@ class Money extends common
         }
         $username = input('post.username');
         $money    = input('post.money');
-        $sort     = input('post.sort');
+        $sort     = intval(input('post.sort'));
         if($username==''||empty($money)||empty($sort)){
             alert('不可以提交空数据！');exit;
         }
-        else
+        
+        if($money < 0){
+            alert('金额不能小于0');exit;
+        }
+        
+        if($sort <= 0){
+            alert('排行必须是整数');exit;
+        }
+        
+        $add['f_u_idss'] = Session('taokeid');
+        $add['u_username'] = $username;
+        $add['u_allmoney']  = $money;
+        $add['f_sort']    = $sort;
+        $f = Db::name('fdata_tb')->insert($add);
+        if($f)
         {
-            $add['f_u_idss'] = Session('taokeid');
-            $add['u_username'] = $username;
-            $add['u_allmoney']  = $money;
-            $add['f_sort']    = $sort;
-            $f = Db::name('fdata_tb')->insert($add);
-            if($f)
-            {
-                alert('添加成功',url('money/income'));exit;
-            }
-            else{
-                alert('添加失败');exit;
-            }
+            alert('添加成功',url('money/income'));exit;
+        }
+        else{
+            alert('添加失败');exit;
         }
     }
 
@@ -407,23 +413,29 @@ class Money extends common
         $username = input('post.usernames');
         $fid      = trim(input('post.fid'));
         $money    = trim(input('post.moneys'));
-        $sort     = trim(input('post.sorts'));
+        $sort     = intval(trim(input('post.sorts')));
         if($username==''||empty($money)||empty($sort)){
             alert('不可以提交空数据！');exit;
         }
-        else
+        
+        if($money < 0){
+            alert('金额不能小于0');exit;
+        }
+        
+        if($sort <= 0){
+            alert('排行必须是整数');exit;
+        }
+        
+        $save['u_username'] = $username;
+        $save['u_allmoney']  = $money;
+        $save['f_sort']    = $sort;
+        $f = Db::name('fdata_tb')->where(array('f_id'=>$fid))->update($save);
+        if($f)
         {
-            $save['u_username'] = $username;
-            $save['u_allmoney']  = $money;
-            $save['f_sort']    = $sort;
-            $f = Db::name('fdata_tb')->where(array('f_id'=>$fid))->update($save);
-            if($f)
-            {
-                alert('修改成功',url('money/income'));exit;
-            }
-            else{
-                alert('修改失败');exit;
-            }
+            alert('修改成功',url('money/income'));exit;
+        }
+        else{
+            alert('修改失败');exit;
         }
     }
 
