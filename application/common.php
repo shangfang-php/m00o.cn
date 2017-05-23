@@ -349,6 +349,32 @@ function get_field_array($field, $array){
 }
 
 /**
+ * reverse_array()
+ * 从一个数组中拿出指定的字段作为键名，另外一个字段作为值生成数组
+ * @param mixed $array
+ * @param mixed $val_filter  作为值的字段
+ * @param string $key_filter 作为键名的字段 为空则为key值
+ * @param bool $isMulti 是否生成多维数组
+ * @return void
+ */
+function reverse_array($array, $val_filter, $key_filter = '', $isMulti = FALSE){
+    $return     =   array();
+    if(empty($array)){
+    	return $return; //增加拦截传递为空数组的情况
+    }
+    foreach($array as $key=>$val){
+        $k  =   $key_filter ? $val[$key_filter] : $key;
+        $v  =   $val_filter ? $val[$val_filter] : $val;
+        if($isMulti){
+            $return[$k][]   =   $v;
+        }else{
+            $return[$k]     =   $v;
+        }
+    }
+    return array_filter($return);
+}
+
+/**
  * getUserTxBalance()
  * 获取用户可提现余额
  * @param mixed $uid 查询的代理商ID
@@ -398,4 +424,36 @@ function getUserTxBalance($uid, $u_idss = 0, $userInfo = 0, $u_idss_info = 0){
     
     $money < 0 && $money = 0;
     return $money;
+}
+
+/**
+ * getStartAndEndTime()
+ * 根据类型获取起止时间
+ * @author Gary
+ * @param mixed $type today今日 yestorday昨日 month本月 lastmonth上月
+ * @return void array('startTime'=>1,'endTime'=>'')
+ */
+function getStartAndEndTime($type){
+    $date   =   date('Y-m-d');
+    switch($type){
+        case 'today':
+            $start_date =   strtotime($date); ##当天0点
+            $end_date   =   '';
+            break;
+        case 'yestorday':
+            $start_date =   strtotime(date('Y-m-d', strtotime('-1 day'))); ##前一天0点
+            $end_date   =   strtotime($date) - 1; ##前一天23：59：59
+            break;
+        case 'month':
+            $start_date =   strtotime(date('Y-m')); ##当月1号0点
+            $end_date   =   '';
+            break;
+        case 'lastmonth':
+            $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
+            $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
+            break;
+        default:
+             alert('类型非法', url('index/index'));
+    }
+    return array('startTime'=>$start_date, 'endTime'=>$end_date);
 }

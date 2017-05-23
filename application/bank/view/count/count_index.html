@@ -1,0 +1,96 @@
+{include file="public/head" /}
+
+
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+
+
+    <div class="mainpanel">
+        <style>
+            .btn-stroke{
+                padding:0 3px;
+                line-height:16px;
+            }
+        </style>
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li class="active"><a href="{:url('count/count_index')}">数据统计</a></li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <div class="row">
+              <div class="col-md-12 col-lg-12 dash-left">
+                <h4 style="font-size:14px;color:#583f01">金额统计</h4>
+                <hr style="margin-top:0px;border-color:#fff;">
+                <div class="row panel-quick-page"><a href="{:url('Money/index')}">
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-reports">
+                        
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">未完成提现总金额<span style="float:right;">{$cashMoney}</span></h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                       
+                    </div> </a>
+                </div>
+              </div>
+              
+              <hr />
+              
+              <div class="col-md-12">
+                  <ul class="nav nav-tabs nav-justified nav-line">
+                      <li {if $type=='today'} class="active" {/if}><a href="{:url('count/count_index',['type'=>'today'])}"><strong>今日收入排行</strong></a></li>
+                      <li {if $type=='yestorday'} class="active" {/if}><a href="{:url('count/count_index',['type'=>'yestorday'])}"><strong>昨日收入排行</strong></a></li>
+                  </ul>
+                  <hr>
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-success table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      <th style="width:60px;">排名</th>
+                                      <th>用户账号</th>
+                                      <th>用户昵称</th>
+                                      <th>订单总数(不包含下级)</th>
+                                      <th>获得金额(包含下级)</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="rankInfo" id="v" key="k"}
+                                  <tr>
+                                      <td><span class="btn btn-info btn-xs btn-stroke">{$k + ($page -1)*10 }</span></td>
+                                      <td>{$v['u_username']}</td>
+                                      <td>{$v['u_nic']}</td>
+                                      <td>{php}if(isset($orderNums[$v['u_id']])){echo $orderNums[$v['u_id']];}else{echo 0;}{/php}</td>
+                                      <td>{if $v.totalMoney}{$v.totalMoney}{else}0{/if}</td>
+                                  </tr>
+                                    {/volist}
+                                  </tbody>
+                              </table>
+                          </div>
+                          {$rankInfo->render()}
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}
+<script>
+    
+</script>
+
+
+
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+
+
