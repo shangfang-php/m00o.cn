@@ -48,7 +48,7 @@
                             <select id="select1" name="usid" class="form-control" style="" required="" data-placeholder="选择用户">
                                 <option value="">&nbsp;</option>
                                 {volist name="user" id="v"}
-                                <option value="{$v.u_id}">{$v.u_username}[{if condition="$v.u_leve eq 1"}一级代理{elseif condition="$v.u_leve eq 2" /}二级代理{elseif condition="$v.u_leve eq 3" /}三级代理{/if}][{$v.u_nic}]  </option>
+                                <option value="{$v.u_id}">{$v.u_username}[{if condition="$v.u_leve eq 1"}一级合伙人{elseif condition="$v.u_leve eq 2" /}二级合伙人{elseif condition="$v.u_leve eq 3" /}三级合伙人{/if}][{$v.u_nic}]  </option>
                                 {/volist}
 
                             </select>
