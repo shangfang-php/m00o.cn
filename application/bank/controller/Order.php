@@ -59,7 +59,7 @@ class Order extends common
             }
             $or = "order_".$Y."_".$M."_tb";
             $where['o_u_idss'] = Session('taokeid');
-            $dd = Db::name($or)->alias("or")->join('tgw_tb w','or.o_t_id = w.t_id',"LEFT")->join('user_tb u','or.o_u_id = u.u_id',"LEFT")->where("o_ordernum like '%".$name."%' or o_goodsinformation like '%".$name."%'")->where($where)->order('o_creattime desc')->paginate(10, false, [
+            $dd = Db::name($or)->alias("or")->join('tgw_tb w','or.o_t_id = w.t_id',"LEFT")->join('user_tb u','or.o_u_id = u.u_id',"LEFT")->where("o_ordernum like '%".$name."%' or o_goodsinformation like '%".$name."%' or u_username like '%".$name."%'")->where($where)->order('o_creattime desc')->paginate(10, false, [
                 'query' => array('name' => $name,'type'=>$type),
             ]);
             $data = array(
