@@ -40,6 +40,7 @@ class Index extends common
 			'uid'			=>$uid,
 			'len'			=>count($t),
             'notice'        =>  getNotice($uid, $userInfo),
+            'isRead'        =>  cookie('isRead') ? cookie('isRead') : 0,
 		];
 		//print_r($data);exit;
 		$this->assign($data);
