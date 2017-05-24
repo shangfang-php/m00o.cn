@@ -15,7 +15,7 @@ class Login extends Controller
             Session::set('usid',Cookie::get('usid'));
             Session::set('level',Cookie::get('level'));
             Session::set('expire',3600);
-            cookie('isRead', 0);
+            
             $this->redirect('index/index');
         }
         return $this->fetch();
@@ -51,6 +51,7 @@ class Login extends Controller
                         $arr = array("code"=>"-1","msg"=>"管理员不能登陆");
                         jsons($arr);
                     }
+                    cookie('isRead', 0); ##是否已阅读公告
                     Cookie::delete('usid');
                     Cookie::delete('uname');
                     Cookie::delete('level');
