@@ -45,7 +45,7 @@
                                  <span>开启</span>
                              </label>
                              <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;" id="js">
-                                 <input type="radio" checked="" name="is_close"  value="1">
+                                 <input type="radio" {if !$notice || $notice.is_close == '1'} checked=""{/if} name="is_close"  value="1">
                                  <span>关闭</span>
                              </label>
                          </div>
