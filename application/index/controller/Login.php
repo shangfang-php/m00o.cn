@@ -51,7 +51,7 @@ class Login extends Controller
                         $arr = array("code"=>"-1","msg"=>"管理员不能登陆");
                         jsons($arr);
                     }
-                    cookie('isRead', 0); ##是否已阅读公告
+                    cookie('adTime', 0); ##公告生成时间
                     Cookie::delete('usid');
                     Cookie::delete('uname');
                     Cookie::delete('level');

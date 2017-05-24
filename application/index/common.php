@@ -108,6 +108,6 @@ function getNotice($uid, $userInfo = ''){
     }
     $u_idss =   $userInfo['u_u_idss'];
     $where  =   array('u_idss'=>$u_idss, 'is_close'=>0);
-    $notice =   Db::table('notice_set')->field('content')->where($where)->find();
-    return $notice ? $notice['content'] : '';
+    $notice =   Db::table('notice_set')->field('content,createTime')->where($where)->find();
+    return $notice ? $notice : '';
 }

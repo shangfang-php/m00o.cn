@@ -23,6 +23,7 @@ class Index extends common
 		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
         $u  =   $userInfo;
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
+
 		$data = [
 			'todayData'      => $todayData, //今日订单数及收入
 			'monthData'      => $monthData, //本月订单数及收入
@@ -40,7 +41,7 @@ class Index extends common
 			'uid'			=>$uid,
 			'len'			=>count($t),
             'notice'        =>  getNotice($uid, $userInfo),
-            'isRead'        =>  cookie('isRead') ? cookie('isRead') : 0,
+            'adTime'        =>  cookie('adTime') ? cookie('adTime') : 0,
 		];
 		//print_r($data);exit;
 		$this->assign($data);

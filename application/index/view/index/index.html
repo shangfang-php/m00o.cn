@@ -122,10 +122,11 @@
 </div>
 
 
-<div class="huh" onclick="huh()" {if !$notice||$isRead}style="display:none;"{/if}></div>
-<div class="gonggao" onclick="gonggao()" {if !$notice||$isRead}style="display:none;"{/if}> 
+<div class="huh" onclick="huh()" {if !$notice||$adTime==$notice.createTime}style="display:none;"{/if}></div>
+<div class="gonggao" onclick="gonggao()" {if !$notice||$adTime==$notice.createTime}style="display:none;"{/if}> 
     <img src="/index/images/ggtu.png">
-     <p>{$notice}</p>
+    <input type="hidden" id="adTime" value="{$notice.createTime}"/>
+     <p>{$notice.content}</p>
      <input type="button" name="" value="我知道了" onclick="huh()">
 </div>
 
@@ -518,7 +519,8 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		$('.gonggao').css('display','none');
 		$('#ff').show();
 		$('body,html').css({'height':'auto','overflow':''});
-        document.cookie="isRead=1";
+        var adTime  =   $('#adTime').val();
+        document.cookie="adTime="+adTime;
 	}
 	function gonggao(){
 		
