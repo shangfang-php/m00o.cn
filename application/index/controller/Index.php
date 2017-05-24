@@ -895,6 +895,7 @@ class Index extends common
 			alert('联系管理员修复');exit;
 		}
 		$token = $res['data']['token'];
+		//alert($token);exit;
 		//print_r($token);
 		$gy_param = array(
 			'token'=>$token,
@@ -903,12 +904,15 @@ class Index extends common
 			'platform'=>1,
 			'site_id'=>$pid_arr[2]
 		);
+		//alert($gy_param);exit;
 		$gy_data = request_post("http://tbapi.00o.cn/highapi.php",$gy_param);
 		$gy_data = json_decode($gy_data,true);
-		if($gy_data['code']){
+		//alert($gy_data);exit;
+		$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
+		//alert($coupon_click_url);exit;
+		if(empty($coupon_click_url)){
 			alert('联系管理员修复');exit;
 		}
-		$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
 		$url_uland = $coupon_click_url."&activityId=".$vv['vid'];
 		//$url_uland = $gy_data
 		$tkl_post['url'] = urlencode($url_uland);
