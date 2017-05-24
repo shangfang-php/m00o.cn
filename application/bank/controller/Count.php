@@ -24,6 +24,8 @@ class Count extends common
         $cashWhere  =   array('m_u_idss'=>$u_idss, 'm_state'=>['in', '0,1']);
         $cashMoney  =   Db::table('money_tb')->field('sum(m_money) as money,m_state')->where($cashWhere)->group('m_state')->select(); ##统计待处理提现总金额
         $cashMoney  =   reverse_array($cashMoney, '', 'm_state');
+        $waitMoney  =   isset($cashMoney['0']['money']) ? floatval($cashMoney['0']['money']) : 0; ##未完成提现总金额 
+        $completeMoney  =   isset($cashMoney['1']['money']) ? floatval($cashMoney['1']['money']) : 0; ##已完成提现总金额
         
         if($endTime){
             $where['o_creattime']    =   ['between', array($startTime, $endTime)];
@@ -63,7 +65,8 @@ class Count extends common
         
         $page = input('page') ? input('page') : 1;
         $data = array(
-                    'cashMoney'     =>  $cashMoney,
+                    'waitMoney'     =>  $waitMoney,
+                    'completeMoney' =>  $completeMoney,
                     'rankInfo'      =>  $rankInfo,
                     'orderNums'     =>  $orderNums,
                     //'userInfo'      =>  $userInfo,
