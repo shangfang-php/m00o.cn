@@ -905,6 +905,9 @@ class Index extends common
 		);
 		$gy_data = request_post("http://tbapi.00o.cn/highapi.php",$gy_param);
 		$gy_data = json_decode($gy_data,true);
+		if($gy_data['code']){
+			alert('联系管理员修复');exit;
+		}
 		$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
 		$url_uland = $coupon_click_url."&activityId=".$vv['vid'];
 		//$url_uland = $gy_data
