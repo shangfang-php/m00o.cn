@@ -21,18 +21,33 @@
 		body{background:#eee;}
 		.cnt{display:none;}
 
+
+		 .drag_to_refresh{
+          width: 100%;text-align: center;
+            background-color: #fff;
+            color:#666;
+            display: none;
+        }
+        .refresh{
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color:#fff ;
+            color: #666;
+            display: none;
+        }
+        
+
 	</style>
 </head>
 
 <body>
-<div  id="huacontainer" style="width:100%;">
-<!-- 
-  <div style="height:60px; line-height:60px; text-align:center; width:100%; ">
-            释放即可刷新...
-        </div>  -->
+ 
+<div class="drag_to_refresh"></div>
+<div class="refresh">刷新中...</div>
 
 
-<div class="topHeight" style="position: relative;height: auto">
+<div class="topHeight drag" style="position: relative;height: auto;z-index: 9999999999">
 	<div class="conkey">
 		<a href="{:url('index/rank',['uid'=>$Think.session.usid])}">
 			<div class="ranking">
@@ -107,8 +122,8 @@
 </div>
 
 
-<div class="huh" onclick="huh()" {if !$notice}style="display:none;"{/if}></div>
-<div class="gonggao" onclick="gonggao()" {if !$notice}style="display:none;"{/if}> 
+<div class="huh" onclick="huh()" {if !$notice||$isRead}style="display:none;"{/if}></div>
+<div class="gonggao" onclick="gonggao()" {if !$notice||$isRead}style="display:none;"{/if}> 
     <img src="/index/images/ggtu.png">
      <p>{$notice}</p>
      <input type="button" name="" value="我知道了" onclick="huh()">
@@ -252,7 +267,49 @@
 		<input type="hidden" id="len" value="{$len}">
 </div>
 
+<script>
+window.onload = function () {
+    var initX;
+    var drag_content = document.querySelector(".drag");
+    var drag_to_refresh = document.querySelector(".drag_to_refresh");
+    var refresh = document.querySelector(".refresh");
 
+    drag_content.addEventListener("touchmove",drag);
+    drag_content.addEventListener("touchstart",dragStart);
+    drag_content.addEventListener("touchend",dragEnd);
+
+    function dragStart(e){
+        initY = e.touches[0].pageY;
+        console.log(initX);
+    }
+
+    function drag (e){
+        drag_to_refresh.style.display = "block";
+        drag_to_refresh.style.height = (e.touches[0].pageY - initY) + "px";
+        console.log(drag_to_refresh.style.height);
+        if(parseInt(drag_to_refresh.style.height)>=60){
+            // 注意：因为height得到的值是px为单位，所以用parseInt解析
+            drag_to_refresh.style.height = "50px";
+            if(parseInt(drag_to_refresh.style.height)>30){
+                drag_to_refresh.style.lineHeight = drag_to_refresh.style.height;
+                drag_to_refresh.innerHTML  = "松开刷新";
+            }
+        }
+    }
+
+    function dragEnd (e){
+        if(parseInt(drag_to_refresh.style.height)>30){
+            refresh.style.display = "block";
+            setTimeout(reload,1000);
+        }
+        drag_to_refresh.style.display = "none"; 
+    }
+
+    function reload () {
+        location.reload();
+    }
+}
+</script>
 
 <script>
 	function nav() {
@@ -330,9 +387,11 @@
 	<div class="sco">
 		<!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post" id='from'> -->
 		<form action="{:url('index/tj')}" method="post" id='from'>
-		{volist name='t' id='vv'}
-		<p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
-		{/volist}
+		<div class="boheight">
+		    {volist name='t' id='vv'}
+		     <p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
+		    {/volist}
+		</div>
 		<input type="hidden" name="mm1" value='' id="mm1">
 		<input type="hidden" name="tkid" id='v'>
 		<input type="hidden" name="gid" id='vv'>
@@ -356,12 +415,14 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 
 	<div class="sco">
 		<form action='http://up.t5166.com/api/api3.php' method="post" id='fromm'>
+			<div class="boheight">
 			{volist name='t' id='vv'}
 			<p>{$vv.t_nicname}
 				<input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}" class="wxdata">
 				<img class="i" src="/index/images/gou.jpg">
 			</p>
 			{/volist}
+			</div>
 			<input type="hidden" name="tkid" id='v1'>
 			<input type="hidden" name="gid" id='vv1'>
 			<input type="hidden" name="idss" value="{$idss}">
@@ -371,15 +432,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 	<p class="t" id="fs" onclick="tjj()"><!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->发&nbsp;送</p>
 </div>
 </div>
-
-
 </div>
-
-
-
-
-
-
 </body>
 
 </html>
@@ -465,6 +518,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		$('.gonggao').css('display','none');
 		$('#ff').show();
 		$('body,html').css({'height':'auto','overflow':''});
+        document.cookie="isRead=1";
 	}
 	function gonggao(){
 		

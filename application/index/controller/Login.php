@@ -15,6 +15,7 @@ class Login extends Controller
             Session::set('usid',Cookie::get('usid'));
             Session::set('level',Cookie::get('level'));
             Session::set('expire',3600);
+            cookie('isRead', 0);
             $this->redirect('index/index');
         }
         return $this->fetch();

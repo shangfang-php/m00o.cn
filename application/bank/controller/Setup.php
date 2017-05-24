@@ -236,10 +236,9 @@ class Setup extends common
             alert('请填写公告内容');exit;
         }
         
-        $data   =   array('content'=>$content, 'is_close'=>$is_close);
+        $data   =   array('content'=>$content, 'is_close'=>$is_close, 'createTime'=>time());
         if(!$id){
             $data['u_idss'] =   session('taokeid');
-            $data['createTime'] =   time();
             $info   =   Db::table('notice_set')->insert($data);
         }else{
             $info   =   Db::table('notice_set')->where('id', $id)->update($data);
