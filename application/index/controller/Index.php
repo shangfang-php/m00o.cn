@@ -878,15 +878,45 @@ class Index extends common
 		$vv = sc($post['coupon_id'],$post['jihua_type']);
 		$logo = $post['imgurl'];
 		$title = $post['gname'];
-		$url_uland="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
+		//pid   mm_321342432_43243432_432432432
+		//$url_uland="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
+		//获取高佣接口数据中的coupon_click_url&activityId=".$vv['vid']
+		$pid = $post['pid'];
+		$pid_arr = explode('_',$pid);
+		$memberid = $pid_arr[1];
+		$mem_param = array(
+			'memberid'=>$memberid,
+			'username'=>'jane妞',
+			'password'=>'271236'
+		);
+		$member_data = request_post("http://api.00o.cn/user.php",$mem_param);
+		$res= json_decode($member_data,true);
+		if($res['code'] == '2009'){
+			alert('联系管理员修复');exit;
+		}
+		$token = $res['data']['token'];
+		//print_r($token);
+		$gy_param = array(
+			'token'=>$token,
+			'item_id'=>$post['gid'],
+			'adzone_id'=>$pid_arr[3],
+			'platform'=>1,
+			'site_id'=>$pid_arr[2]
+		);
+		$gy_data = request_post("http://tbapi.00o.cn/highapi.php",$gy_param);
+		$gy_data = json_decode($gy_data,true);
+		$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
+		$url_uland = $coupon_click_url."&activityId=".$vv['vid'];
+		//$url_uland = $gy_data
 		$tkl_post['url'] = urlencode($url_uland);
 		$tkl_post['logo'] = $logo;
 		$tkl_post['title'] = $title;
-		$tkl = request_post('http://kl.00o.cn/index.php',$tkl_post);
+		$tkl = request_post('http://kl2.00o.cn/index.php',$tkl_post);
 
 		//$resp = $c->execute($req);
-		$url="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
-		$surl = request_post('http://00o.cn/api.php',array('smallurl'=>$url));
+		//$url="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
+		//$surl = request_post('http://00o.cn/api.php',array('smallurl'=>$url));
+		$surl = request_post('http://00o.cn/api.php',array('smallurl'=>$url_uland));
 		if(!$surl){
 			$surl = '';
 		}else{
