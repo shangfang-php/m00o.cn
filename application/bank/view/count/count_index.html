@@ -22,19 +22,33 @@
               <div class="col-md-12 col-lg-12 dash-left">
                 <h4 style="font-size:14px;color:#583f01">金额统计</h4>
                 <hr style="margin-top:0px;border-color:#fff;">
-                <div class="row panel-quick-page"><a href="{:url('Money/index')}">
+                <div class="row panel-quick-page">
+                    <a href="{:url('Money/index')}">
                     <div class="col-xs-6 col-sm-4 col-md-3 page-reports">
-                        
                         <div class="panel">
                           <div class="panel-heading">
-                            <h4 class="panel-title">未完成提现总金额<span style="float:right;">{$cashMoney}</span></h4>
+                            <h4 class="panel-title">未完成提现总金额<span style="float:right;">{$cashMoney[0]['money']}</span></h4>
                           </div>
                           <div class="panel-body">
                             <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
                           </div>
                         </div>
-                       
-                    </div> </a>
+                    </div>
+                    </a>
+                    
+                    <a href="{:url('Money/index',['state'=>1])}">
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-support">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">已完成提现总金额<span style="float:right;">{$cashMoney[1]['money']}</span></h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                    </div>
+                    </a>
+                    
                 </div>
               </div>
               

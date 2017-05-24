@@ -21,8 +21,9 @@ class Count extends common
         unset($times);
         
         $u_idss     =   session('taokeid');
-        $cashWhere  =   array('m_u_idss'=>$u_idss, 'm_state'=>0);
-        $cashMoney  =   Db::table('money_tb')->where($cashWhere)->sum('m_money'); ##统计待处理提现总金额
+        $cashWhere  =   array('m_u_idss'=>$u_idss, 'm_state'=>['in', '0,1']);
+        $cashMoney  =   Db::table('money_tb')->field('sum(m_money) as money,m_state')->where($cashWhere)->group('m_state')->select(); ##统计待处理提现总金额
+        $cashMoney  =   reverse_array($cashMoney, '', 'm_state');
         
         if($endTime){
             $where['o_creattime']    =   ['between', array($startTime, $endTime)];
