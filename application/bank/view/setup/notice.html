@@ -34,20 +34,18 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">公告内容<span class="text-danger">*</span></label>
                         <div class="col-sm-3">
-                            <textarea style="min-height: 120px;" class="text-success form-control" name="content" placeholder="请输入公告内容" required="" aria-required="true">
-                                {if $notice}{$notice.content}{/if}
-                            </textarea>
+                            <textarea style="min-height: 120px;text-align:left;" class="text-success form-control" name="content" placeholder="请输入公告内容" required="" aria-required="true" autofocus="">{if $notice}{$notice.content}{/if}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                          <label class="col-sm-2 control-label">首页弹窗提醒:</label>
                          <div class="col-sm-8">
                              <label class="rdiobox rdiobox-success" style="float:left;margin-top:10px;">
-                                 <input type="radio" name="is_close" checked="" value="0" id="zj">
+                                 <input type="radio" name="is_close" {if $notice && $notice.is_close == '0'} checked=""{/if} value="0" id="zj">
                                  <span>开启</span>
                              </label>
                              <label class="rdiobox rdiobox-danger" style="float:left;margin-left:20px;margin-top:10px;" id="js">
-                                 <input type="radio" name="is_close" {if $notice && $notice.is_close == '1'} checked=""{/if} value="1">
+                                 <input type="radio" checked="" name="is_close"  value="1">
                                  <span>关闭</span>
                              </label>
                          </div>
