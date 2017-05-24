@@ -6,14 +6,34 @@ class Money extends common
 {
     public function index()
     {
-    	$name = input('get.name');
-    	$money = Db::name('money_tb')->where(array('m_u_idss'=>Session('taokeid'),'m_state'=>0))->where("m_username like '%".$name."%' or m_alipayname like '%".$name."%'")->order('m_time desc')->paginate(10, false, [
-                    'query' => array('name' => $name),
+        $name   =   input('get.name');
+        $state  =   intval(input('state'));
+        $state  =   $state ? $state : 0;
+        if($name){
+            $where['m_username|m_alipayname']   =   ['like', "'%{$name}%'"];
+        }
+        $where['m_state'] =   $state;
+        $where['m_u_idss']= Session('taokeid');
+        
+    	$money = Db::name('money_tb')->where($where)->order('m_time desc')->paginate(10, false, [
+                    'query' => array('name' => $name, 'state'=>$state),
                 ]);
+                
+        $userArr    =   array();
+        if($money){
+            foreach($money as &$val){
+                $username   =   $val['m_username'];
+                $userInfo   =   Db::table('user_tb')->field('u_nic')->where('u_username', $username)->find();
+                $userArr[$username] =   $userInfo;
+            }
+        }
+        
     	$data = array(
     		'money'=>$money,
             'a'=>4,
             'b'=>5,
+            'userArr'=>$userArr,
+            'state' =>  $state,
     		);
     	$this->assign($data);
         return $this->fetch();
@@ -24,6 +44,14 @@ class Money extends common
         $money = Db::name('money_tb')->where(array('m_u_idss'=>Session('taokeid'),'m_state'=>1))->where("m_username like '%".$name."%' or m_alipayname like '%".$name."%'")->order('m_time desc')->paginate(10, false, [
                     'query' => array('name' => $name),
                 ]);
+        $userArr    =   array();
+        if($money){
+            foreach($money as &$val){
+                $username   =   $val['m_username'];
+                $userInfo   =   Db::table('user_tb')->field('u_nic')->where('u_username', $username)->find();
+                $userArr[$username] =   $userInfo;
+            }
+        }
         $data = array(
             'money'=>$money,
             'a'=>4,
@@ -491,6 +519,7 @@ class Money extends common
      */
     function export_data(){
         $u_id_ss    =   Session('taokeid');
+        $state      =   input('state') ? input('state') : 0;
 
         //include_once EXTEND_PATH.'php-export-data.class.php';
         Loader::import('Php_export_data', EXTEND_PATH);
@@ -501,7 +530,7 @@ class Money extends common
         $excel->addRow($tdarr);
         
         $statuses   =   array(0=>'未处理', 1=>'已提现', 2=>'拒绝提现');
-        $money = Db::name('money_tb')->where(array('m_u_idss'=>$u_id_ss,'m_state'=>0))->order('m_time desc')->select();
+        $money = Db::name('money_tb')->where(array('m_u_idss'=>$u_id_ss,'m_state'=>$state))->order('m_time desc')->select();
         if($money){
             foreach($money as $val){
                 $tdarr  =   array(

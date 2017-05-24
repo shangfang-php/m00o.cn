@@ -9,19 +9,20 @@
       <div class="panel">
           <div class="panel-heading">
           <ul class="nav nav-tabs nav-justified nav-line">
-              <li class="active"><a href="{:url('Money/index')}"><strong>未完成列表</strong></a></li>
-              <li><a href="{:url('Money/isok')}"><strong>已完成列表</strong></a></li>
-              <li><a href="{:url('Money/isno')}"><strong>已拒绝列表</strong></a></li>
+              <li {if $state=='0'}class="active"{/if}><a href="{:url('Money/index')}"><strong>未完成列表</strong></a></li>
+              <li {if $state=='1'}class="active"{/if}><a href="{:url('Money/index', ['state'=>1])}"><strong>已完成列表</strong></a></li>
+              <li {if $state=='2'}class="active"{/if}><a href="{:url('Money/index', ['state'=>2])}"><strong>已拒绝列表</strong></a></li>
           </ul>
           <div class="row">
               <div style="padding-left:20px;padding-top:20px;float:left;" class="col-md-8">
                   <form action="{:url('Money/index')}" method="get">
+                      <input type="hidden" name="state" value="{$state}"/>
                       <input style="width:300px;float:left;margin-right:20px;" type="text" name="name" class="form-control"  placeholder="用户账号/真实姓名" aria-required="true">
                       <input style="width:100px;float:left;" type="submit" class="btn btn-success" value="搜 索">
                   </form>
               </div>
               <div class="col-md-4" style="padding-top:20px;">
-                <button class="btn btn-info col-md-4" onclick="exportData()">导出全部未完成申请</button>
+                <button class="btn btn-info col-md-4" onclick="exportData()">导出全部{if $state=='0'}未完成{elseif $state == 1}已完成{else}已拒绝{/if}申请</button>
               </div>
               
               <div class="col-md-12">
@@ -49,6 +50,7 @@
                                       </label>
                                       </th>
                                       <th>用户账号</th>
+                                      <th>备注昵称</th>
                                       <th>真实姓名</th>
                                       <th>支付宝账号</th>
                                       <th>提现金额</th>
@@ -66,6 +68,7 @@
                                     </label>
                                     </td>
                                     <td>{$v.m_username}</td>
+                                    <td>{$userArr[$v.m_username]['u_nic']}</td>
                                     <td>{$v.m_alipayname}</td>
                                     <td>{$v.m_alipayaccount}</td>
                                     <td>{$v.m_money}</td>
@@ -113,7 +116,7 @@ function cli(Obj){
   }
   
   function exportData(){
-    var url =   "{:url('Money/export_data')}";
+    var url =   "{:url('Money/export_data',['state'=>$state])}";
     window.open(url);
   }
   var manage = {
