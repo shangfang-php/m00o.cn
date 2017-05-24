@@ -178,11 +178,11 @@
       var id = $(this).val();
       $('#fcbl2').removeAttr("style");
       $('#fcbl3').removeAttr("style");
-      $('#erj').html('提取二级佣金比率');
+      $('#erj').html('提取二级总佣金的');
       if(id!='')
       {
           if(id==1||id==2){
-              $('#erj').html('提取三级佣金比率');
+              $('#erj').html('提取三级总佣金的');
               $('#fcbl3').attr("style","display:none;");
               $('#san').val('');
               if(id==2)
