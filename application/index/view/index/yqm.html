@@ -6,16 +6,61 @@
 	<meta content="yes" name="apple-mobile-web-app-capable">     
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
 	<meta content="telephone=no" name="format-detection">
+	<script type="text/javascript" src="/index/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="//cdn.bootcss.com/clipboard.js/1.5.15/clipboard.min.js"></script>
     <title>邀请码</title>
     <link rel="stylesheet" href="/index/css/style.css">
 </head>
+<script type="text/javascript">
+		function copyUrl2()
+		{
+		var Url2=document.getElementById("biao1");
+		Url2.select(); // 选择对象
+		document.execCommand("Copy"); // 执行浏览器复制命令
+		alert("已复制好，可贴粘。");
+		}
+	</script>
 <body class="bod">
-	<a href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:50px;bottom:200px;width:10%;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
-	<div class="mo" style="height:68px;background: #eee">
-		<p style="line-height:68px;text-align: center">邀请码</p>
+<div class="bgb">
+	<a href="javascript:;" onclick="window.history.go(-1);" id="back"><img src="/index/images/qqqq.png" width="100%"></a>
+	<div class="mooo" >
+		<img src="/index/images/code.png" >
 	</div>
-	<div class="mo" style="height:68px;background: #eee">
-		<p style="line-height:68px;text-align: center">{$yqm}</p>
+	<div class="invint" >
+		
+		<p style="line-height:68px;">邀请码</p>
+		<p class="code"> <textarea id="biao1" style="height: 23px;    text-indent: -36px;    font-size: 14px;" readonly>	{$yqm}</textarea>
+
+		<input class="fz" id="dfz" type="button" value="复制"></input>
+		<input id="yfz" style="display: none" type="button" value="已复制"></input>
+
+		</p>
+		<p class="ne">注册码发送给别人后他将成为您的下级合伙人注册成功后请联系管理员开通配置！</p>
 	</div>
+
+	</div>
+	
+
 </body>
 </html>
+<script type="text/javascript">
+
+		var clipboard = new Clipboard('#dfz', {
+            target: function() {
+                return document.querySelector('#biao1');
+            }
+        });
+        clipboard.on('success', function(e){
+            /*e.trigger.innerHTML="已复制";*/
+            $('#dfz').val('复制成功');
+            $('#dfz').css('background','#ed7c30');
+            $('#yfz').css('display','block');
+            $('#dfz').css('display','none');
+            
+
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            e.clearSelection();
+        });
+	</script>

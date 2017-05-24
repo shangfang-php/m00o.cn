@@ -35,7 +35,7 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .partner .pashu img{height: 38px;margin-top: -4px;}
 .con2 .more{height: 40px;background: #fff;position: relative;width: 100%;line-height: 40px;font-size: 14px;}
 .con2 .more img{width: 2.5%;vertical-align: middle;position: relative;top: -1px;}
-.shareMoney{width: 100%;background: #fff;z-index: 9999999}
+.shareMoney{width: 100%;background: #fff;z-index: 9}
 .shareMoney h1{text-align: center;margin: 0;padding: 0; height: 34px; line-height: 34px;}
 .shareMoney h1 img{width: 26%;vertical-align: middle;}
 .wrapper03{position:relative;height: 1rem;width: 100%;overflow: hidden;margin:0 auto;border-bottom:1px solid #ccc}
@@ -124,6 +124,8 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 .bott{width: 100%;position: fixed;bottom: -450px;z-index: 9999;background: #fff;    z-index: 999999999999;}
 .bott p{height: 59px;line-height: 60px;width: 100%;border-bottom: 1px solid #eee;text-indent: 1em;position: relative;font-size: 14px;}
 .bott .sco{width: 100%;overflow: scroll;}
+.bott .boheight{height:360px;overflow: scroll; }
+.bottt .boheight{height:360px;overflow: scroll; }
 .bott .quxiao img{display: block;float: right;width: 8%;padding: 3%;}
 .bott .quxiao{background: #eee;width: 100%;height: 50px;}
 .bott p.t{display: block;text-align: center;background: #eee;font-weight: bold;font-size: 1.2em;color: #fff;}
@@ -350,6 +352,8 @@ a,button,input,textarea{-webkit-tap-highlight-color: rgba(0,0,0,0;)}
 
 @media screen and (min-width: 1024px){
 body{width: 640px;margin: 0 auto;}
+.bott{width: 640px;}
+.bottt{width: 640px;}
 }
 
 
@@ -451,8 +455,7 @@ body{width: 640px;margin: 0 auto;}
 .clickRate p{font-size: 14px;margin-top: 6%;}
 .main .ye{height:200px;}
 .main .ye div{padding-top: 55px;}
-.bott{width: 640px;}
-.bottt{width: 640px;}
+
 .bott .quxiao img{width: 5%;}
 .bottt .quxiao img{width: 5%;}
 .shu .shuliang {
