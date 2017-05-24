@@ -945,13 +945,13 @@ class Index extends common
 			'surl' => $surl
 		];
 
-		$add['h_goodsid'] = $post['gid'];
+		/*$add['h_goodsid'] = $post['gid'];
 		$add['h_alimamaid'] = $post['mm1'];
 		$add['h_time'] = strtotime(date('Y-m-d',time()));
 		$aa = Db::name('high_tb')->where($add)->find();
 		if(!$aa){
 			Db::name('high_tb')->insert($add);
-		}
+		}*/
 		$this->assign($data);
 		return $this->fetch();
 	}
