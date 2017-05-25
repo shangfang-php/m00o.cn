@@ -125,8 +125,8 @@
 <div class="huh" onclick="huh()" {if !$notice||$adTime==$notice.createTime}style="display:none;"{/if}></div>
 <div class="gonggao" onclick="gonggao()" {if !$notice||$adTime==$notice.createTime}style="display:none;"{/if}> 
     <img src="/index/images/ggtu.png">
-    <input type="hidden" id="adTime" value="{$notice.createTime}"/>
-     <p>{$notice.content}</p>
+    <input type="hidden" id="adTime" value="{if $notice}{$notice.createTime}{else}0{/if}"/>
+     <p>{if $notice}{$notice.content}{else}{/if}</p>
      <input type="button" name="" value="我知道了" onclick="huh()">
 </div>
 

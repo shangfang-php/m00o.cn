@@ -9,6 +9,9 @@
     <title>注册</title>
     <link rel="stylesheet" href="/index/css/gologin.css">
     <link href="/index/css/banneralert.css" rel="stylesheet" />
+
+
+
 </head>
 <body>
     <div class="content">
@@ -24,7 +27,7 @@
 
                     <div class="input_blocks" id="psw_invisibles">
                         <span class="psw">密　码：</span>
-                        <img id="visible" onclick="showPsws()" src="/index/images/login_close .png">
+                        <img id="visible" onclick="showPsws()" src="/index/images/login_close2.png">
                         <input type="password" id="input_invisibles" class="psw" name="password"/>
                     </div>
                     <div class="input_blocks" id="psw_visibles" style="display: none;">
@@ -38,6 +41,12 @@
                     <div class="isregs">
                         <input type="text" name="core" class="name" id="core"><span class="log">验证码：</span>
                         <button onclick="refreshVerify()"><img id="verify_img" src="{:captcha_src()}" alt="验证码"></button>
+
+                    </div>
+                    <div class="isnbsp">
+                        <input type="text" name="core" class="name" id="core"><span class="log">&nbsp;&nbsp;</span>
+                        
+                     
                     </div>
 
 
@@ -47,10 +56,12 @@
 
                 </div>
                 <div class="subs">
-                    <button onclick="Manage.reg()">注册</button>
+                    <button onclick="Manage.reg()">注 册</button>
                 </div>
                 <div class="zc">
-                    <a href="index.html" style="color:#fff;">登录账号</a>
+                    
+                    <span><a href="index.html" >登录账号</a></span> 
+                    
                 </div>
             </div>
         </div>
