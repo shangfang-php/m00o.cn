@@ -910,11 +910,21 @@ class Index extends common
 		$gy_data = request_post("http://tbapi.00o.cn/highapi.php",$gy_param);
 		$gy_data = json_decode($gy_data,true);
 		//alert($gy_data);exit;
-		$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
-		//alert($coupon_click_url);exit;
-		if(empty($coupon_click_url)){
+		try
+		{
+			$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
+
+		}
+		catch(\Exception $e)
+		{
+			//alert('网络不稳定,请稍候重试!',url('index/index'));
 			alert('联系管理员修复');exit;
 		}
+
+		//alert($coupon_click_url);exit;
+		/*if(empty($coupon_click_url)){
+			alert('联系管理员修复');exit;
+		}*/
 		$url_uland = $coupon_click_url."&activityId=".$vv['vid'];
 		//$url_uland = $gy_data
 		$tkl_post['url'] = urlencode($url_uland);
