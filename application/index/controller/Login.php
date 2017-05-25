@@ -14,7 +14,7 @@ class Login extends Controller
             Session::set('uname',Cookie::get('uname'));
             Session::set('usid',Cookie::get('usid'));
             Session::set('level',Cookie::get('level'));
-            Session::set('expire',3600);
+            Session::set('expire',86400);
             
             $this->redirect('index/index');
         }
@@ -62,7 +62,7 @@ class Login extends Controller
                     Session::set('usid',$user['u_id']);
                     Session::set('level',$user['u_leve']);
                     session('u_pass', $user['u_pass']);
-                    Session::set('expire',3600);
+                    Session::set('expire',86400);
                     
 					$arr = array("code"=>"0","msg"=>"登录成功");
 					jsons($arr);
