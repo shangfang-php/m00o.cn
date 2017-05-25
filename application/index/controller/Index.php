@@ -864,7 +864,7 @@ class Index extends common
 		$post = $_POST;
 		$tkid = isset($_POST['tkid'])?$post['tkid']:0;
 		if($tkid == 0 || empty($tkid)){
-			alert('参数错误');
+			alert('参数错误');exit;
 		}
 		//$tkid = $post['tkid'];
 		/*if(!$tkid){
@@ -876,8 +876,12 @@ class Index extends common
 		if(!isset($post['jihua_type'])||empty($post['jihua_type'])||is_null($post['jihua_type'])){
 			$post['jihua_type'] = '';
 		}
-
-		$vv = sc($post['coupon_id'],$post['jihua_type']);
+		$coupon_id = input('coupon_id');
+		if(!isset($coupon_id)||empty($coupon_id)||is_null($coupon_id)){
+			alert('优惠券有误');exit;
+		}
+		//$vv = sc($post['coupon_id'],$post['jihua_type']);
+		$vv = sc($coupon_id,$post['jihua_type']);
 		$logo = $post['imgurl'];
 		$title = $post['gname'];
 		//pid   mm_321342432_43243432_432432432
