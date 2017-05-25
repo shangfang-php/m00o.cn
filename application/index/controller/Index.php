@@ -898,7 +898,7 @@ class Index extends common
 		$member_data = request_post("http://api.00o.cn/user.php",$mem_param);
 		$res= json_decode($member_data,true);
 		if($res['code'] == '2009'){
-			alert('联系管理员修复');exit;
+			alert('联系管理员授权登录');exit;
 		}
 		$token = $res['data']['token'];
 		//alert($token);exit;
@@ -922,7 +922,7 @@ class Index extends common
 		catch(\Exception $e)
 		{
 			//alert('网络不稳定,请稍候重试!',url('index/index'));
-			alert('联系管理员修复');exit;
+			alert('请联系管理员刷新token');exit;
 		}
 
 		//alert($coupon_click_url);exit;
