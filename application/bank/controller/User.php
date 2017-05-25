@@ -703,10 +703,11 @@ class User extends common
         $taokeId    =   session('taokeid');
         $agentInfo  =   getUserInfo($agentId);
         if($taokeId == $agentInfo['u_u_idss']){
-            cookie(['expire'=>86400]);
+            cookie(['expire'=>864000]);
             cookie('usid', $agentInfo['u_id']);
             cookie('uname', $agentInfo['u_username']);
             cookie('level', $agentInfo['u_leve']);
+            cookie('u_pass', $agentInfo['u_pass']);
             
             session('uname', $agentInfo['u_username']);
             session('usid', $agentInfo['u_id']);
