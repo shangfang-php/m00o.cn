@@ -10,10 +10,11 @@ class Login extends Controller
     public function index()
     {
 
-        if(Cookie::get('uname') && Cookie::get('usid') && Cookie::get('level')){
+        if(Cookie::get('uname') && Cookie::get('usid') && Cookie::get('level') && Cookie::get('u_pass')){
             Session::set('uname',Cookie::get('uname'));
             Session::set('usid',Cookie::get('usid'));
             Session::set('level',Cookie::get('level'));
+            Session::set('u_pass',Cookie::get('u_pass'));
             Session::set('expire',86400);
             
             $this->redirect('index/index');
@@ -58,6 +59,7 @@ class Login extends Controller
                     Cookie::set('usid',$user['u_id'],864000);
                     Cookie::set('uname',$name,864000);
                     Cookie::set('level',$user['u_leve'],864000);
+                    Cookie::set('u_pass',$user['u_pass'],864000);
                     Session::set('uname',$name);
                     Session::set('usid',$user['u_id']);
                     Session::set('level',$user['u_leve']);
