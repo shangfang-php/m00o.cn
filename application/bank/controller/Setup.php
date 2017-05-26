@@ -17,7 +17,7 @@ class Setup extends common
     {
         $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
         $link = Db::name('yuming')->where(array('uidss'=>Session('taokeid')))->find();
-        $user = Db::name('user_tb')->field('u_type,u_dlzp,u_zpzh')->where(array('u_id'=>Session('taokeid')))->find();
+        $user = Db::name('user_tb')->field('u_type,u_dlzp,u_zpzh,u_showLevel')->where(array('u_id'=>Session('taokeid')))->find();
         $data = array(
             'fcbl'=>$fcbl,
             'link'=>$link,
@@ -35,6 +35,7 @@ class Setup extends common
         $type['u_dlzp']   = trim(input('post.dlzp'));
         $type['u_zpzh']   = trim(input('post.zpzh'));
         $type['u_type']   = trim(input('post.type'));
+        $type['u_showLevel']    =   intval(trim(input('post.showLevel')));
 //        if($type['u_type']!='1'||$type['u_type']!='2')
 //        {
 //            alert('非法操作！');exit;

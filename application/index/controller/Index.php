@@ -702,7 +702,8 @@ class Index extends common
 			alert('不要乱搞，我跟你讲',url('index'));
 		}
 		$user = Db::name('user_tb')->where('u_id',$id)->find();
-		$data = ['user' => $user,];
+        $parentUser =   getUserInfo($user['u_u_idss']);
+		$data = ['user' => $user,'parentUser'=>$parentUser];
 		$this->assign($data);
 		return $this->fetch();
 	}
