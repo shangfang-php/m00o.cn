@@ -77,7 +77,7 @@ class Count extends common
             
             $orderCount =   Db::table($order_table)->Alias('a')->field('count(a.o_id) total, sum(or_money) money')->join($order_record_table.' b', 'a.o_ordernum = b.or_o_ordernum and or_u_id = '.$uid, 'left')->where($where)->find();
             //print_r($orderCount);exit;
-            $orderCount['money'] = round($orderCount['money'],0);
+            //$orderCount['money'] = round($orderCount['money'],0); ##不再四舍五入
             /** end**/
 
             $search !== false && $agents = $search;
