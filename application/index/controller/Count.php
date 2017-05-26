@@ -190,7 +190,7 @@ class Count extends common
                 $searchInfo =   Db::table('user_tb')->field('u_id,u_parent_u_id')->where($where)->select();
                 $agents     =   empty($searchInfo) ? array() : get_field_array('u_id', $searchInfo);
             }
-            $data   =   $this->get_agents_data_count($start_date, $end_date, $agents, $agentId);
+            $data   =   $this->get_agents_data_count($start_date, $end_date, $agents, $uid);
         }
         
         $loadData   =   array('type'=>$type, 'agentId'=>$agentId, 'searchAgent'=>$searchAgent, 'agentsDataCount'=>$data);
