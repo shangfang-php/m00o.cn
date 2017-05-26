@@ -11,7 +11,9 @@ class Index extends common
         $today_start    =   strtotime(date('Y-m-d'));
         //var_dump($today_start);exit;
         $todayData  =   getUserMoneyOrder($uid, $today_start); ##获取当日数据
-        
+        $order_record_table     =   ortb(time());
+        $todayData['allMoney']  =   Db::table($order_record_table)->where(array('or_o_creattime'=>['>=', $today_start], 'or_u_id'=>$uid))->sum('or_money'); ##今日收入包含下级贡献
+
         $month_start    =   strtotime(date('Y-m'));
         $monthData  =   getUserMoneyOrder($uid, $month_start); ##获取当月数据
         
