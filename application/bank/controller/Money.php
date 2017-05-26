@@ -10,7 +10,7 @@ class Money extends common
         $state  =   intval(input('state'));
         $state  =   $state ? $state : 0;
         if($name){
-            $where['m_username|m_alipayname']   =   ['like', "'%{$name}%'"];
+            $where['m_username|m_alipayname']   =   ['like', "%{$name}%"];
         }
         $where['m_state'] =   $state;
         $where['m_u_idss']= Session('taokeid');
