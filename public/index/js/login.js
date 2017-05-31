@@ -44,13 +44,13 @@ var Manage = {
         
         if(name == ''|| name == null){
             $("body").showbanner({
-                title : "\nm.00o.cn",
+                //title : "\nm.00o.cn",
                 content : "用户名不能为空！"
             });
         }
         else if(password == ''||password ==null){
             $("body").showbanner({
-                title : "\nm.00o.cn",
+                //title : "\nm.00o.cn",
                 content : "密码不能为空！"
             });
         }
@@ -64,13 +64,13 @@ var Manage = {
                 cache: false,success: function (data, state) {
                     if (state == 'success' && data.code == '0') {
                         $("body").showbanner({
-                            title : "\nm.00o.cn",
+                            //title : "\nm.00o.cn",
                             content : data.msg,
                         });
                         setTimeout(function(){location.href = "/";},1000);
                     } else {
                         $("body").showbanner({
-                            title : "\nm.00o.cn",
+                            //title : "\nm.00o.cn",
                             content : data.msg,
                         });
                     }
