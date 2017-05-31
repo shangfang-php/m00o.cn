@@ -320,7 +320,8 @@ class Index extends common
                 $end_date   =   '';
                 break;
             case 'lastmonth':
-                $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
+                $month_first=   strtotime(date('Y-m-01')); ##本月第一天时间戳
+                $start_date =   strtotime(date('Y-m-01', strtotime('-1 month', $month_first))); ##上月1号0点
                 $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
                 break;
             default:
@@ -419,7 +420,8 @@ class Index extends common
                 $end_date   =   '';
                 break;
             case 'lastmonth':
-                $start_date =   strtotime(date('Y-m', strtotime('-1 month'))); ##上月1号0点
+                $month_first=   strtotime(date('Y-m-01')); ##本月第一天时间戳
+                $start_date =   strtotime(date('Y-m-01', strtotime('-1 month', $month_first))); ##上月1号0点
                 $end_date   =   strtotime(date('Y-m')) -1; ##上月最后一天 23：59：59
                 break;
             default:
