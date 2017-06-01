@@ -66,8 +66,13 @@ class Index extends common
 		}else{
 			$url = "http://so.00o.cn/index.php?p=".$p;
 		}
-		$datas = file_get_contents($url);
-		$list = json_decode($datas,true);
+		$datas = request_get($url);
+		if(!$datas){
+			$list = array();
+		}else{
+			$list = json_decode($datas,true);
+		}
+		//$datas = file_get_contents($url);
 		$data = [
 			'datas'=> $list,
 			'page' => $p,
@@ -795,19 +800,25 @@ class Index extends common
 		if($p <= 1){
 			$p = 1;
 		}
-		try
-		{
+		//try
+		//{
 			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
 			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
+		//	$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
 
-		}
-		catch(\Exception $e)
-		{
-			alert('网络不稳定,请稍候重试!',url('index/index'));
+		//}
+		//catch(\Exception $e)
+		//{
+		//	alert('网络不稳定,请稍候重试!',url('index/index'));
+		//}
+		$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order;
+		$z = request_get($url);
+		if(!$z){
+			$zz = array();
+		}else{
+			$zz = json_decode($z,true);
 		}
 
-		$zz = json_decode($z,true);
 		//echo '<pre>';
 		//print_r($zz);exit;
 		if(!$zz){
@@ -862,8 +873,14 @@ class Index extends common
 		$pp = $p+1;
 		//当前的排序方法
 		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
-		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
-		$datas = json_decode($z,true);
+		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
+		$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order;
+		$z = request_get($url);
+		if(!$z){
+			$datas = array();
+		}else{
+			$datas = json_decode($z,true);
+		}
 		$data = array(
 			'datas'=>$datas,
 			'page'=>$pp

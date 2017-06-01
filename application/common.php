@@ -252,6 +252,7 @@ function wa($gid){
 	preg_match_all($regexstr, $zz, $match);
 	return $match['dtk_wa'];
 }
+
 function cjapi($name,$i){
 	//$z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$i);
 	$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$i);
@@ -268,6 +269,7 @@ function ortb($time){
 		return 'order_record_'.$y.'_'.$m.'_tb';
 	}
 }
+
 function prevortb($time){
 	$y = date('y',$time);
 	$m = date('m',$time);
@@ -303,6 +305,21 @@ function request_post($url = '', $param = '') {
         curl_close($ch);
         
         return $data;
+    }
+function request_get($url) {
+	if (empty($url)) {
+		return false;
+	}
+	//初始化
+	$ch = curl_init();
+	//设置选项，包括URL
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	$output = curl_exec($ch);
+	//释放curl句柄
+	curl_close($ch);
+	return $output;
     }
 
 /**
