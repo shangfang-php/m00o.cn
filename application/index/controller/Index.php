@@ -22,7 +22,11 @@ class Index extends common
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
 		$list_data = request_post("http://so.00o.cn/index.php",array());
-		$list = json_decode($list_data,true);
+		if(!$list_data){
+			$list = array();
+		}else{
+			$list = json_decode($list_data,true);
+		}
 		//$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
 		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
         $u  =   $userInfo;
