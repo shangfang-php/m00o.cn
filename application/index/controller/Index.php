@@ -61,12 +61,18 @@ class Index extends common
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		$p = isset($_GET['p'])?intval($_GET['p']):1;
-		if($cid>0){
+		/*if($cid>0){
 			$url = "http://so.00o.cn/index.php?cid=".$cid."&p=".$p." ";
 		}else{
 			$url = "http://so.00o.cn/index.php?p=".$p;
-		}
-		$datas = request_get($url);
+		}*/
+		$url = "http://so.00o.cn/index.php";
+		//$datas = request_get($url);
+		$param = array(
+			"cid"=>$cid,
+			"p"=>$p
+		);
+		$datas = request_post($url,$param);
 		if(!$datas){
 			$list = array();
 		}else{
@@ -811,8 +817,15 @@ class Index extends common
 		//{
 		//	alert('网络不稳定,请稍候重试!',url('index/index'));
 		//}
-		$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order;
-		$z = request_get($url);
+		//$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order;
+		$url = "http://so.00o.cn/index.php";
+		$param  = array(
+			'keyword'=>$name,
+			'p'=>$p,
+			'type'=>$type,
+			'order'=>$order
+		);
+		$z = request_post($url,$param);
 		if(!$z){
 			$zz = array();
 		}else{
@@ -821,7 +834,7 @@ class Index extends common
 
 		//echo '<pre>';
 		//print_r($zz);exit;
-		if(!$zz){
+		if(empty($zz)){
 			alert('没有数据',url('index/index'));
 			//alert('1212',url('index/index'));
 		}
@@ -874,8 +887,16 @@ class Index extends common
 		//当前的排序方法
 		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
 		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
-		$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order;
-		$z = request_get($url);
+		//$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order;
+		//$z = request_get($url);
+		$url = "http://so.00o.cn/index.php";
+		$param = array(
+			"keyword"=>$name,
+			"p"=>$p,
+			"type"=>$type,
+			"order"=>$order
+		);
+		$z = request_post($url,$param);
 		if(!$z){
 			$datas = array();
 		}else{
