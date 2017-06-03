@@ -939,7 +939,7 @@ class Index extends common
 		$tkl_post['url'] = urlencode($url_uland);
 		$tkl_post['logo'] = $logo;
 		$tkl_post['title'] = $title;
-		$tkl = request_post('http://kl2.00o.cn/index.php',$tkl_post);
+		$tkl = request_post('http://kl.00o.cn/index.php',$tkl_post);
 
 		//$resp = $c->execute($req);
 		//$url="http://uland.taobao.com/coupon/edetail?activityId=".$vv['vid']."&pid=".$post['pid']."&itemId=".$post['gid']."&src=mili_etuia&dx=".$vv['dx'];
