@@ -433,15 +433,16 @@ class User extends common
         else
         {
             $us = Db::name("user_tb")->field('u_id as usid,u_username as username,u_code as code,u_leve as leve,u_fcbl as fcbl,u_parent_u_id,u_money as money,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney,u_allmoney')->where(array('u_id'=>$uid))->find();
-            $one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
-            if($one)
-            {
-                $nou = 1;
-            }
-            else
-            {
-                $nou = 0;
-            }
+            //$one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
+            //if($one)
+//            {
+//                $nou = 1;
+//            }
+//            else
+//            {
+//                $nou = 0;
+//            }
+            $nou    =   $us['leve'] == 1 ? 1 : 0; ##1级代理不允许升级，其它代理取消下级代理判断
             if($us)
             {
                 $arr = array("code"=>"0","res"=>"获取成功！","user"=>$us,"nou"=>$nou);
@@ -510,9 +511,9 @@ class User extends common
         $fcbl2 = trim(input('post.fcbl2'))/100;
         $fcbl3 = trim(input('post.fcbl3'))/100;
         $nic = trim(input('post.nic'));
-        $jis  = trim(input('post.jis'));
-        $se5  = trim(input('post.se5'));
-        
+        $jis  = intval(trim(input('post.jis')));
+        $se5  = intval(trim(input('post.se5')));
+        $taokeId    =   session('taokeid');
         if($fcbl>1){
             alert('本人佣金比例不能大于100');exit;
         }
@@ -525,17 +526,87 @@ class User extends common
         
         if(empty($uid))
         {
-            $arr = array("code"=>"-1","res"=>"错误参数2006！");
+            $arr = array("code"=>"301","res"=>"操作非法！");
             jsons($arr);
         }
         else
         {
             $user = Db::name('user_tb')->where(array('u_id'=>$uid))->find();
-            if(!$user)
-            {
-                $arr = array("code"=>"-1","res"=>"错误参数2003！");
+            if(!$user){
+                $arr = array("code"=>"302","res"=>"找不到该用户信息!");
                 jsons($arr);
             }
+            
+            if($taokeId != $user['u_u_idss']){
+                $arr = array('code'=>'303', 'res'=>'非法操作!该用户你无权操作!');
+                jsons($arr);
+            }
+            
+            if($uid == $se5){
+                $arr = array("code"=>"304","res"=>"不可以选择自己为上级！");
+                jsons($arr);
+            }
+            
+            if($jis==1||$jis==2){
+                if(!$se5){
+                    $arr = array('code'=>'305', 'res'=>'必须要有上级代理!');
+                    jsons($arr);
+                }
+                $usse = Db::name('user_tb')->where(array('u_id'=>$se5))->find();
+                if(!$usse){
+                    $arr = array("code"=>"306","res"=>"上级代理不存在");
+                    jsons($arr);
+                }
+            }
+            
+            ##为什么$jis 不按照数据库的合伙人等级赋值而是小1。。。。
+            $jis += 1;
+            
+            Db::startTrans();
+            if($jis != $user['u_leve']){ ##级别改变
+                 $save['u_leve']    =   $jis;
+                 $save['u_parent_u_id']= $jis == 1 ? $taokeId : $se5; ##一级代理为淘客ID，非一级代理则为指定代理商
+                 $fcblArr   =   getTaokeFcblSet($taokeId, $jis); ##获取指定淘客的分成比例默认设置
+                 $save      +=  $fcblArr; ##合并数组
+                 
+                 ##检测是否有下级合伙人，当前只有二级合伙人升一级才需要升级二级名下的三级合伙人到二级
+                 $childUser =   Db::table('user_tb')->field('u_id')->where('u_parent_u_id', $uid)->find();
+                 if($childUser){
+                    $fcblArr    =   getTaokeFcblSet($taokeId, 2); ##获取二级合伙人默认分成比例
+                    $fcblArr['u_leve'] =   2;
+                    //var_dump($fcblArr);exit;
+                    $info       =   Db::table('user_tb')->where('u_parent_u_id', $uid)->update($fcblArr);
+                    if($info === FALSE){
+                        $arr = array("code"=>"307","res"=>"提升下级合伙人等级失败!");
+                        Db::rollback();
+                        jsons($arr);
+                    }
+                 }
+                 
+            }else{ ##级别未改变 则只更新合伙人信息
+                $save['u_fcbl']     =   $fcbl;
+                $save['u_fcbl2']    =   $fcbl2;
+                $save['u_fcbl3']    =   $fcbl3;
+                $save['u_parent_u_id']= $se5;
+            }
+            
+            /** 更新合伙人信息**/
+            $save['u_nic']      =   $nic;
+            $usave = Db::name('user_tb')->where(array('u_id'=>$uid))->update($save);
+            if($usave === false){
+                Db::rollback();
+                $arr = array("code"=>"333","res"=>"保存合伙人信息失败!");
+                jsons($arr);
+            }
+            /** end**/
+            
+            Db::commit();
+            savesafe(Session('taokeid'));
+            $arr = array("code"=>"0","res"=>"修改成功！");
+            jsons($arr);
+            
+            
+            /*
             $one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
             if(!$one)
             {
@@ -590,7 +661,7 @@ class User extends common
             {
                 $arr = array("code"=>"1","res"=>"修改失败！");
                 jsons($arr);
-            }
+            }*/
         }
     }
 

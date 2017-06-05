@@ -187,7 +187,7 @@
                     </div>
                     
                 </div>
-                <div style="color:#f00">友情提示：有订单数据或者下级合伙人的将不可修改合伙人等级</div>
+                <div style="color:#f00">友情提示：合伙人升级时会自动提升该合伙人所属下级合伙人级别,佣金分成将修改为设置中心设置的默认分成比例,如需修改,请提升等级后再自行设置。</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
@@ -407,15 +407,19 @@
               if (state == 'success' && data.code == '0') {
                   $('#fcb2').removeAttr("style");
                   var a = data.user;
+                  var one_select    =   '';
+                  var two_select    =   '';
+                  var three_selete  =   '';
                   if(a.leve===1){
                       $('#erji').html('提取二级总佣金的');
                       $('#sjy').removeAttr("style");
                       $('#fcb3').removeAttr("style");
                       $('#sjy').attr("style","display:none;");
-
+                        
                       if(data.nou===0)
                       {
-                          var l = "selected";
+                          //var l = "selected";
+                          one_select    =   'selected';
                       }
                       else
                       {
@@ -427,7 +431,8 @@
                       $('#fcb3').attr("style","display:none;");
                       if(data.nou===0)
                       {
-                          var e ="selected";
+                          //var e ="selected";
+                          two_select    =   'selected';
                           manage.zt(1,a.u_parent_u_id);
                       }
                       else
@@ -441,7 +446,8 @@
                       $('#fcb3').attr("style","display:none;");
                       if(data.nou===0)
                       {
-                          var v = "selected";
+                          //var v = "selected";
+                          var three_selete  =   'selected';
                           manage.zt(2,a.u_parent_u_id);
                       }
                       else
@@ -453,9 +459,20 @@
                   {
                       $('#dljb').empty();
                       var h  = '';
-                           h+='<option value="0" '+l+'>一级合伙人</option>'+
-                              '<option value="1" '+e+'>二级合伙人</option>'+
-                              '<option value="2" '+v+'>三级合伙人</option>';
+                      if(a.leve >= 1){
+                            h   +=  '<option value="0" '+one_select+'>一级合伙人</option>';
+                      }
+                      
+                      if(a.leve >= 2){
+                        h   +=  '<option value="1" '+two_select+'>二级合伙人</option>';
+                      }
+                      
+                      if(a.leve >= 3){
+                        h   +=  '<option value="2" '+three_selete+'>三级合伙人</option>';
+                      }
+                           //h+='<option value="0" '+l+'>一级合伙人</option>'+
+//                              '<option value="1" '+e+'>二级合伙人</option>'+
+//                              '<option value="2" '+v+'>三级合伙人</option>';
 
                         $('#jis').removeAttr("style");
                         $('#jis').html(h);
@@ -472,12 +489,12 @@
                       $('#dljb').html(k);
                   }
                   
-                  if(a.u_allmoney==0.00){
-                      
-                  }else{
-                      $("#se5").prop("disabled",true);
-                      $("#jis").prop("disabled",true);
-                  }
+                  //if(a.u_allmoney==0.00){
+//                      
+//                  }else{
+//                      $("#se5").prop("disabled",true);
+//                      $("#jis").prop("disabled",true);
+//                  }
                   
                   $('#fcbl').val(a.fcbl*100);
                   $('#fcbl2').val(a.u_fcbl2*100);
