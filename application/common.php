@@ -476,3 +476,37 @@ function getStartAndEndTime($type){
     }
     return array('startTime'=>$start_date, 'endTime'=>$end_date);
 }
+
+/**
+ * getTaokeFcblSet()
+ * 获取淘客的默认分成比例设置
+ * @param mixed $taokeId
+ * @param integer $level
+ * @return void
+ */
+function getTaokeFcblSet($taokeId, $level = 0){
+    $return =   array('u_fcbl'=>0, 'u_fcbl2'=>0, 'u_fcbl3'=>0);
+    if($level == 1){
+        $field  =   'fc_one,fc_one2,fc_one3';
+    }elseif($level == 2){
+        $field  =   'fc_two,fc_two2';
+    }elseif($level == 3){
+        $field  =   'fc_three';
+    }else{
+        return $return;
+    }
+    $res    =   Db::table('tkfcbl_tb')->field($field)->where('fc_u_idss', $taokeId)->find();
+    if($res){
+        if($level == 1){
+            $return['u_fcbl']   =   $res['fc_one'];
+            $return['u_fcbl2']  =   $res['fc_one2'];
+            $return['u_fcbl3']  =   $res['fc_one3'];
+        }elseif($level == 2){
+            $return['u_fcbl']   =   $res['fc_two'];
+            $return['u_fcbl2']  =   $res['fc_two2'];
+        }else{
+            $return['u_fcbl']   =   $res['fc_three'];
+        }
+    }
+    return $return;
+}
