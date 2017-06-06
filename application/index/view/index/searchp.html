@@ -115,7 +115,7 @@
             <div class="main3">
                 <ul>
                     {volist name='list' id='vo'}
-                    <div class="ls">
+                    <div class="ls"  id="ls">
                         <div class="pic">
                             <img src="{$vo.pic}" width="100%" height="100%">
                         </div>
@@ -188,11 +188,13 @@
                     <!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post"
                     id='from'> -->
                     <form action="{:url('index/tj')}" method="post" id='from'>
+                    <div class="boheight">
                         {volist name='t' id='vv'}
                         <p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">
                             {$vv.t_nicname}
                         </p>
                         {/volist}
+                        </div>
                         <input type="hidden" name="mm1" id="mm1">
                         <input type="hidden" name="tkid" id='v'>
                         <input type="hidden" name="gid" id='vv'>
@@ -224,6 +226,7 @@
                             <img class="i" src="/index/images/gou.jpg">
                         </p>
                         {/volist}
+                        </div>
                         <input type="hidden" name="tkid" id='v1'>
                         <input type="hidden" name="gid" id='vv1'>
                         <input type="hidden" name="idss" value="{$idss}">
@@ -243,6 +246,7 @@
 
 <script src="/index/js/jquery.js" language="javascript"></script>
 <script type="text/javascript" src="/index/js/jquery.min.js"></script>
+ <script type="text/javascript" src="/index/js/jquery.cookie.js"></script>
 <script language="javascript">
     function animate() {
         $(".charts").each(function(i, item) {
@@ -254,7 +258,11 @@
         });
     }
     animate();
-   
+
+     $('html, body').scrollTop($("#" + $('#ls').val()).offset().top);  
+     
+     
+
 </script>
 <script>
     function nav() {
@@ -331,6 +339,7 @@
             'overflow': ''
         });
     }
+  
     function tj(pid, name) {
         $('#pid').val(pid);
 		var mm1_arr = pid.split('_');
@@ -338,7 +347,7 @@
 		$('#mm1').val(mm1);
         //$('#from').submit();
         $('.bott').animate({
-            bottom: "-300px"
+            bottom: "-450px"
         });
         $('.btm').css('display', 'none');
         $('#from').submit();
@@ -384,7 +393,7 @@
             alert('请勾选对应群');
         }
         $('.bottt').animate({
-            bottom: "-350px"
+            bottom: "-450px"
         });
         $('.bottt .i').css('display', 'none');
         $('#fromm p input').attr('name', '');

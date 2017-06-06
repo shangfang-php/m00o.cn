@@ -10,7 +10,7 @@
 	<meta content="telephone=no" name="format-detection">
 	<meta name="msapplication-tap-highlight" content="no">
 	<meta name="full-screen" content="yes">
-<meta name="x5-fullscreen" content="true">
+    <meta name="x5-fullscreen" content="true">
 	<link rel="stylesheet" href="/index/css/style.css?vesion=1.0">
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js">
 	</script>
@@ -22,15 +22,15 @@
 		.cnt{display:none;}
 
 
-		 .drag_to_refresh{
+		.drag_to_refresh{
           width: 100%;text-align: center;
             background-color: #fff;
             color:#666;
             display: none;
         }
         .refresh{
-            height: 50px;
-            line-height: 50px;
+            height: 30px;
+            line-height: 30px;
             text-align: center;
             background-color:#fff ;
             color: #666;
@@ -290,8 +290,8 @@ window.onload = function () {
         console.log(drag_to_refresh.style.height);
         if(parseInt(drag_to_refresh.style.height)>=60){
             // 注意：因为height得到的值是px为单位，所以用parseInt解析
-            drag_to_refresh.style.height = "50px";
-            if(parseInt(drag_to_refresh.style.height)>30){
+            drag_to_refresh.style.height = "20px";
+            if(parseInt(drag_to_refresh.style.height)>10){
                 drag_to_refresh.style.lineHeight = drag_to_refresh.style.height;
                 drag_to_refresh.innerHTML  = "松开刷新";
             }
@@ -299,7 +299,7 @@ window.onload = function () {
     }
 
     function dragEnd (e){
-        if(parseInt(drag_to_refresh.style.height)>30){
+        if(parseInt(drag_to_refresh.style.height)>10){
             refresh.style.display = "block";
             setTimeout(reload,1000);
         }
@@ -534,7 +534,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		var mm1_arr = pid.split('_');
 		$('#mm1').val(mm1_arr[1]);
 		//$('#from').submit();
-		$('.bott').animate({bottom:"-300px"});
+		$('.bott').animate({bottom:"-450px"});
 		$('.btm').css('display','none');
 		$('#from').submit();
 		$('#ff').show();
@@ -573,7 +573,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		}else{
 			alert('请勾选对应群');
 		}
-		$('.bottt').animate({bottom:"-350px"});
+		$('.bottt').animate({bottom:"-450px"});
 		$('.bottt .i').css('display','none');
 		$('#fromm p input').attr('name','');
 		$('.btm').css('display','none');
