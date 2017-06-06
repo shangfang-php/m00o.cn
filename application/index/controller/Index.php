@@ -31,7 +31,6 @@ class Index extends common
 		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
         $u  =   $userInfo;
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
-
 		$data = [
 			'todayData'      => $todayData, //今日订单数及收入
 			'monthData'      => $monthData, //本月订单数及收入
