@@ -21,12 +21,14 @@ class Index extends common
 
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
-		$list_data = request_post("http://so.00o.cn/index.php",array());
+		$list_data = request_get("http://so.00o.cn/index.php");
 		if(!$list_data){
 			$list = array();
 		}else{
 			$list = json_decode($list_data,true);
 		}
+		//echo '<pre>';
+		//print_r($list);exit;
 		//$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
 		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
         $u  =   $userInfo;
@@ -913,7 +915,9 @@ class Index extends common
 		$post = $_POST;
 		$tkid = isset($_POST['tkid'])?$post['tkid']:0;
 		if($tkid == 0 || empty($tkid)){
-			alert('参数错误');exit;
+			alert('参数错误');exit;//2017-6-6 修改ajax返回数据
+			//echo "<script>alert('参数错误');</script>";exit;
+			//exit(array('status'=>'2009','msg'=>'参数有误'));
 		}
 		//$tkid = $post['tkid'];
 		/*if(!$tkid){
@@ -925,9 +929,10 @@ class Index extends common
 		if(!isset($post['jihua_type'])||empty($post['jihua_type'])||is_null($post['jihua_type'])){
 			$post['jihua_type'] = '';
 		}
-		$coupon_id = input('coupon_id');
+		$coupon_id = input('post.coupon_id');
 		if(!isset($coupon_id)||empty($coupon_id)||is_null($coupon_id)){
-			alert('优惠券有误');exit;
+			//alert('优惠券有误');exit;//2017-6-6 修改ajax返回数据
+			echo "<script>alert('优惠券有误');</script>";exit;
 		}
 		//$vv = sc($post['coupon_id'],$post['jihua_type']);
 		$vv = sc($coupon_id,$post['jihua_type']);
@@ -947,7 +952,8 @@ class Index extends common
 		$member_data = request_post("http://api.00o.cn/user.php",$mem_param);
 		$res= json_decode($member_data,true);
 		if($res['code'] == '2009'){
-			alert('联系管理员授权登录');exit;
+			alert('联系管理员授权登录');exit;//2017-6-6 修改ajax返回数据
+			//echo "<script>alert('联系管理员授权登录');</script>";exit;
 		}
 		$token = $res['data']['token'];
 		//alert($token);exit;
@@ -971,7 +977,8 @@ class Index extends common
 		catch(\Exception $e)
 		{
 			//alert('网络不稳定,请稍候重试!',url('index/index'));
-			alert('请联系管理员刷新token');exit;
+			alert('请联系管理员刷新token');exit;//2017-6-6 修改ajax返回数据
+			//echo "<script>alert('请联系管理员刷新token');</script>";exit;
 		}
 
 		//alert($coupon_click_url);exit;
@@ -995,19 +1002,19 @@ class Index extends common
 			$surl = json_decode($surl,true);
 			$surl = $surl['url'];
 		}
-		$jj = strip_tags(wa($post['tkid']));
+		$jj = wa($post['tkid']);
 		if($jj){
 			$jjj = $jj[0];
 		}else{
 			$jjj = '';
 		}
+		$jjj = strip_tags($jjj);
 		$data = [
 			'list' => $post,
 			'jj'   => $jjj,
 			'tkl'  => $tkl,
 			'surl' => $surl
 		];
-
 		/*$add['h_goodsid'] = $post['gid'];
 		$add['h_alimamaid'] = $post['mm1'];
 		$add['h_time'] = strtotime(date('Y-m-d',time()));
@@ -1017,6 +1024,65 @@ class Index extends common
 		}*/
 		$this->assign($data);
 		return $this->fetch();
+	}
+	//判断所传数据是否有误
+	public function tjCheck(){
+		$tkid = input('post.tkid');
+		if($tkid == 0 || empty($tkid)){
+			exit(json_encode(array('status'=>'2009','msg'=>'参数有误')));
+		}
+		$coupon_id = input('post.coupon_id');
+		if(!isset($coupon_id)||empty($coupon_id)||is_null($coupon_id)){
+			exit(json_encode(array('status'=>'2009','msg'=>'优惠券有误')));
+		}
+
+		$pid = input('post.pid');//exit(json_encode(array('status'=>'2009','msg'=>$pid)));
+		if(empty($pid)){
+			exit(json_encode(array('status'=>'2009','msg'=>'联系管理员查看PID')));
+		}
+
+		$pid_arr = explode('_',$pid);
+		if(is_array($pid_arr)){
+			$memberid = $pid_arr[1];
+		}else{
+			exit(json_encode(array('status'=>'2009','msg'=>'联系管理员查看PID')));
+		}
+		$mem_param = array(
+			'memberid'=>$memberid,
+			'username'=>'jane妞',
+			'password'=>'271236'
+		);
+		$member_data = request_post("http://api.00o.cn/user.php",$mem_param);
+		$res= json_decode($member_data,true);
+		if($res['code'] == '2009'){
+			//alert('联系管理员授权登录');exit;//2017-6-6 修改ajax返回数据
+			exit(json_encode(array('status'=>'2009','msg'=>'联系管理员授权登录')));
+		}
+		$token = $res['data']['token'];
+		//alert($token);exit;
+		//print_r($token);
+		$item_id = input('post.gid');
+		$gy_param = array(
+			'token'=>$token,
+			'item_id'=>$item_id,
+			'adzone_id'=>$pid_arr[3],
+			'platform'=>1,
+			'site_id'=>$pid_arr[2]
+		);
+		//alert($gy_param);exit;
+		$gy_data = request_post("http://tbapi.00o.cn/highapi.php",$gy_param);
+		$gy_data = json_decode($gy_data,true);
+		//alert($gy_data);exit;
+		try
+		{
+			$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
+		}
+		catch(\Exception $e)
+		{
+			//alert('请联系管理员刷新token');exit;//2017-6-6 修改ajax返回数据
+			exit(json_encode(array('status'=>'2009','msg'=>'请联系管理员刷新token')));
+		}
+		exit(json_encode(array('status'=>'200','msg'=>'success')));
 	}
 	public function number(){
 		return $this->fetch();
