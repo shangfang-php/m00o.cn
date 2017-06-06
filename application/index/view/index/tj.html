@@ -1,333 +1,606 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 	<meta charset="UTF-8">
+
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">     
+
 	<meta content="yes" name="apple-mobile-web-app-capable">     
+
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">     
+
 	<meta content="telephone=no" name="format-detection">
+
 	<script type="text/javascript" src="/index/js/jquery-1.11.0.min.js"></script>
+
 	<script type="text/javascript" src="//cdn.bootcss.com/clipboard.js/1.5.15/clipboard.min.js"></script>
+
 	<link rel="stylesheet" href="/index/css/style.css">
+
 	<title>生成文案</title>
+
 	<style type="text/css">
+
 	
+
+
 
 	.fancybox-custom .fancybox-skin {
+
 		box-shadow: 0 0 50px #222;
+
 	}
+
 	.sp h3{
+
 		font-weight: normal;
+
 		padding: 10px 0;
+
 	}
+
 	#dfz{
-		/* color: #fff;
-		padding: 10px 10px 0 10px;
-		border-radius: 6px;
-		border: 0;
-		width: 50px;	   */
+
+
 	}
+
 	#ttt{
+
 		color: #fff;
+
 		padding: 10px 12px 4px 12px;
+
 	    margin: 0 auto;
-
 		border-radius: 6px;
-	
 		border: 0;
+
 		width: 50px;
-		  
 	}
+
 	.taikoul{
+
 	  position: absolute;
+
     top: 0px;
+
     right: 3px;
+
     display: none;
+
     width: 124px;
+
     height: 102px;
-
 	}
+
 	#biao1{
+
 		position: relative;
-		border:none;
-	
-		width: 95%;
-		height: 200px;
-		margin: 0 auto;
-		resize:none ;
-		top: -90px;
-		color: #666;
-		    left: 0;
-		line-height: 20px;
-		font-family: "Microsoft YaHei";
-		overflow: hidden;    font-size: 14px;
-		text-indent: 2em
+        border:none;
+    
+        width: 95%;
+        height: 200px;
+        margin: 0 auto;
+        resize:none ;
+        top: -90px;
+        color: #666;
+            left: 10px;
+        line-height: 20px;
+        font-family: "Microsoft YaHei";
+        overflow: scroll;    font-size: 14px;
+	}
+
+	.sp{
+
+  margin-left: 30px;margin-right: 30px;margin-top: 10px;    box-shadow: #999 0px 0px 14px;    border-radius: 20px; position: relative;
+
+    top: 10px;height: 470px;
 
 	}
-	.sp{
-  margin-left: 30px;margin-right: 30px;margin-top: 10px;    box-shadow: #999 0px 0px 14px;    border-radius: 20px; position: relative;
-    top: 10px;height: 470px;
-	}
+
 	.sp img{
+
 width: 60%;display: block;margin:0 auto;
+
 border-radius: 20px;
 
-	}
-	.sp a{
-		color: #000;position: relative;display: block;top:-98px;
-	}
-	.sp p{
-		height: 140px;
-		position: relative;
-		background-color: #eac919;
-		border-top-left-radius: 20px;
-		border-top-right-radius: 20px;
-		    color: #fff;
-    line-height: 40px;
-    text-align: center;
+
 
 	}
+
+	.sp a{
+
+		color: #000;position: relative;display: block;top:-98px;
+
+	}
+
+	.sp p{
+
+		height: 140px;
+
+		position: relative;
+
+		background-color: #eac919;
+
+		border-top-left-radius: 20px;
+
+		border-top-right-radius: 20px;
+
+		    color: #fff;
+
+    line-height: 40px;
+
+    text-align: center;
+
+
+
+	}
+
     .share{
+
     margin-left: 30px;
+
     margin-right: 30px;
+
     position: relative;
+
     top: 30px;
+
         margin-bottom: 15px;
+
         text-align: center
+
   
+
     }
+
      .share input{
+
             border: none;
+
     background: #45aaf2;
+
     border-radius: 25px;
+
     box-shadow: #45aaf2 0px 0px 14px;
+
     color: #fff;
+
     height: 32px;
+
         line-height: 4px;
+
     padding: 6% 20% 7% 20%;
+
     font-size: 16px;
+
      }
 
+
+
     
+
     @media screen and (min-width: 768px) {
+
     		.sp{
+
   
+
    
+
    
+
     top: 10px;
+
     height: 476px;
+
 	}
+
 .sp p {
+
     height: 181px;
+
     position: relative;
+
     background-color: #eac919;
+
     border-top-left-radius: 20px;
+
     border-top-right-radius: 20px;
+
     color: #fff;
+
     line-height: 40px;
+
     text-align: center;
+
 }#biao1 {
+
   
+
        height: 158px;
+
     top: -114px;
+
     left: 18px;
+
   
+
 }.sp img {
+
     width: 34%;
+
   
-}
-.sp a{
-	    top: -129px;
-}
-    }
+
 }
 
+.sp a{
+
+	    top: -129px;
+
+}
+
+    }
+
+}
+
+
+
 </style>
+
 	<script type="text/javascript">
+
 		function copyUrl2()
+
 		{
+
 		var Url2=document.getElementById("biao1");
+
 		Url2.select(); // 选择对象
+
 		document.execCommand("Copy"); // 执行浏览器复制命令
+
 		alert("已复制好，可贴粘。");
+
 		}
+
 	</script>
+
 </head>
 
 
+
+
+
 <body>
-	<a id="ff" href="javascript:;" onclick="window.history.go(-1);" style="position:fixed;right:0px;bottom:100px;width:70px;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+
+	<a id="ff" onclick="window.history.go(-1);" style="position:fixed;right:0px;bottom:100px;width:70px;z-index:9999999;"><img src="/index/images/qqqq.png" width="100%"></a>
+
 	<div class="sp" >
+
 	    <p >分享文案</p>
+
 	<!-- href="javascript:;" onclick="tc()" -->
+
 		<a  >
+
 		     <img src="{$list.imgurl}"  style="" >
+
 		</a>   
 
-      
-    <div id="biao1" style="-webkit-user-select: text;user-select: text;">
-     <img src="/index/images/success.png" class="success"  style="display: none;    position: absolute;width: 40%; right: 0;top: 16px;">
-    	{$list.gname}&#13;<br/>【原价】{$list.zj}元&#13;<br/>领{$list.qj}元优惠券，券后【{$list.qhj}元】包邮秒杀！&#13;推荐理由：{$jj}&#13;<br/>-----------------&#13;<br/>复制这条信息，{$tkl}，打开【手机淘宝】即可领券下单&#13;{$surl}<br/>
-    </div>
-	<script>
+
+
+          <img src="/index/images/success.png" class="success"  style="display: none;    position: absolute;width: 40%; right: 0;top: 280px;z-index: 9;right: 17px;">
+<!-- -webkit-user-select: text;user-select: text; -->
+    <textarea id="biao1" style="">{$list.gname}&#13;【原价】{$list.zj}元&#13;领{$list.qj}元优惠券，券后【{$list.qhj}元】包邮秒杀！&#13;推荐理由：{$jj}&#13;-----------------&#13;复制这条信息，{$tkl}，打开【手机淘宝】即可领券下单&#13;{$surl}
+    </textarea>
+
+	<!-- <script>
+
         $(function() {
+
 	
+
 		  //事件监听
+
 		  //------------------------------------------	
+
 		  document.addEventListener("selectionchange",function(e) {
+
 			if(window.getSelection().anchorNode.parentNode.id == 'biao1' && document.getElementById('biao1').innerText != window.getSelection()) {
+
 			  var key = document.getElementById('biao1');
+
 			  window.getSelection().selectAllChildren(key);
+
 			}
+
 		  },
+
 		  false);
+
 		});
-        </script>
+
+        </script> -->
+
 	</div>
+
+
+
 
 
 	<div class="share">
+
 		<input type="button"  value="复制文字"  id="dfz" />
+
 		<!-- <div  class="copy">
-		
-	
 		<p id="share">复制文字</p>
+
 		<p style="display:none" id="success">复制成功</p>
 
+
+
 		</div> -->
+
 	<!-- 	<div class="QQ">
+
 			<img src="/index/images/QQ.png" alt="" >
+
 			<p >QQ空间</p>
 
+
+
 		</div>
+
 		<div class="sina">
+
 		<img src="/index/images/sina.png" alt="" >
+
 			<p >微博</p>
+
 		</div> -->
 
+
+
         <div class="clear"></div>
+
+
 
 	</div>
 
 
+
+
+
 	 <div class="btm" onclick="bgb()">
+
             </div>
+
             <div class="bott">
+
                 <div class="sco">
+
                     <!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post"
+
                     id='from'> -->
+
                     <form action="{:url('index/tj')}" method="post" id='from' style="text-align: center;">
+
                        
+
                         <p style="font-size: 14px;">保存本地</p>
+
                    
+
                     </form>
+
                 </div>
+
              
+
             </div>
 
-
-
-
-	
-	
 </body>
+
 </html>
+
 	<script type="text/javascript">
+
 	
+
 		var clipboard = new Clipboard('#dfz', {
+
             target: function() {
+
                 return document.querySelector('#biao1');
+
             }
+
         });
+
         clipboard.on('success', function(e){
+
             /*e.trigger.innerHTML="已复制";*/
+
             $('#dfz').val('复制成功');
+
             $('#dfz').css('background','#00dc1f');
+
              $('#dfz').css('box-shadow','#00dc1f 0px 0px 14px');
+
             $('.success').css('display','block');
+
             console.info('Action:', e.action);
+
             console.info('Text:', e.text);
+
             console.info('Trigger:', e.trigger);
+
             e.clearSelection();
+
         });
+
+
 
      
+
 	</script>
 
+
+
 	<script type="text/javascript">
+
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
+
         $('.btm').css('display', 'block');
+
         $('.bott').animate({
+
             bottom: "0px"
+
         },
+
         '300');
+
         $('#v').val(tkid);
+
         $('#vv').val(gid);
+
         $('#vvv').val(gname);
+
         $('#im').val(imgurl);
+
         $('#zj').val(zj);
+
         $('#qj').val(qj);
+
         $('#qhj').val(qhj);
+
         $('#num_iid').val(num_iid);
+
         $('#coupon_id').val(coupon_id);
+
         if (jihua_type == null) {
+
             $('#jihua_type').val();
+
         } else {
+
             $('#jihua_type').val(jihua_type);
+
         }
 
+
+
         $('#ff').hide();
+
         /*$('#from p input').attr('name','');*/
+
         $('body,html').css({
+
             'height': 'auto',
+
             'overflow': 'hidden'
+
         });
+
     }
+
     function bgb() {
+
         $('.bott').animate({
+
             bottom: "-300px"
+
         });
+
         $('.bottt').animate({
+
             bottom: "-350px"
+
         });
+
         $('.btm').css('display', 'none');
+
         $('.bottt .i').css('display', 'none');
+
         $('#fromm p input').attr('name', '');
+
         $('#ff').show();
+
         $('body,html').css({
+
             'height': 'auto',
+
             'overflow': ''
+
         });
+
     }
-    
-  
-    $(document).ready(function() {
-        $('#fromm p').click(function() {
-            var i = $(this).find('.i').css('display');
-            var c = $('#fromm p input').attr('name');
-            if (c == '') {
-                $('#fs').css('background', '#eee');
-            } else {
-                $('#fs').css('background', '#f5a631');
-            }
-            if (i == 'none') {
-                $(this).find('.i').css('display', 'block');
-                $(this).children("input").attr('name', 'data[]');
-                $('#fs').css('background', '#f5a631');
-            } else if (i == 'block') {
-                $(this).find('.i').css('display', 'none');
-                $(this).children("input").attr('name', '');
-                var l = $('#fromm p input[name="data[]"]').length;
-                if (l > 0) {
-                    $('#fs').css('background', '#f5a631');
-                } else {
-                    $('#fs').css('background', '#eee');
-                }
-            };
-        });
-    });
 
     
+
+  
+
+    $(document).ready(function() {
+
+        $('#fromm p').click(function() {
+
+            var i = $(this).find('.i').css('display');
+
+            var c = $('#fromm p input').attr('name');
+
+            if (c == '') {
+
+                $('#fs').css('background', '#eee');
+
+            } else {
+
+                $('#fs').css('background', '#f5a631');
+
+            }
+
+            if (i == 'none') {
+
+                $(this).find('.i').css('display', 'block');
+
+                $(this).children("input").attr('name', 'data[]');
+
+                $('#fs').css('background', '#f5a631');
+
+            } else if (i == 'block') {
+
+                $(this).find('.i').css('display', 'none');
+
+                $(this).children("input").attr('name', '');
+
+                var l = $('#fromm p input[name="data[]"]').length;
+
+                if (l > 0) {
+
+                    $('#fs').css('background', '#f5a631');
+
+                } else {
+
+                    $('#fs').css('background', '#eee');
+
+                }
+
+            };
+
+        });
+
+    });
+
+
+
+    
+
 </script>
+
+
+
 
 
