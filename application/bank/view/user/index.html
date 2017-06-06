@@ -95,7 +95,7 @@
                       <p class="oc"><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_nic}&nbsp;</a></p>
                       <p class="oc">{if condition="$v.u_leve eq 1"}一级合伙人{elseif condition="$v.u_leve eq 2" /}二级合伙人{elseif condition="$v.u_leve eq 3" /}三级合伙人{/if}</p>
                       <p class="oc" style="width:90px;">{$v.u_money}</p>
-                      <p class="oc" style="width:100px;">{$v.u_wqrmoney}</p>
+                      <p class="oc" style="width:100px;" onclick="countWqrMoney('{$v.u_id}')">{$v.u_wqrmoney}</p>
                       <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}{if condition="$v.u_leve neq 3" /}{$v.u_code}{/if}{/if}&nbsp;</p>
                       <p class="oc" style="width:100px;"><?php $num1 = $v['u_fcbl']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num1), 0, -2));   ?>%</p>
                       <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}
@@ -192,6 +192,43 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
                 <button type="button" class="btn btn-primary" id="sub1" >　提　交　</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模糊弹框 -->
+<div class="modal bounceIn animated" id="showWqrMoney" tabindex="-1" role="dialog" aria-labelledby="showWqrMoneyLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header" id="showWqrMoneyHeader" style="display: none;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="showWqrMoneyLabel">用户</h4>
+            </div>
+            <div class="panel-body">
+                <div style="color:#f00" id="tipMsg">正在计算未确认金额,请稍等.....</div>
+                <div class="form-horizontal" id="showWqrMoneyBody" style="display: none;">
+                    <input type="hidden" value="0" id="wqrUser"/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">显示的未确认金额</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="userWqrMoney" disabled="" class="form-control" style="width:100px;float:left;" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">计算的理论未确认金额</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="realWqrMoney"disabled="" class="form-control" style="width:100px;float:left;" value="">
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <div class="modal-footer" id="showWqrMoneyFooter" style="display: none;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                <button type="button" class="btn btn-primary" onclick="saveWqrMoney()">　修  改　</button>
             </div>
         </div>
     </div>
@@ -318,7 +355,7 @@
                               '<p class="tc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
                               '<p class="tc">　　二级合伙人</p>'+
                               '<p class="tc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="tc" style="width:100px;">'+val.u_wqrmoney+'</p>'+
+                              '<p class="tc" style="width:100px;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
                               '<p class="tc" style="width:100px;">'+val.code+'</p>'+
                               '<p class="tc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
                               '<p class="tc" style="width:100px;">&nbsp;</p>'+
@@ -371,7 +408,7 @@
                               '<p class="sc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
                               '<p class="sc">　　　　三级合伙人</p>'+
                               '<p class="sc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="sc" style="width:100px;">'+val.u_wqrmoney+'</p>'+
+                              '<p class="sc" style="width:100px;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
                               '<p class="sc" style="width:100px;">&nbsp;</p>'+
                               '<p class="sc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
                               '<p class="sc" style="width:100px;">&nbsp;</p>'+
@@ -622,4 +659,46 @@
       }
 
   });
+  //统计指定合伙人的未确认金额
+  function countWqrMoney(uid){
+    $('#tipMsg').show();
+    $('#showWqrMoneyHeader').hide();
+    $('#showWqrMoneyFooter').hide();
+    $('#showWqrMoneyBody').hide();
+    $('#userWqrMoney').val(0);
+    $('#realWqrMoney').val(0);
+    $('#wqrUser').val(0);
+    
+    $('#showWqrMoney').modal();
+    var data    =   {uid:uid};
+    var url     =   "{:url('user/countWqrMoney')}";
+    $.post(url, data, function(msg){
+        if(msg.code != 200){
+            alert(msg.res);
+        }else{
+            $('#showWqrMoneyLabel').html('用户:'+msg.userInfo.u_username);
+            $('#userWqrMoney').val(msg.userInfo.u_wqrmoney);
+            $('#realWqrMoney').val(msg.realWqrMoney);
+            $('#wqrUser').val(msg.userInfo.u_id);
+            
+            $('#tipMsg').hide();
+            $('#showWqrMoneyHeader').show();
+            $('#showWqrMoneyFooter').show();
+            $('#showWqrMoneyBody').show();
+        }
+    }, "json");
+  }
+  
+  //保存未确认金额修改
+  function saveWqrMoney(){
+    var uid     =   $('#wqrUser').val();
+    var data    =   {uid:uid};
+    var url     =   "{:url('user/save_wqrMoney')}";
+    $.post(url, data, function(msg){
+        alert(msg.res);
+        if(msg.code == 200){
+            window.location.reload();
+        }
+    }, "json");
+  }
 </script>

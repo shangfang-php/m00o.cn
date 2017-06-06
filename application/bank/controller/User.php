@@ -791,4 +791,104 @@ class User extends common
         return json(array('code'=>$code, 'codeMsg'=>$codeMsg));
     }
     
+    /**
+     * User::countWqrMoney()
+     * 统计指定合伙人的未确认金额
+     * @return void
+     */
+    function countWqrMoney(){
+        $uid    =   intval(Input('post.uid'));
+        if(!$uid){
+            $arr = array('code'=>601, 'res'=>'非法操作!');
+            return json($arr);
+        }
+        $userInfo   =   getUserInfo($uid);
+        if(!$userInfo){
+            $arr = array('code'=>602, 'res'=>'没有该合伙人信息!');
+            return json($arr);
+        }
+        
+        if($userInfo['u_u_idss'] != session('taokeid')){
+            $arr = array('code'=>603, 'res'=>'操作非法!');
+            return json($arr);
+        }
+        
+        $totalMoney =   $this->getUserWqrMoney($uid, $userInfo); ##获取计算得到的未确认金额
+        
+        /** 统计结束**/
+        $data   =   array('userInfo'=>$userInfo, 'realWqrMoney'=>$totalMoney,'code'=>200, 'res'=>'返回数据');
+        return json($data);
+    }
+    
+    /**
+     * User::getUserWqrMoney()
+     * 获取合伙人未确认金额
+     * @param mixed $uid
+     * @param string $userInfo
+     * @return
+     */
+    function getUserWqrMoney($uid, $userInfo=''){
+        $agentIds   =   array();
+        $res    =   getUserChildAgents($uid, $userInfo); ##获取下级合伙人集合
+        if($res){
+            foreach($res as $val){
+                $agentIds = array_merge($agentIds, $val);
+            }
+        }
+        $agentIds[] =   $uid;
+        
+        $time   =   time();
+        $a      =   true;
+        $where  =   array('o_u_id'=>['in', $agentIds], 'o_state'=>12);
+        $totalMoney =   0;
+        /** 循环统计每月付款中订单分配的未确认金额**/
+        while($a){
+            $order_table    =   tb($time);
+            $order_record   =   ortb($time);
+            
+            $money  =   Db($order_table)->join($order_record, 'o_ordernum = or_o_ordernum and or_u_id = '.$uid, 'left')->where($where)->sum('or_money');
+            $totalMoney += $money;
+            
+            $monthFirsthDay =   date('Y-m-01', $time);
+            $time           =   strtotime('-1 month', strtotime($monthFirsthDay));
+            
+            if($time < strtotime('2017-01-01')){
+                $a  =   FALSE;
+            }
+        }
+        return $totalMoney;
+    }
+    
+    /**
+     * User::saveWqrMoney()
+     * 修改未确认金额
+     * @return void
+     */
+    function save_wqrMoney(){
+        $uid    =   intval(trim(Input('post.uid')));
+        if(!$uid){
+            $arr = array('code'=>701, 'res'=>'非法操作!');
+            return json($arr);
+        }
+        $userInfo   =   getUserInfo($uid);
+        if(!$userInfo){
+            $arr = array('code'=>702, 'res'=>'没有该合伙人信息!');
+            return json($arr);
+        }
+        
+        if($userInfo['u_u_idss'] != session('taokeid')){
+            $arr = array('code'=>703, 'res'=>'操作非法!');
+            return json($arr);
+        }
+        
+        $totalMoney =   $this->getUserWqrMoney($uid, $userInfo); ##获取计算得到的未确认金额
+        $info       =   Db::table('user_tb')->where('u_id', $uid)->update(array('u_wqrmoney'=>$totalMoney));
+        if($info === false){
+            $arr = array('code'=>704, 'res'=>'更新失败!');
+        }else{
+            $arr = array('code'=>200, 'res'=>'更新成功!');
+        }
+        return json($arr);
+    }
+    
 }
