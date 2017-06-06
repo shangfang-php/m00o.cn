@@ -21,7 +21,7 @@ class Index extends common
 
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
-		$list_data = request_post("http://so.00o.cn/index.php",array());
+		$list_data = request_get("http://so.00o.cn/index.php");
 		if(!$list_data){
 			$list = array();
 		}else{
@@ -995,12 +995,13 @@ class Index extends common
 			$surl = json_decode($surl,true);
 			$surl = $surl['url'];
 		}
-		$jj = strip_tags(wa($post['tkid']));
+		$jj = wa($post['tkid']);
 		if($jj){
 			$jjj = $jj[0];
 		}else{
 			$jjj = '';
 		}
+        $jjj = strip_tags($jjj);
 		$data = [
 			'list' => $post,
 			'jj'   => $jjj,
