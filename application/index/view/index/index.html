@@ -330,7 +330,7 @@ window.onload = function () {
 	nav();
 
 	function tabNav(num) {
-		alert(num);
+		//alert(num);
 		/*for (var i = 1; i < 12; i++) {document.getElementById('cnt_' + i).style.display = 'none';}document.getElementById('cnt_' + num).style.display = 'block';*/
 		//ajax操作数据
 		//点击分类则将默认显示的数据hidden
@@ -609,7 +609,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 	console.info(d);*/
 	window.addEventListener("scroll", function(event) {
 		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-		console.log(scrollTop);
+		//console.log(scrollTop);
 		//alert(2121);
 		if(document.documentElement.scrollHeight == document.documentElement.clientHeight + scrollTop ) {
 			var cid = $('#cid').val();
