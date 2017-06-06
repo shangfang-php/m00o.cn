@@ -493,3 +493,47 @@ function getTaokeFcblSet($taokeId, $level = 0){
     }
     return $return;
 }
+
+/**
+ * getUserChildAgents()
+ * 获取下级代理信息
+ * @param mixed $uid 用户ID
+ * @param string $userInfo 用户信息
+ * @param bool $isDepth 是否逐级查询 默认是
+ * @return void
+ */
+function getUserChildAgents($uid, $userInfo = '', $isDepth = true){
+    if(!$userInfo){
+        $userInfo   =   getUserInfo($uid);
+    }
+    $return =   array();
+    $u_leve =   $userInfo['u_leve'];
+    if($u_leve == 3){
+        return  $return;
+    }
+    
+    $table  =   'user_tb';
+    $where['u_parent_u_id'] =   $uid;
+    $res    =   Db::table($table)->field('u_id')->where($where)->select();
+    if(!empty($res)){
+        $agents =   get_field_array('u_id', $res);
+        $key    =   $u_leve + 1;
+        $return[$key] = $agents; ##下级代理商集合
+        if($isDepth){
+            $times  =   2 - $u_leve; ##需要循环拉取下级代理的次数
+            if($times > 0){
+                for($i = 1; $i<= $times; $i++){
+                    $where['u_parent_u_id'] =   ['in', $agents];
+                    $res    =   Db::table($table)->field('u_id')->where($where)->select();
+                    if(empty($res)){
+                        break;
+                    }
+                    $agents =   get_field_array('u_id', $res);
+                    $key += 1;
+                    $return[$key] = $agents;
+                }
+            }
+        }
+    }
+    return $return;
+}
