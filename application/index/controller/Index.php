@@ -18,14 +18,19 @@ class Index extends common
         $monthData  =   getUserMoneyOrder($uid, $month_start); ##获取当月数据
         
         $userInfo   =   getUserInfo(intval($uid)); ##获取代理商信息
-       
+
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
-		$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
+		$list_data = request_post("http://so.00o.cn/index.php",array());
+		if(!$list_data){
+			$list = array();
+		}else{
+			$list = json_decode($list_data,true);
+		}
+		//$list = json_decode(file_get_contents("http://so.00o.cn/index.php"),true);
 		//$u = Db::name('user_tb')->where('u_id',session('usid'))->find();
         $u  =   $userInfo;
 		$uu = Db::name('user_tb')->where('u_id',$u['u_u_idss'])->find();
-
 		$data = [
 			'todayData'      => $todayData, //今日订单数及收入
 			'monthData'      => $monthData, //本月订单数及收入
@@ -55,13 +60,24 @@ class Index extends common
 		//接收参数
 		$cid = isset($_GET['cid'])?intval($_GET['cid']):0;
 		$p = isset($_GET['p'])?intval($_GET['p']):1;
-		if($cid>0){
+		/*if($cid>0){
 			$url = "http://so.00o.cn/index.php?cid=".$cid."&p=".$p." ";
 		}else{
 			$url = "http://so.00o.cn/index.php?p=".$p;
+		}*/
+		$url = "http://so.00o.cn/index.php";
+		//$datas = request_get($url);
+		$param = array(
+			"cid"=>$cid,
+			"p"=>$p
+		);
+		$datas = request_post($url,$param);
+		if(!$datas){
+			$list = array();
+		}else{
+			$list = json_decode($datas,true);
 		}
-		$datas = file_get_contents($url);
-		$list = json_decode($datas,true);
+		//$datas = file_get_contents($url);
 		$data = [
 			'datas'=> $list,
 			'page' => $p,
@@ -789,22 +805,35 @@ class Index extends common
 		if($p <= 1){
 			$p = 1;
 		}
-		try
-		{
+		//try
+		//{
 			// $z = file_get_contents('http://www.xccloud.xin/index.php?m=Api&keyword='.$name.'&p='.$p);
 			//$z = file_get_contents('http://www.t5166.com/index.php?m=Api&keyword='.$name.'&p='.$p);
-			$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
+		//	$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order);
 
-		}
-		catch(\Exception $e)
-		{
-			alert('网络不稳定,请稍候重试!',url('index/index'));
+		//}
+		//catch(\Exception $e)
+		//{
+		//	alert('网络不稳定,请稍候重试!',url('index/index'));
+		//}
+		//$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$p."&type=".$type."&order=".$order;
+		$url = "http://so.00o.cn/index.php";
+		$param  = array(
+			'keyword'=>$name,
+			'p'=>$p,
+			'type'=>$type,
+			'order'=>$order
+		);
+		$z = request_post($url,$param);
+		if(!$z){
+			$zz = array();
+		}else{
+			$zz = json_decode($z,true);
 		}
 
-		$zz = json_decode($z,true);
 		//echo '<pre>';
 		//print_r($zz);exit;
-		if(!$zz){
+		if(empty($zz)){
 			alert('没有数据',url('index/index'));
 			//alert('1212',url('index/index'));
 		}
@@ -856,14 +885,29 @@ class Index extends common
 		$pp = $p+1;
 		//当前的排序方法
 		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type);
-		$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
-		$datas = json_decode($z,true);
+		//$z = file_get_contents("http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order);
+		//$url = "http://so.00o.cn/index.php?keyword=".$name."&p=".$pp."&type=".$type."&order=".$order;
+		//$z = request_get($url);
+		$url = "http://so.00o.cn/index.php";
+		$param = array(
+			"keyword"=>$name,
+			"p"=>$p,
+			"type"=>$type,
+			"order"=>$order
+		);
+		$z = request_post($url,$param);
+		if(!$z){
+			$datas = array();
+		}else{
+			$datas = json_decode($z,true);
+		}
 		$data = array(
 			'datas'=>$datas,
 			'page'=>$pp
 		);
 		exit(json_encode($data));
 	}
+
 	//生成文案
 	public function tj(){
 		$post = $_POST;
@@ -951,7 +995,7 @@ class Index extends common
 			$surl = json_decode($surl,true);
 			$surl = $surl['url'];
 		}
-		$jj = wa($post['tkid']);
+		$jj = strip_tags(wa($post['tkid']));
 		if($jj){
 			$jjj = $jj[0];
 		}else{
