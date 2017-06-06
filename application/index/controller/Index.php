@@ -18,7 +18,7 @@ class Index extends common
         $monthData  =   getUserMoneyOrder($uid, $month_start); ##获取当月数据
         
         $userInfo   =   getUserInfo(intval($uid)); ##获取代理商信息
-       
+
 		$t = Db::name('tgw_tb')->join('user_tb','tgw_tb.t_u_id = user_tb.u_id','LEFT')->where('t_u_id',session('usid'))->select();
 		//print_r($t);exit;
 		$list_data = request_post("http://so.00o.cn/index.php",array());
@@ -908,6 +908,7 @@ class Index extends common
 		);
 		exit(json_encode($data));
 	}
+
 	//生成文案
 	public function tj(){
 		$post = $_POST;
@@ -995,7 +996,7 @@ class Index extends common
 			$surl = json_decode($surl,true);
 			$surl = $surl['url'];
 		}
-		$jj = wa($post['tkid']);
+		$jj = strip_tags(wa($post['tkid']));
 		if($jj){
 			$jjj = $jj[0];
 		}else{
