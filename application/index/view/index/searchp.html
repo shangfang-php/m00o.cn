@@ -112,6 +112,7 @@
 				
 
 			</script>
+            <div class="cnt" id="cnt_1" style="display:block;overflow: hidden">
             <div class="main3">
                 <ul>
                     {volist name='list' id='vo'}
@@ -236,6 +237,7 @@
                     发&nbsp;送
                 </p>
             </div>
+            </div>
         </div>
     </body>
 
@@ -243,6 +245,7 @@
 
 <script src="/index/js/jquery.js" language="javascript"></script>
 <script type="text/javascript" src="/index/js/jquery.min.js"></script>
+
 <script language="javascript">
     function animate() {
         $(".charts").each(function(i, item) {
@@ -299,8 +302,22 @@
             var pid = $('#pid').val();
             var mm1_arr = pid.split('_');
             $('#mm1').val(mm1_arr[1]);
-            $('#from').submit();
+            //$('#from').submit();
             //return false;//2017-5-22 add end
+            $.ajax({
+                type:"post",
+                url:"{:url('Index/tjCheck')}",
+                dataType:"json",
+                data:"pid="+pid+"&tkid="+tkid+"&coupon_id="+coupon_id+"&gid="+gid,
+                success:function(data){
+                    //alert(data);
+                    if(data.status == '200'){
+                        $('#fromm').submit();
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
         }else{
             $('.btm').css('display', 'block');
             $('.bott').animate({
@@ -341,11 +358,29 @@
             bottom: "-300px"
         });
         $('.btm').css('display', 'none');
-        $('#from').submit();
+        //$('#from').submit();
         $('#ff').show();
         $('body,html').css({
             'height': 'auto',
             'overflow': ''
+        });
+        var tkid = $('#v').val();
+        var gid = $('#vv').val();
+        var coupon_id = $('#coupon_id').val();
+        $.ajax({
+            type: 'POST',
+            url: "{:url('index/tjCheck')}",
+            data:"pid="+pid+"&tkid="+tkid+"&coupon_id="+coupon_id+"&gid="+gid,
+            dataType: "json",
+            success:function(data){
+                //alert(data);
+                if(data.status == '200'){
+                    //alert(data.msg);
+                    $('#from').submit();
+                }else{
+                    alert(data.msg);
+                }
+            }
         });
     }
     function tcc(tkid, gid) {
@@ -361,6 +396,7 @@
             $('.wxdata').attr('name','data[]');
             $('#fromm').submit();
             //return false;//2017-5-22 add end
+
         }else{
             $('#ff').hide();
             $('#fromm p input').attr('name', '');

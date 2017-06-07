@@ -387,7 +387,7 @@ window.onload = function () {
 
 	<div class="sco">
 		<!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post" id='from'> -->
-		<form action="{:url('index/tj')}" method="post" id='from'>
+		<form action="{:url('index/tj')}" method="post" id='from' >
 		<div class="boheight">
 		    {volist name='t' id='vv'}
 		     <p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">{$vv.t_nicname}</p>
@@ -483,6 +483,7 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		$('#coupon_id').val(coupon_id);
 		if(jihua_type == null){
 			$('#jihua_type').val();
+			 jihua_type = '';
 		}else{
 			$('#jihua_type').val(jihua_type);
 		}
@@ -490,9 +491,24 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		if(len == 1){
 			var pid = $('#pid').val();
 			var mm1_arr = pid.split('_');
+			var mm1 = mm1_arr[1];
 			$('#mm1').val(mm1_arr[1]);
-			$('#from').submit();
+			//$('#from').submit();//2017-6-6 修改
 			//return false;//2017-5-22 add end
+			$.ajax({
+				type:"post",
+				url:"{:url('Index/tjCheck')}",
+				dataType:"json",
+				data:"pid="+pid+"&tkid="+tkid+"&coupon_id="+coupon_id+"&gid="+gid,
+				success:function(data){
+					//alert(data);
+					if(data.status == '200'){
+						$('#from').submit();
+					}else{
+						alert(data.msg);
+					}
+				}
+			});
 		}else{
 			$('.btm').css('display','block');
 			$('.bott').animate({bottom:"0px"},'300');
@@ -535,9 +551,28 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 		//$('#from').submit();
 		$('.bott').animate({bottom:"-450px"});
 		$('.btm').css('display','none');
-		$('#from').submit();
 		$('#ff').show();
 		$('body,html').css({'height':'auto','overflow':''});
+		//$('#from').submit();//修改页面刷新，使用ajax使页面不刷新
+		var mm1 = mm1_arr[1];
+		var tkid = $('#v').val();
+		var gid = $('#vv').val();
+		var coupon_id = $('#coupon_id').val();
+		$.ajax({
+			type: 'POST',
+			url: "{:url('index/tjCheck')}",
+			data:"pid="+pid+"&tkid="+tkid+"&coupon_id="+coupon_id+"&gid="+gid,
+			dataType: "json",
+			success:function(data){
+				//alert(data);
+				if(data.status == '200'){
+					//alert(data.msg);
+					$('#from').submit();
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
 	}
 	function tcc(tkid,gid){
 		var dizp = $('#dlzp').val();
