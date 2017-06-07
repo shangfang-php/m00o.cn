@@ -95,7 +95,7 @@
                       <p class="oc"><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_nic}&nbsp;</a></p>
                       <p class="oc">{if condition="$v.u_leve eq 1"}一级合伙人{elseif condition="$v.u_leve eq 2" /}二级合伙人{elseif condition="$v.u_leve eq 3" /}三级合伙人{/if}</p>
                       <p class="oc" style="width:90px;">{$v.u_money}</p>
-                      <p class="oc" style="width:100px;" onclick="countWqrMoney('{$v.u_id}')">{$v.u_wqrmoney}</p>
+                      <p class="oc" style="width:100px; text-decoration:underline;" onclick="countWqrMoney('{$v.u_id}')">{$v.u_wqrmoney}</p>
                       <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}{if condition="$v.u_leve neq 3" /}{$v.u_code}{/if}{/if}&nbsp;</p>
                       <p class="oc" style="width:100px;"><?php $num1 = $v['u_fcbl']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num1), 0, -2));   ?>%</p>
                       <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}
@@ -222,7 +222,12 @@
                             <input type="text" id="realWqrMoney"disabled="" class="form-control" style="width:100px;float:left;" value="">
                         </div>
                     </div>
-                    
+                    <div style="color:#f00">
+                    为什么两个重新计算后会不一样？<br />
+                    因为之前有已付款的订单退款后订单失效导致系统没减余额，或者修改过用户分成设置，或者PID分配给别人等各种原因，重新计算后的未确认余额就是现在合伙人详细订单列表里面已付款订单相加的结果。
+                    <br />
+                    如果您想批量检测并修改所有合伙人未确认余额，可以联系在线客服给您处理！
+                    </div>
                 </div>
                 
             </div>
@@ -355,7 +360,7 @@
                               '<p class="tc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
                               '<p class="tc">　　二级合伙人</p>'+
                               '<p class="tc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="tc" style="width:100px;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
+                              '<p class="tc" style="width:100px; text-decoration:underline;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
                               '<p class="tc" style="width:100px;">'+val.code+'</p>'+
                               '<p class="tc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
                               '<p class="tc" style="width:100px;">&nbsp;</p>'+
@@ -408,7 +413,7 @@
                               '<p class="sc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
                               '<p class="sc">　　　　三级合伙人</p>'+
                               '<p class="sc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="sc" style="width:100px;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
+                              '<p class="sc" style="width:100px; text-decoration:underline;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
                               '<p class="sc" style="width:100px;">&nbsp;</p>'+
                               '<p class="sc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
                               '<p class="sc" style="width:100px;">&nbsp;</p>'+
