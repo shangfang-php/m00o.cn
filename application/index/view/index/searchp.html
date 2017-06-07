@@ -111,28 +111,28 @@
         }
 
 
-    </script>
-    <div class="cnt" id="cnt_1" style="display:block;overflow: hidden">
-        <div class="main3">
-            <ul>
-                {volist name='list' id='vo'}
-                <div class="ls"  id="ls">
-                    <div class="pic">
-                        <img src="{$vo.pic}" width="100%" height="100%">
-                    </div>
-                    <div class="r">
-                        <li>
-                            <img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
-                            {$vo.title}
-                        </li>
-                        <li style="color:#5b5b5b">
-                            原价：
-                            <a class="back">
-                                {$vo.org_price}元
-                            </a>
-                        </li>
-                        <li style="color:#5b5b5b">
-                            券后价：
+			</script>
+            <div class="cnt" id="cnt_1" style="display:block;overflow: hidden">
+            <div class="main3">
+                <ul>
+                    {volist name='list' id='vo'}
+                    <div class="ls">
+                        <div class="pic">
+                            <img src="{$vo.pic}" width="100%" height="100%">
+                        </div>
+                        <div class="r">
+                            <li>
+                                <img src="/index/images/<?php if($vo['istmall'] == 0) echo 'tao';else if ($vo['istmall'] == 1) echo 'tmall';?>.png">
+                                {$vo.title}
+                            </li>
+                            <li style="color:#5b5b5b">
+                                原价：
+                                <a class="back">
+                                    {$vo.org_price}元
+                                </a>
+                            </li>
+                            <li style="color:#5b5b5b">
+                                券后价：
                                 <span style="color:#333;font-size: 16px;">
                                     {$vo.price}元
                                 </span>
@@ -189,44 +189,53 @@
                 <!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post"
                 id='from'> -->
                 <form action="{:url('index/tj')}" method="post" id='from'>
-                    <div class="boheight">
                         {volist name='t' id='vv'}
                         <p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">
                             {$vv.t_nicname}
                         </p>
                         {/volist}
-                    </div>
-                    <input type="hidden" name="mm1" id="mm1">
-                    <input type="hidden" name="tkid" id='v'>
-                    <input type="hidden" name="gid" id='vv'>
-                    <input type="hidden" name="gname" id='vvv'>
-                    <input type="hidden" name="imgurl" id='im'>
-                    <!--<input type="hidden" name="pid" id='pid'>-->
-                    <input type="hidden" name="pid" id='pid'
-                           value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$t[0]['t_mm3']}{/if}">
-                    <input type="hidden" name="zj" id='zj'>
-                    <input type="hidden" name="qj" id='qj'>
-                    <input type="hidden" name="qhj" id='qhj'>
-                    <input type="hidden" name="num_iid" id='num_iid'>
-                    <input type="hidden" name="coupon_id" id='coupon_id'>
-                    <input type="hidden" name="jihua_type" id='jihua_type'>
-                    <input type="hidden" name="idss" value="{$idss}">
-                    <input type="hidden" name="uid" value="{$uid}">
-                    <input type="hidden" name="keyword" value="{$name}">
-                </form>
+                        <input type="hidden" name="mm1" id="mm1">
+                        <input type="hidden" name="tkid" id='v'>
+                        <input type="hidden" name="gid" id='vv'>
+                        <input type="hidden" name="gname" id='vvv'>
+                        <input type="hidden" name="imgurl" id='im'>
+                        <!--<input type="hidden" name="pid" id='pid'>-->
+                        <input type="hidden" name="pid" id='pid'
+                               value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$t[0]['t_mm3']}{/if}">
+                        <input type="hidden" name="zj" id='zj'>
+                        <input type="hidden" name="qj" id='qj'>
+                        <input type="hidden" name="qhj" id='qhj'>
+                        <input type="hidden" name="num_iid" id='num_iid'>
+                        <input type="hidden" name="coupon_id" id='coupon_id'>
+                        <input type="hidden" name="jihua_type" id='jihua_type'>
+                        <input type="hidden" name="idss" value="{$idss}">
+                        <input type="hidden" name="uid" value="{$uid}">
+                        <input type="hidden" name="keyword" value="{$name}">
+                    </form>
+                </div>
+                <!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
             </div>
-            <!-- <p class="t" id="fs" onclick="tj()">生成文案</p> -->
-        </div>
-        <div class="bottt">
-            <div class="sco">
-                <form action='http://api2.00o.cn/api/api3.php' method="post" id='fromm'>
-                    {volist name='t' id='vv'}
-                    <p>
-                        {$vv.t_nicname}
-                        <input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}">
-                        <img class="i" src="/index/images/gou.jpg">
-                    </p>
-                    {/volist}
+            <div class="bottt">
+                <div class="sco">
+                    <form action='http://api2.00o.cn/api/api3.php' method="post" id='fromm'>
+                        {volist name='t' id='vv'}
+                        <p>
+                            {$vv.t_nicname}
+                            <input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}">
+                            <img class="i" src="/index/images/gou.jpg">
+                        </p>
+                        {/volist}
+                        <input type="hidden" name="tkid" id='v1'>
+                        <input type="hidden" name="gid" id='vv1'>
+                        <input type="hidden" name="idss" value="{$idss}">
+                        <input type="hidden" name="uid" value="{$uid}">
+                        <input type="hidden" name="keyword" value="{$name}">
+                    </form>
+                </div>
+                <p class="t" id="fs" onclick="tjj()">
+                    <!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->
+                    发&nbsp;送
+                </p>
             </div>
             <input type="hidden" name="tkid" id='v1'>
             <input type="hidden" name="gid" id='vv1'>
@@ -260,9 +269,7 @@
         });
     }
     animate();
-
-    // $('html, body').scrollTop($("#" + $('#ls').val()).offset().top);
-
+   
 
 
 </script>
@@ -282,6 +289,7 @@
         });
     }
     nav();
+    </script>
 </script>
 <script type="text/javascript">
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
@@ -355,7 +363,6 @@
             'overflow': ''
         });
     }
-
     function tj(pid, name) {
         $('#pid').val(pid);
         var mm1_arr = pid.split('_');
@@ -363,7 +370,7 @@
         $('#mm1').val(mm1);
         //$('#from').submit();
         $('.bott').animate({
-            bottom: "-450px"
+            bottom: "-300px"
         });
         $('.btm').css('display', 'none');
         //$('#from').submit();
@@ -428,7 +435,7 @@
             alert('请勾选对应群');
         }
         $('.bottt').animate({
-            bottom: "-450px"
+            bottom: "-350px"
         });
         $('.bottt .i').css('display', 'none');
         $('#fromm p input').attr('name', '');
