@@ -591,6 +591,8 @@ value="{if condition='$len eq 0'}0{else/}mm_{$t[0]['t_mm1']}_{$t[0]['t_mm2']}_{$
 			$('.wxdata').attr('name','data[]');
 			$('#fromm').submit();
 			//return false;//2017-5-22 add end
+			//AJAX无刷新
+
 		}else{
 			$('.btm').css('display','block');
 			$('.bottt').animate({bottom:"0px"},'300');
