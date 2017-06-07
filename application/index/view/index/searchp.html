@@ -169,8 +169,7 @@
                 <div class='h'>
                 </div>
                 {/volist}
-                <div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none">
-                </div>
+                <div id="load" style="background:url(/index/images/load.png) no-repeat center;height: 40px;width:100%;display:none"></div>
                 <div id="lload">
                 </div>
                 <input type="hidden" id="ii" value="">
@@ -232,18 +231,18 @@
                         <input type="hidden" name="keyword" value="{$name}">
                     </form>
                 </div>
-                <p class="t" id="fs" onclick="tjj()">
+               <!-- <p class="t" id="fs" onclick="tjj()">-->
                     <!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->
-                    发&nbsp;送
-                </p>
+                 <!--   发&nbsp;送
+                </p>-->
             </div>
-            <input type="hidden" name="tkid" id='v1'>
+            <!--<input type="hidden" name="tkid" id='v1'>
             <input type="hidden" name="gid" id='vv1'>
             <input type="hidden" name="idss" value="{$idss}">
             <input type="hidden" name="uid" value="{$uid}">
-            <input type="hidden" name="keyword" value="{$name}">
-            </form>
-        </div>
+            <input type="hidden" name="keyword" value="{$name}">-->
+            <!--</form>-->
+        <!--</div>-->
         <p class="t" id="fs" onclick="tjj()">
             <!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->
             发&nbsp;送
@@ -289,9 +288,6 @@
         });
     }
     nav();
-    </script>
-</script>
-<script type="text/javascript">
     function tc(tkid, gid, gname, imgurl, zj, qj, qhj, num_iid, jihua_type, coupon_id) {
         var dizp = $('#dlzp').val();
         var len = $('#len').val();
