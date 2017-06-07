@@ -112,6 +112,7 @@
 				
 
 			</script>
+            <div class="cnt" id="cnt_1" style="display:block;overflow: hidden">
             <div class="main3">
                 <ul>
                     {volist name='list' id='vo'}
@@ -239,6 +240,7 @@
                     发&nbsp;送
                 </p>
             </div>
+            </div>
         </div>
     </body>
 
@@ -246,7 +248,7 @@
 
 <script src="/index/js/jquery.js" language="javascript"></script>
 <script type="text/javascript" src="/index/js/jquery.min.js"></script>
- <script type="text/javascript" src="/index/js/jquery.cookie.js"></script>
+
 <script language="javascript">
     function animate() {
         $(".charts").each(function(i, item) {
@@ -259,7 +261,7 @@
     }
     animate();
 
-     $('html, body').scrollTop($("#" + $('#ls').val()).offset().top);  
+     // $('html, body').scrollTop($("#" + $('#ls').val()).offset().top);  
      
      
 
