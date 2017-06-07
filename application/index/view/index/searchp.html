@@ -188,11 +188,13 @@
                 <!-- <form action='http://fd.00o.cn/index.php/home/index/index' method="post"
                 id='from'> -->
                 <form action="{:url('index/tj')}" method="post" id='from'>
+                    <div class="boheight">
                         {volist name='t' id='vv'}
                         <p onclick="tj('mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}','{$vv.t_nicname}')">
                             {$vv.t_nicname}
                         </p>
                         {/volist}
+                    </div>
                         <input type="hidden" name="mm1" id="mm1">
                         <input type="hidden" name="tkid" id='v'>
                         <input type="hidden" name="gid" id='vv'>
@@ -217,13 +219,16 @@
             <div class="bottt">
                 <div class="sco">
                     <form action='http://api2.00o.cn/api/api3.php' method="post" id='fromm'>
-                        {volist name='t' id='vv'}
-                        <p>
-                            {$vv.t_nicname}
-                            <input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}">
-                            <img class="i" src="/index/images/gou.jpg">
-                        </p>
-                        {/volist}
+                        <div class="boheight">
+                            {volist name='t' id='vv'}
+                            <p>
+                                {$vv.t_nicname}
+                                <input type="hidden" name="data[]" value="mm_{$vv.t_mm1}_{$vv.t_mm2}_{$vv.t_mm3}">
+                                <img class="i" src="/index/images/gou.jpg">
+                            </p>
+                            {/volist}
+                        </div>
+
                         <input type="hidden" name="tkid" id='v1'>
                         <input type="hidden" name="gid" id='vv1'>
                         <input type="hidden" name="idss" value="{$idss}">
@@ -231,10 +236,10 @@
                         <input type="hidden" name="keyword" value="{$name}">
                     </form>
                 </div>
-               <!-- <p class="t" id="fs" onclick="tjj()">-->
+                <p class="t" id="fs" onclick="tjj()">
                     <!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->
-                 <!--   发&nbsp;送
-                </p>-->
+                    发&nbsp;送
+                </p>
             </div>
             <!--<input type="hidden" name="tkid" id='v1'>
             <input type="hidden" name="gid" id='vv1'>
@@ -243,10 +248,10 @@
             <input type="hidden" name="keyword" value="{$name}">-->
             <!--</form>-->
         <!--</div>-->
-        <p class="t" id="fs" onclick="tjj()">
-            <!-- <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> -->
+       <!-- <p class="t" id="fs" onclick="tjj()">
+            &lt;!&ndash; <span onclick="ntc()"><img src="/index/images/close.png" width="10px"></span> &ndash;&gt;
             发&nbsp;送
-        </p>
+        </p>-->
     </div>
 </div>
 </div>
@@ -431,7 +436,7 @@
             alert('请勾选对应群');
         }
         $('.bottt').animate({
-            bottom: "-350px"
+            bottom: "-300px"
         });
         $('.bottt .i').css('display', 'none');
         $('#fromm p input').attr('name', '');
