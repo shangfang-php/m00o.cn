@@ -433,7 +433,8 @@ class User extends common
         else
         {
             $us = Db::name("user_tb")->field('u_id as usid,u_username as username,u_code as code,u_leve as leve,u_fcbl as fcbl,u_parent_u_id,u_money as money,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney,u_allmoney')->where(array('u_id'=>$uid))->find();
-            //$one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
+            $one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
+            $nou    =   $one ? 1 : 0; ##是否有下级代理
             //if($one)
 //            {
 //                $nou = 1;
@@ -442,7 +443,7 @@ class User extends common
 //            {
 //                $nou = 0;
 //            }
-            $nou    =   $us['leve'] == 1 ? 1 : 0; ##1级代理不允许升级，其它代理取消下级代理判断
+            //$nou    =   $us['leve'] == 1 ? 1 : 0; 
             if($us)
             {
                 $arr = array("code"=>"0","res"=>"获取成功！","user"=>$us,"nou"=>$nou);
@@ -563,11 +564,11 @@ class User extends common
             $jis += 1;
             
             Db::startTrans();
-            if($jis != $user['u_leve']){ ##级别改变
-                 $save['u_leve']    =   $jis;
-                 $save['u_parent_u_id']= $jis == 1 ? $taokeId : $se5; ##一级代理为淘客ID，非一级代理则为指定代理商
-                 $fcblArr   =   getTaokeFcblSet($taokeId, $jis); ##获取指定淘客的分成比例默认设置
-                 $save      +=  $fcblArr; ##合并数组
+            if($jis != $user['u_leve'] && $jis < $user['u_leve']){ ##级别上升
+                 //$save['u_leve']    =   $jis;
+                 //$save['u_parent_u_id']= $jis == 1 ? $taokeId : $se5; ##一级代理为淘客ID，非一级代理则为指定代理商
+                 //$fcblArr   =   getTaokeFcblSet($taokeId, $jis); ##获取指定淘客的分成比例默认设置
+                 //$save      +=  $fcblArr; ##合并数组
                  
                  ##检测是否有下级合伙人，当前只有二级合伙人升一级才需要升级二级名下的三级合伙人到二级
                  $childUser =   Db::table('user_tb')->field('u_id')->where('u_parent_u_id', $uid)->find();
@@ -583,12 +584,13 @@ class User extends common
                     }
                  }
                  
-            }else{ ##级别未改变 则只更新合伙人信息
+            }//else{ ##级别未改变 则只更新合伙人信息
                 $save['u_fcbl']     =   $fcbl;
                 $save['u_fcbl2']    =   $fcbl2;
                 $save['u_fcbl3']    =   $fcbl3;
                 $save['u_parent_u_id']= $se5;
-            }
+                $save['u_leve']    =   $jis;
+            //}
             
             /** 更新合伙人信息**/
             $save['u_nic']      =   $nic;
@@ -603,7 +605,7 @@ class User extends common
             Db::commit();
             savesafe(Session('taokeid'));
             
-            if($jis != $user['u_leve']){
+            if($jis != $user['u_leve'] && $jis < $user['u_leve']){
                 if($jis == 1){
                     $name   =   '一级合伙人';
                 }else{

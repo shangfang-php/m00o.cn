@@ -457,11 +457,11 @@
                       $('#sjy').removeAttr("style");
                       $('#fcb3').removeAttr("style");
                       $('#sjy').attr("style","display:none;");
-                        
+                      
+                      one_select    =   'selected';  
                       if(data.nou===0)
                       {
                           //var l = "selected";
-                          one_select    =   'selected';
                       }
                       else
                       {
@@ -471,10 +471,10 @@
                   if(a.leve===2){
                       $('#erji').html('提取三级总佣金的');
                       $('#fcb3').attr("style","display:none;");
+                      two_select    =   'selected';
                       if(data.nou===0)
                       {
                           //var e ="selected";
-                          two_select    =   'selected';
                           manage.zt(1,a.u_parent_u_id);
                       }
                       else
@@ -486,10 +486,10 @@
                   {
                       $('#fcb2').attr("style","display:none;");
                       $('#fcb3').attr("style","display:none;");
+                      var three_selete  =   'selected';
                       if(data.nou===0)
                       {
                           //var v = "selected";
-                          var three_selete  =   'selected';
                           manage.zt(2,a.u_parent_u_id);
                       }
                       else
@@ -497,39 +497,33 @@
                           var m = "三级合伙人";
                       }
                   }
-                  if(data.nou===0)
-                  {
-                      $('#dljb').empty();
-                      var h  = '';
-                      if(a.leve >= 1){
-                            h   +=  '<option value="0" '+one_select+'>一级合伙人</option>';
-                      }
-                      
-                      if(a.leve >= 2){
-                        h   +=  '<option value="1" '+two_select+'>二级合伙人</option>';
-                      }
-                      
-                      if(a.leve >= 3){
-                        h   +=  '<option value="2" '+three_selete+'>三级合伙人</option>';
-                      }
-                           //h+='<option value="0" '+l+'>一级合伙人</option>'+
-//                              '<option value="1" '+e+'>二级合伙人</option>'+
-//                              '<option value="2" '+v+'>三级合伙人</option>';
-
+                  
+                  if(a.leve == 1 && data.nou == 1){ //一级代理有下级代理不允许变更等级
+                        $('#dljb').empty();
+                        $('#jis').empty();
                         $('#jis').removeAttr("style");
-                        $('#jis').html(h);
+                        $('#jis').attr("style","display:none;");
+                        $('#sjy').removeAttr("style");
+                        $('#sjy').attr("style","display:none;");
+                        var k = '<input type="text" class="form-control" disabled="true" required="" value="'+m+'">';
+                        $('#dljb').html(k);
+                  }else{
+                    
+                    $('#dljb').empty();
+                    var h  =  '<option value="0" '+one_select+'>一级合伙人</option><option value="1" '+two_select+'>二级合伙人</option><option value="2" '+three_selete+'>三级合伙人</option>';
+                    
+                    if(a.leve == 1){ //一级代理
+                        
+                    }else if(a.leve == 2){ //二级代理
+                        console.log(one_select, two_select);
+                        if(data.nou == 1){
+                            h   =  '<option value="0" '+one_select+'>一级合伙人</option><option value="1" '+two_select+'>二级合伙人</option>';
+                        }
+                    }
+                    $('#jis').removeAttr("style");
+                    $('#jis').html(h);
                   }
-                  else
-                  {
-                      $('#dljb').empty();
-                      $('#jis').empty();
-                      $('#jis').removeAttr("style");
-                      $('#jis').attr("style","display:none;");
-                      $('#sjy').removeAttr("style");
-                      $('#sjy').attr("style","display:none;");
-                      var k = '<input type="text" class="form-control" disabled="true" required="" value="'+m+'">';
-                      $('#dljb').html(k);
-                  }
+                  
                   
                   //if(a.u_allmoney==0.00){
 //                      
@@ -592,7 +586,25 @@
       var id = $(this).val();
 
       if(id!='')
-      {
+      {   
+          if(id == 0){
+            $('#fcb2').show();
+            $('#erji').html('提取二级总佣金的');
+            $('#fcb3').show();
+          }
+          
+          if(id == 1 ){
+            $('#fcb2').show();
+            $('#erji').html('提取三级总佣金的');
+            $('#fcb3').hide();
+          }
+          
+          if(id == 2){
+            $('#fcb2').hide();
+            $('#fcb3').hide();
+          }
+          
+            
           if(id==1||id==2){
               $('#sjy').attr("style","display:none;");
               $.ajax({
