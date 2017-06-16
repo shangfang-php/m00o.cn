@@ -215,7 +215,7 @@ class Setup extends common
         $where      =   array('u_idss'=>$taokeId, 'is_delete'=>0);
         $notice     =   Db::table('notice_set')->field('content, is_close, id')->where($where)->find();
         $data       =   array(
-                            'notice'    =>  $notice,
+                            'notice'    =>  str_replace('<br />', '', $notice),
                             'id'        =>  $notice ? $notice['id'] : '0',
                             'a'         =>  5,
                             'b'         =>  12,
@@ -236,6 +236,7 @@ class Setup extends common
         if(!$content){
             alert('请填写公告内容');exit;
         }
+        $content    =   nl2br($content);
         
         $data   =   array('content'=>$content, 'is_close'=>$is_close, 'createTime'=>time());
         if(!$id){
