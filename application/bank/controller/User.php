@@ -602,7 +602,22 @@ class User extends common
             
             Db::commit();
             savesafe(Session('taokeid'));
-            $arr = array("code"=>"0","res"=>"修改成功！");
+            
+            if($jis != $user['u_leve']){
+                if($jis == 1){
+                    $name   =   '一级合伙人';
+                }else{
+                    $name   =   '二级合伙人';
+                }
+                $res    =   $user['u_username'].'已经提升为'.$name.',';
+                if($childUser){
+                    $res    .=  "\n他的下级合伙人也跟着提升了，";
+                }
+                $res    .=  "\n分成比例已经修改为默认，如需修改请重新调整！";
+            }else{
+                $res    =   '修改成功！';
+            }
+            $arr = array("code"=>"0","res"=>$res);
             jsons($arr);
             
             
