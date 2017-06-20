@@ -44,11 +44,13 @@
                               <table class="table table-striped nomargin">
                                   <thead>
                                   <tr>
+                                      {if $state == 0}
                                       <th class="text-center" style="width:45px;">
                                       <label class="ckbox ckbox-warning">
                                       <input type="checkbox" id="all"  onclick="cli('feedcdx');"><span></span>
                                       </label>
                                       </th>
+                                      {/if}
                                       <th>用户账号</th>
                                       <th>备注昵称</th>
                                       <th>真实姓名</th>
@@ -63,11 +65,13 @@
                                   <tbody>
                                   {volist name="money" id="v"}
                                   <tr>
+                                    {if $state == 0}
                                     <td>
                                     <label class="ckbox ckbox-info">
                                     <input type="checkbox" name="feedcdx" id="{$v.m_id}" onclick="manage.isone({$v.m_id})"/><span></span>
                                     </label>
                                     </td>
+                                    {/if}
                                     <td>{$v.m_username}</td>
                                     <td>{$userArr[$v.m_username]['u_nic']}</td>
                                     <td>{$v.m_alipayname}</td>
