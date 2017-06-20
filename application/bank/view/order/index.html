@@ -94,7 +94,7 @@
                                       <td><p class="text-success" style="width:200px!important;">{$v.o_goodsinformation}</p></td>
                                       <td>{$v.o_creattime|date="Y/m/d H:i:s",###}</td>
                                       <td><p class="text-success" style="width:120px;padding:0px;margin:0px;">
-                                          <?php echo substr($v['o_ordernum'],0,16);?></p></td>
+                                          <?php echo explode('_', $v['o_ordernum'])[0];//substr($v['o_ordernum'],0,16);?></p></td>
                                       <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_payprice}</p></td>
                                       <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_zzyj}</p></td>
                                       <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.u_username}</p>    </td>
