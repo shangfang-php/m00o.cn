@@ -41,7 +41,7 @@ class User extends common
         }
         else
         {
-            $user = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>1))->paginate(10,false,[
+            $user = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid')))->order('u_id', 'desc')->paginate(10,false,[
                 'query' => array('name'=>$name,),
             ]);
             $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
@@ -433,8 +433,8 @@ class User extends common
         else
         {
             $us = Db::name("user_tb")->field('u_id as usid,u_username as username,u_code as code,u_leve as leve,u_fcbl as fcbl,u_parent_u_id,u_money as money,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney,u_allmoney')->where(array('u_id'=>$uid))->find();
-            $one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
-            $nou    =   $one ? 1 : 0; ##是否有下级代理
+            //$one = Db::name("user_tb")->where(array('u_parent_u_id'=>$uid))->find();
+            //$nou    =   $one ? 1 : 0; ##是否有下级代理
             //if($one)
 //            {
 //                $nou = 1;
@@ -443,9 +443,12 @@ class User extends common
 //            {
 //                $nou = 0;
 //            }
-            //$nou    =   $us['leve'] == 1 ? 1 : 0; 
+            //$nou    =   $us['leve'] == 1 ? 1 : 0;
+            $nou    =   0;
             if($us)
-            {
+            {   
+                $parentInfo =   Db::table('user_tb')->field('u_username')->where(array('u_id'=>$us['u_parent_u_id']))->find();
+                $us['u_parent_username']    =   $parentInfo ? $parentInfo['u_username'] : ''; 
                 $arr = array("code"=>"0","res"=>"获取成功！","user"=>$us,"nou"=>$nou);
                 jsons($arr);
             }
@@ -512,7 +515,7 @@ class User extends common
         $fcbl2 = trim(input('post.fcbl2'))/100;
         $fcbl3 = trim(input('post.fcbl3'))/100;
         $nic = trim(input('post.nic'));
-        $jis  = intval(trim(input('post.jis')));
+        //$jis  = intval(trim(input('post.jis')));
         $se5  = intval(trim(input('post.se5')));
         $taokeId    =   session('taokeid');
         if($fcbl>1){
@@ -548,6 +551,7 @@ class User extends common
                 jsons($arr);
             }
             
+            /*
             if($jis==1||$jis==2){
                 if(!$se5){
                     $arr = array('code'=>'305', 'res'=>'必须要有上级代理!');
@@ -585,11 +589,12 @@ class User extends common
                  }
                  
             }//else{ ##级别未改变 则只更新合伙人信息
+            */
                 $save['u_fcbl']     =   $fcbl;
                 $save['u_fcbl2']    =   $fcbl2;
                 $save['u_fcbl3']    =   $fcbl3;
                 $save['u_parent_u_id']= $se5;
-                $save['u_leve']    =   $jis;
+                //$save['u_leve']    =   $jis;
             //}
             
             /** 更新合伙人信息**/
@@ -605,20 +610,20 @@ class User extends common
             Db::commit();
             savesafe(Session('taokeid'));
             
-            if($jis != $user['u_leve'] && $jis < $user['u_leve']){
-                if($jis == 1){
-                    $name   =   '一级合伙人';
-                }else{
-                    $name   =   '二级合伙人';
-                }
-                $res    =   $user['u_username'].'已经提升为'.$name.',';
-                if($childUser){
-                    $res    .=  "\n他的下级合伙人也跟着提升了，";
-                }
-                $res    .=  "\n分成比例已经修改为默认，如需修改请重新调整！";
-            }else{
+            //if($jis != $user['u_leve'] && $jis < $user['u_leve']){
+//                if($jis == 1){
+//                    $name   =   '一级合伙人';
+//                }else{
+//                    $name   =   '二级合伙人';
+//                }
+//                $res    =   $user['u_username'].'已经提升为'.$name.',';
+//                if($childUser){
+//                    $res    .=  "\n他的下级合伙人也跟着提升了，";
+//                }
+//                $res    .=  "\n分成比例已经修改为默认，如需修改请重新调整！";
+//            }else{
                 $res    =   '修改成功！';
-            }
+            //}
             $arr = array("code"=>"0","res"=>$res);
             jsons($arr);
             
@@ -701,8 +706,9 @@ class User extends common
         $fcbl2      = trim(input('post.fcbl2'))/100;
         $fcbl3      = trim(input('post.fcbl3'))/100;
         $nic        = trim(input('post.nic'));
-        $dl         = trim(input('post.dl'));
-        $sjdl       = trim(input('post.sjdl'));
+        //$dl         = trim(input('post.dl'));
+        $sjdl       = intval(trim(input('post.sjdl')));
+        
         if(strlen($phone)<6){
             alert('用户账号需要大于6位字符');exit;
         }
@@ -711,15 +717,18 @@ class User extends common
             alert('用户账号不能大于20位字符');exit;
         }
 
-            $user  = Db::name('user_tb')->where(array('u_username'=>$phone))->find();
-            if($user)
-            {
-                alert('账号已被注册!');exit;
-            }
-            if(strlen($pass)<6)
-            {
-                alert('密码需要大于6位数！');exit;
-            }
+        $user  = Db::name('user_tb')->where(array('u_username'=>$phone))->find();
+        if($user)
+        {
+            alert('账号已被注册!');exit;
+        }
+        if(strlen($pass)<6)
+        {
+            alert('密码需要大于6位数！');exit;
+        }
+        
+        $add['u_parent_u_id']   =   $sjdl;
+            /*
             if($dl!=0)
             {
                 if($sjdl>0)
@@ -742,7 +751,7 @@ class User extends common
             {
                 $add['u_parent_u_id'] = Session('taokeid');
                 $add['u_leve'] = 1;
-            }
+            }*/
             $a          = substr( md5($pass),12);
             $password   = substr($a,0,-10);
             $co         = getcode();
@@ -904,6 +913,28 @@ class User extends common
             $arr = array('code'=>704, 'res'=>'更新失败!');
         }else{
             $arr = array('code'=>200, 'res'=>'更新成功!');
+        }
+        return json($arr);
+    }
+    
+    /**
+     * User::get_user_list()
+     * 获取用户列表
+     * @return void
+     */
+    function get_user_list(){
+        $search =   trim(input('post.name'));
+        if(!$search){
+            $arr = array('code'=>801, 'list'=>'');
+            return json($arr);
+        }
+        $taokeId    =   session('taokeid');
+        $where  =   array('u_u_idss'=>$taokeId, 'u_username'=>['like', '%'.$search.'%']);
+        $list   =   Db::table('user_tb')->field('u_id,u_username')->where($where)->select();
+        if(!$list){
+            $arr = array('code'=>802, 'list'=>'');
+        }else{
+            $arr = array('code'=>200, 'list'=>$list);
         }
         return json($arr);
     }

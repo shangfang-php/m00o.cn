@@ -1,4 +1,13 @@
 {include file="public/head" /}
+<link rel="stylesheet" href="/bank/lib/dropzone/dropzone.css">
+<link rel="stylesheet" href="/bank/lib/select2/select2.css">
+<style>
+    .select2{height:35px!important;}
+    .select2-selection{height:38px!important;}
+    #select2-select5-container{height:37px!important;line-height: 37px;}
+    #select2-select1-container{height:37px!important;line-height: 37px;}
+    .select2-selection__arrow{height:34px!important;}
+</style>
     <div class="mainpanel">
     <div class="contentpanel">
       <ol class="breadcrumb breadcrumb-quirk">
@@ -61,16 +70,15 @@
               <br>
               <div class="col-md-12">
                   <div class="utab">
-                      <p style="width:40px;">&nbsp;</p>
+                      
                       <p>用户帐号</p>
                       <p>备注昵称</p>
-                      <p>合伙人级别</p>
                       <p style="width:90px;">余额</p>
                       <p style="width:100px;">待确认金额</p>
                       <p style="width:100px;">邀请码</p>
                       <p style="width:100px;">分成比率</p>
-                      <p style="width:100px;">二级分成</p>
-                      <p style="width:100px;">三级分成</p>
+                      <p style="width:100px;">下级分成</p>
+                      <p style="width:100px;">下下级分成</p>
                       <p style="width:70px;">状态</p>
                       <p style="width:150px;">操作</p>
                   </div>
@@ -78,33 +86,16 @@
               {volist name="user" id="v"}
               <div class="utabus">
                   <div class="col-md-12">
-                      <p style="width:40px;" class="oc">
-                      {if condition="$so eq 2"}
-                          {if condition="$fcbl.fc_power eq 1"}
-                              <label style="padding:0px;margin:0px;" id="u{$v.u_id}" class="olds">
-                                  <i onclick="manage.gt({$v.u_id})" class="glyphicon glyphicon-chevron-right" style="padding:5px;cursor:pointer"></i>
-                              </label>
-                              {elseif condition="$fcbl.fc_power neq 1"/}
-                              <label style="padding:0px;margin:0px;">
-                                  <i class="fa fa-user" style="padding:5px;cursor:pointer"></i>
-                              </label>
-                          {/if}
-                       {/if}
-                      </p>
+                      
                       <p class="oc"><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_username}</a></p>
                       <p class="oc"><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_nic}&nbsp;</a></p>
-                      <p class="oc">{if condition="$v.u_leve eq 1"}一级合伙人{elseif condition="$v.u_leve eq 2" /}二级合伙人{elseif condition="$v.u_leve eq 3" /}三级合伙人{/if}</p>
+                      
                       <p class="oc" style="width:90px;">{$v.u_money}</p>
                       <p class="oc" style="width:100px; color:#259dab;" onclick="countWqrMoney('{$v.u_id}')">{$v.u_wqrmoney}</p>
-                      <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}{if condition="$v.u_leve neq 3" /}{$v.u_code}{/if}{/if}&nbsp;</p>
+                      <p class="oc" style="width:100px;">{$v.u_code}&nbsp;</p>
                       <p class="oc" style="width:100px;"><?php $num1 = $v['u_fcbl']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num1), 0, -2));   ?>%</p>
-                      <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}
-                          {if condition="$v.u_leve eq 1" /}<?php $num2 = $v['u_fcbl2']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num2), 0, -2));?>%{/if}
-                          {/if}</p>
-                      <p class="oc" style="width:100px;">{if condition="$fcbl.fc_power eq 1"}
-                          {if condition="$v.u_leve eq 1" /}<?php $num3 = $v['u_fcbl3']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num3), 0, -2));?>%{/if}
-                          {if condition="$v.u_leve eq 2" /}<?php $num2 = $v['u_fcbl2']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num2), 0, -2));?>%{/if}
-                          {/if}</p>
+                      <p class="oc" style="width:100px;"><?php $num2 = $v['u_fcbl2']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num2), 0, -2));?>%</p>
+                      <p class="oc" style="width:100px;"><?php $num3 = $v['u_fcbl3']*100;echo sprintf("%.2f",substr(sprintf("%.3f", $num3), 0, -2));?>%</p>
                       <p class="oc" style="width:70px;" id="sf{$v.u_id}">
                       {if condition="$v.u_state eq 1"} <span style="color:#259dab">正常</span> {elseif condition="$v.u_state eq 2"/}<span style="color:red">被封禁</span>{/if}
                       </p>
@@ -146,8 +137,8 @@
                             <input type="hidden" id="uid" class="form-control">
                         </div>
                     </div>
-                    {if condition="$fcbl.fc_power eq 1"}
-                    <div class="form-group" id="fcb2" style="display:none;">
+                    
+                    <div class="form-group" id="fcb2" >
                         <label class="col-sm-3 control-label" id="erji">提取二级总佣金的</label>
                         <div class="col-sm-8">
                             <input type="text" id="fcbl2" class="form-control" placeholder="二级分成" pattern="^\d+(\.\d{1,2})?$" aria-required="true"style="width:100px;float:left;"><span style="float:left;font-size: 25px;">%</span>
@@ -161,33 +152,25 @@
 
                         </div>
                     </div>
-                    {/if}
+                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">备注昵称</label>
                         <div class="col-sm-8">
                             <input type="text" id="nic" class="form-control" placeholder="备注昵称" required="" aria-required="true">
                         </div>
                     </div>
-                    {if condition="$fcbl.fc_power eq 1"}
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">合伙人级别</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" id="jis" style="display:none;"></select>
-                            <div id="dljb"></div>
-                        </div>
-                    </div>
-
-                    {/if}
-                    <div class="form-group" id="sjy" style="display:none;">
+                    
+                    <div class="form-group" id="sjy" >
                         <label class="col-sm-3 control-label">选择上级</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="se5">
-                            </select>
+                            <select name="sjdl"  id="se5" class="form-control" style="width:100%;" data-placeholder="选择所属上级合伙人">
+                                <option value="0">请输入上级合伙人名称</option>
+                             </select>
                         </div>
                     </div>
                     
                 </div>
-                <div style="color:#f00">友情提示：合伙人升级时会自动提升该合伙人所属下级合伙人级别,佣金分成将修改为设置中心设置的默认分成比例,如需修改,请提升等级后再自行设置。</div>
+                <div style="color:#f00">友情提示：修改上级用户 新订单变更状态后的佣金是由新上级用户抽取分成！</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
@@ -240,7 +223,46 @@
 </div>
 
 {include file="public/footer" /}
+<script src="/bank/lib/select2/select2.js"></script>
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
 <script>
+    $(function(){
+        $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+        $('#se5').select2({
+             ajax:   
+            {  
+                url: "/index.php/bank/user/get_user_list",  
+                dataType: 'json',  
+                type: 'POST',
+                delay:150,
+                data: function (params)   
+                {  
+                    var param = new Object();  
+                    param.name = params.term;                         
+                    return param;  
+                },  
+                processResults: function (resp, page)   
+                {  
+                    //console.log(resp);return false;
+                    var array   = new Array();
+                    if(resp.code == 200){
+                        for (var i = 0; i < resp.list.length; i++)  
+                        {  
+                            var user = resp.list[i];  
+                            array.push({id:user.u_id, text: user.u_username});  
+                        }  
+                    }else{
+                        array.push({id:0, text: '未搜索到相关合伙人'});
+                    }
+                    var ret = new Object();  
+                    ret.results = array;                  
+                    return ret;  
+                },  
+                cache: true  
+            },
+        });
+    });
+    
   var manage = {
     reset:function(id){
             if(confirm("是否重置密码？")) {  // 确认操作
@@ -333,111 +355,7 @@
       $('#s'+uid+'').empty();
       $('#u'+uid+'').html(ssss);
   },
-  gt:function(uid){
-      $.ajax({
-          url: "{:url('user/usones')}",
-          data: {uid:uid},
-          type: 'POST',
-          dataType: "json",
-          cache: false,
-          success: function(data,state){
-              if(state == 'success' && data.code == '0'){
-                  var htmls = '';
-                  arra = data.user1;
-                  $.each(arra,function(key,val){
-                    if(val.state==1)
-                    {
-                      sta = '<span style="color:#259dab">正常</span>';
-                      zt = '<button title="封禁" onclick="manage.usno('+val.usid+')" class="btn btn-danger btn-xs btn-stroke" ><i style="color:red;" class="fa fa-times"></i></button>';
-                    }else if(val.state==2)
-                    {
-                      sta = '<span style="color:red">被封禁</span>';
-                      zt = '<button class="btn btn-info btn-xs btn-stroke" title="恢复" onclick="manage.usyes('+val.usid+')" ><i class="fa fa-check"></i></button>'
-                    }
-
-                      htmls +='<div class="col-md-12"><p style="width:40px;" class="tc">&nbsp;</p>'+
-                              '<p class="tc"><label style="padding:0px;margin:0px;" id="u'+val.usid+'" class="olds"><i onclick="manage.gts('+val.usid+')" class="glyphicon glyphicon-chevron-right" style="padding:5px;cursor:pointer"></i></label>　<a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.username+'</a></p>'+
-                              '<p class="tc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
-                              '<p class="tc">　　二级合伙人</p>'+
-                              '<p class="tc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="tc" style="width:100px; color:#259dab;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
-                              '<p class="tc" style="width:100px;">'+val.code+'</p>'+
-                              '<p class="tc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
-                              '<p class="tc" style="width:100px;">&nbsp;</p>'+
-                              '<p class="tc" style="width:100px;">'+(val.u_fcbl2*100).toFixed(2)+'%</p>'+
-                              '<p class="tc" style="width:70px;" id="sf'+val.usid+'">'+sta+'</p>'+
-                              '<p style="width:150px;" class="tc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html" title="查看详情" class="btn btn-info btn-xs btn-stroke"><i class="glyphicon glyphicon-share-alt" ></i></a>&nbsp;<button class="btn btn-success btn-xs btn-stroke" title="修改用户" onclick="manage.modifyuser('+val.usid+')"><i class="fa fa-pencil"></i></button>&nbsp;<button class="btn btn-warning btn-xs btn-stroke" title="重置密码" onclick="manage.reset('+val.usid+')" ><i style="color:#fdcc51;" class="fa fa-repeat"></i></button>&nbsp;<span id="yon'+val.usid+'">'+zt+'</span></p>'+
-                              '<div id="s'+val.usid+'" class="utabus" style="background: #e"> </div></div>';
-                  });
-
-                  HtmlStr = '<i onclick="manage.gtno('+uid+')" class="glyphicon glyphicon-chevron-down" style="padding:5px;cursor:pointer"></i>';
-                  var ssss = HtmlStr;
-                  $('#u'+uid+'').empty();
-                  $('#u'+uid+'').html(ssss);
-                  document.getElementById('s'+uid).innerHTML=htmls;
-
-              }else if(data.code == '-1'){
-                  htmls = '<p class="tc" class="text-center" style="width:400px;">　　　　无合伙人</p>';
-                  HtmlStr = '<i onclick="manage.gtno('+uid+')" class="glyphicon glyphicon-chevron-down" style="padding:5px;cursor:pointer"></i>';
-                  var ssss = HtmlStr;
-                  $('#u'+uid+'').empty();
-                  $('#u'+uid+'').html(ssss);
-                  document.getElementById('s'+uid).innerHTML=htmls;
-              }
-          }
-      });
-  },
-  gts:function(uid){
-      $.ajax({
-          url: "{:url('user/ustwos')}",
-          data: {uid:uid},
-          type: 'POST',
-          dataType: "json",
-          cache: false,
-          success: function(data,state){
-              if(state == 'success' && data.code == '0'){
-                  var htmlv = '';
-                  arras = data.user2;
-                  $.each(arras,function(key,val){
-                    if(val.state==1)
-                    {
-                      sta = '<span style="color:#259dab">正常</span>';
-                      zt = '<button class="btn btn-danger btn-xs btn-stroke" title="封禁" style="color:red;" onclick="manage.usno('+val.usid+')"><i class="fa fa-times"></i></button>';
-                    }else if(val.state==2)
-                    {
-                      sta = '<span style="color:red">被封禁</span>';
-                      zt = '<button class="btn btn-info btn-xs btn-stroke" title="恢复" onclick="manage.usyes('+val.usid+')" ><a class="fa fa-check"></a></button>'
-                    }
-                      htmlv+= '<div class="col-md-12"><p style="width:40px;" class="sc">&nbsp;</p>'+
-                              '<p class="sc">　　<a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.username+'</a></p>'+
-                              '<p class="sc"><a href="/bank/user/ustwo/uid/'+val.usid+'.html">'+val.u_nic+'&nbsp;</a></p>'+
-                              '<p class="sc">　　　　三级合伙人</p>'+
-                              '<p class="sc" style="width:90px;">'+val.money+'</p>'+
-                              '<p class="sc" style="width:100px; color:#259dab;" onclick="countWqrMoney(\''+val.usid+'\')">'+val.u_wqrmoney+'</p>'+
-                              '<p class="sc" style="width:100px;">&nbsp;</p>'+
-                              '<p class="sc" style="width:100px;">'+(val.fcbl*100).toFixed(2)+'%</p>'+
-                              '<p class="sc" style="width:100px;">&nbsp;</p>'+
-                              '<p class="sc" style="width:100px;">&nbsp;</p>'+
-                              '<p class="sc" style="width:70px;" id="sf'+val.usid+'">'+sta+'</p>'+
-                              '<p style="width:150px;" class="sc"><a class="btn btn-info btn-xs btn-stroke" href="/bank/user/ustwo/uid/'+val.usid+'.html" title="查看详情"><i  class="glyphicon glyphicon-share-alt"></i></a>&nbsp;<button class="btn btn-success btn-xs btn-stroke" title="修改用户" onclick="manage.modifyuser('+val.usid+')"><i class="fa fa-pencil"></i></button>&nbsp;<button class="btn btn-warning btn-xs btn-stroke" title="重置密码" style="color:#fdcc51;" onclick="manage.reset('+val.usid+')"><i class="fa fa-repeat"></i></button>&nbsp;<span id="yon'+val.usid+'">'+zt+'</span></p></div>';
-
-                  });
-                  HtmlStr = '<i onclick="manage.gtnos('+uid+')" class="glyphicon glyphicon-chevron-down" style="padding:5px;cursor:pointer"></i>';
-                  var sss = HtmlStr;
-                  $('#u'+uid+'').empty();
-                  document.getElementById('u'+uid).innerHTML=sss;
-                  document.getElementById('s'+uid).innerHTML=htmlv;
-              }else if(data.code == '-1'){
-                  htmls = '<p class="sc" class="text-center" style="width:400px;">　　　　　　无合伙人</p>';
-                  HtmlStr = '<i onclick="manage.gtnos('+uid+')" class="glyphicon glyphicon-chevron-down" style="padding:5px;cursor:pointer"></i>';
-                  var ssss = HtmlStr;
-                  $('#u'+uid+'').empty();
-                  $('#u'+uid+'').html(ssss);
-                  document.getElementById('s'+uid).innerHTML=htmls;
-              }
-          }
-      });
-  },
+  
   modifyuser:function(uid){
       $.ajax({
           url: "{:url('user/modifysuer')}",
@@ -447,84 +365,7 @@
           cache: false,
           success: function (data, state) {
               if (state == 'success' && data.code == '0') {
-                  $('#fcb2').removeAttr("style");
-                  var a = data.user;
-                  var one_select    =   '';
-                  var two_select    =   '';
-                  var three_selete  =   '';
-                  if(a.leve===1){
-                      $('#erji').html('提取二级总佣金的');
-                      $('#sjy').removeAttr("style");
-                      $('#fcb3').removeAttr("style");
-                      $('#sjy').attr("style","display:none;");
-                      
-                      one_select    =   'selected';  
-                      if(data.nou===0)
-                      {
-                          //var l = "selected";
-                      }
-                      else
-                      {
-                          var m = "一级合伙人";
-                      }
-                  }
-                  if(a.leve===2){
-                      $('#erji').html('提取三级总佣金的');
-                      $('#fcb3').attr("style","display:none;");
-                      two_select    =   'selected';
-                      if(data.nou===0)
-                      {
-                          //var e ="selected";
-                          manage.zt(1,a.u_parent_u_id);
-                      }
-                      else
-                      {
-                          var m = "二级合伙人";
-                      }
-                  }
-                  if(a.leve===3)
-                  {
-                      $('#fcb2').attr("style","display:none;");
-                      $('#fcb3').attr("style","display:none;");
-                      var three_selete  =   'selected';
-                      if(data.nou===0)
-                      {
-                          //var v = "selected";
-                          manage.zt(2,a.u_parent_u_id);
-                      }
-                      else
-                      {
-                          var m = "三级合伙人";
-                      }
-                  }
-                  
-                  if(a.leve == 1 && data.nou == 1){ //一级代理有下级代理不允许变更等级
-                        $('#dljb').empty();
-                        $('#jis').empty();
-                        $('#jis').removeAttr("style");
-                        $('#jis').attr("style","display:none;");
-                        $('#sjy').removeAttr("style");
-                        $('#sjy').attr("style","display:none;");
-                        var k = '<input type="text" class="form-control" disabled="true" required="" value="'+m+'">';
-                        $('#dljb').html(k);
-                  }else{
-                    
-                    $('#dljb').empty();
-                    var h  =  '<option value="0" '+one_select+'>一级合伙人</option><option value="1" '+two_select+'>二级合伙人</option><option value="2" '+three_selete+'>三级合伙人</option>';
-                    
-                    if(a.leve == 1){ //一级代理
-                        
-                    }else if(a.leve == 2){ //二级代理
-                        console.log(one_select, two_select);
-                        if(data.nou == 1){
-                            h   =  '<option value="0" '+one_select+'>一级合伙人</option><option value="1" '+two_select+'>二级合伙人</option>';
-                        }
-                    }
-                    $('#jis').removeAttr("style");
-                    $('#jis').html(h);
-                  }
-                  
-                  
+                  var a =   data.user;
                   //if(a.u_allmoney==0.00){
 //                      
 //                  }else{
@@ -539,6 +380,8 @@
                   $('#nic').val(a.u_nic);
                   $('#yh').html(a.username+'['+a.u_nic+']');
                   $('#myModal').modal('show');
+                  $("#se5").html('<option value="'+a.u_parent_u_id+'">'+a.u_parent_username+'</option>');
+                  $('#select2-se5-container').html(a.u_parent_username);              
                   //                      document.getElementById('s'+uid).innerHTML=htmls;
               }
               else
@@ -582,83 +425,29 @@
       });
   }
 }
-  $('#jis').change(function(){
-      var id = $(this).val();
-
-      if(id!='')
-      {   
-          if(id == 0){
-            $('#fcb2').show();
-            $('#erji').html('提取二级总佣金的');
-            $('#fcb3').show();
-          }
-          
-          if(id == 1 ){
-            $('#fcb2').show();
-            $('#erji').html('提取三级总佣金的');
-            $('#fcb3').hide();
-          }
-          
-          if(id == 2){
-            $('#fcb2').hide();
-            $('#fcb3').hide();
-          }
-          
-            
-          if(id==1||id==2){
-              $('#sjy').attr("style","display:none;");
-              $.ajax({
-                  url: "{:url('user/jis')}",
-                  data: {id: id},
-                  type: 'POST',
-                  dataType: "json",
-                  cache: false,
-                  success: function (data, state) {
-                      if (state == 'success' && data.code == '0') {
-                          var htmls = '';
-                          arra = data.us;
-                          $.each(arra,function(key,val){
-                              htmls+='<option value="'+val.usid+'">'+val.username+'</option>'
-                          });
-                          $('#se5').empty();
-                          $('#se5').html(htmls);
-                          $('#sjy').removeAttr("style");
-                      }
-                  }
-              });
-           }
-          else
-          {
-              $('#sjy').removeAttr("style");
-              $('#sjy').attr("style","display:none;");
-          }
-      }
-      else
-      {
-          $('#sjy').removeAttr("style");
-          $('#sjy').attr("style","display:none;");
-      }
-  });
+  
   $('#sub1').click(function(){
       var fcbl = $('#fcbl').val();
       var fcbl2 = $('#fcbl2').val();
       var fcbl3 = $('#fcbl3').val();
       var uid = $('#uid').val();
-      var jis  = $('#jis').val();
+      //var jis  = $('#jis').val();
       var nic  = $('#nic').val();
-      if(jis==1||jis==2)
-      {
-          var se5  = $('#se5').val();
-          if(se5=='')
-          {
-              return alert('请选择上级用户');
-          }
-      }
+      var se5   =   $("#se5").val();
+      
+      //if(jis==1||jis==2)
+//      {
+//          var se5  = $('#se5').val();
+//          if(se5=='')
+//          {
+//              return alert('请选择上级用户');
+//          }
+//      }
       if(uid!='')
       {
           $.ajax({
               url: "{:url('user/saveuser')}",
-              data: {uid:uid,fcbl:fcbl,jis:jis,se5:se5,nic:nic,fcbl2:fcbl2,fcbl3:fcbl3},
+              data: {uid:uid,fcbl:fcbl,se5:se5,nic:nic,fcbl2:fcbl2,fcbl3:fcbl3},
               type: 'POST',
               dataType: "json",
               cache: false,
