@@ -130,4 +130,17 @@
   var manage = {
 
 }
+/** 跳转到合伙人商界面**/
+function agentLogin(agentId){
+    var data    =   {agentId:agentId};
+    var url     =   "{:url('user/agent_login')}";
+    $.post(url, data, function(msg){
+        //console.log(msg);
+        if(msg.code == 200){
+            window.open("{:url('index/login/index')}")
+        }else{
+            alert(msg.codeMsg);
+        }
+    }, "json");
+}
 </script>
