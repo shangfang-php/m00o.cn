@@ -5,9 +5,9 @@ class Index extends common
 {
     public function index()
     {
-    	$yiji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>1))->count();
-    	$erji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>2))->count();
-        $saji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>3))->count();
+    	$yiji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid')))->count();
+    	//$erji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>2))->count();
+//        $saji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>3))->count();
     	$fc   = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
     	$time = time();
         $Y = date("Y",$time);
@@ -33,8 +33,8 @@ class Index extends common
         $ridan = Db::name($or)->where($where)->count();
     	$data = array(
     		'yiji'  =>$yiji,
-    		'erji'  =>$erji,
-            'saji'  =>$saji,
+    		//'erji'  =>$erji,
+            //'saji'  =>$saji,
     		'fc'    =>$fc,
     		'dydan' =>$dydan,
     		'ridan' =>$ridan,

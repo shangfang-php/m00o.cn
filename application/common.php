@@ -524,20 +524,21 @@ function getUserChildAgents($uid, $userInfo = '', $isDepth = true){
         $userInfo   =   getUserInfo($uid);
     }
     $return =   array();
-    $u_leve =   $userInfo['u_leve'];
-    if($u_leve == 3){
-        return  $return;
-    }
+    //$u_leve =   $userInfo['u_leve'];
+//    if($u_leve == 3){
+//        return  $return;
+//    }
+    $u_leve =   1;
     
     $table  =   'user_tb';
     $where['u_parent_u_id'] =   $uid;
     $res    =   Db::table($table)->field('u_id')->where($where)->select();
     if(!empty($res)){
         $agents =   get_field_array('u_id', $res);
-        $key    =   $u_leve + 1;
+        $key    =   $u_leve;
         $return[$key] = $agents; ##下级代理商集合
         if($isDepth){
-            $times  =   2 - $u_leve; ##需要循环拉取下级代理的次数
+            $times  =   1; ##需要循环拉取下级代理的次数
             if($times > 0){
                 for($i = 1; $i<= $times; $i++){
                     $where['u_parent_u_id'] =   ['in', $agents];

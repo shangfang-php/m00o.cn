@@ -14,94 +14,33 @@
         <div class="panel-body">
           <div class="table-responsive xdc">
               <form action="{:url('Setup/fcbls')}" method="post">
-              <div class="col-md-4">
-                  <h4>一级合伙人比率设置</h4>
+              <div class="col-md-12">
+                  <h4>合伙人比率设置</h4>
                   <hr>
                  <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
-                        <div class="col-sm-6">
-                            <input type="text" name="one" class="form-control" placeholder="一级合伙人比率" required="" aria-required="true"  pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                        <label class="col-sm-5 control-label" >自己产生佣金分成<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="one" class="form-control" placeholder="" required="" aria-required="true"  pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
                         </div>
                     </div>
                     {if condition="$fcbl.fc_power eq 1"}
                      <div class="form-group">
-                         <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取二级总佣金的<span class="text-danger">*</span></label>
-                         <div class="col-sm-6">
-                             <input type="text" name="one2" class="form-control" placeholder="一级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                         <label class="col-sm-5 control-label">提取下级佣金分成<span class="text-danger">*</span></label>
+                         <div class="col-sm-4">
+                             <input type="text" name="one2" class="form-control" placeholder="" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
                          </div>
                      </div>
                      <div class="form-group">
-                         <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取三级总佣金的<span class="text-danger">*</span></label>
-                         <div class="col-sm-6">
-                             <input type="text" name="one3" class="form-control" placeholder="一级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one3']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
+                         <label class="col-sm-5 control-label">提取下下级佣金分成<span class="text-danger">*</span></label>
+                         <div class="col-sm-4">
+                             <input type="text" name="one3" class="form-control" placeholder="" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_one3']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
                          </div>
                      </div>
 
                    {/if}
                  </div>
               </div>
-                  {if condition="$fcbl.fc_power eq 1"}
-              <div class="col-md-4">
-                  <h4>二级合伙人比率设置</h4>
-                  <hr>
-                  <div class="form-horizontal">
-                      <div class="form-group">
-                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
-                          <div class="col-sm-6">
-                              <input type="text" name="two" class="form-control" placeholder="二级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
-                          </div>
-                      </div>
-
-
-                      <div class="form-group">
-                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">提取三级总佣金的<span class="text-danger">*</span></label>
-                          <div class="col-sm-6">
-                              <input type="text" name="two2" class="form-control" placeholder="二级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
-                          </div>
-                      </div>
-
-
-                      <!--<div class="form-group">-->
-                          <!--<label class="col-sm-6 control-label">三级合伙人比率<span class="text-danger">*</span></label>-->
-                          <!--<div class="col-sm-6">-->
-                              <!--<input type="text" name="three" class="form-control" placeholder="三级合伙人比率" required="" aria-required="true" value="<?php echo $fcbl['fc_three2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
-                          <!--</div>-->
-                      <!--</div>-->
-
-                  </div>
-              </div>
-
-              <div class="col-md-4">
-                  <h4> 三级合伙人比率设置</h4>
-                  <hr>
-                  <div class="form-horizontal">
-
-                      <div class="form-group">
-                          <label class="col-sm-6 control-label" style="text-align: left;width:130px;">自己产生佣金比率<span class="text-danger">*</span></label>
-                          <div class="col-sm-6">
-                              <input type="text" name="three" class="form-control" placeholder="三级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_three']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>
-                          </div>
-                      </div>
-                      <!--<div class="form-group">-->
-                          <!--<label class="col-sm-6 control-label">下级合伙人<span class="text-danger">*</span></label>-->
-                          <!--<div class="col-sm-6">-->
-                              <!--<input type="text" name="two2" class="form-control" placeholder="二级合伙人比率" required="" aria-required="true" pattern="^\d+(\.\d{1,2})?$" value="<?php echo $fcbl['fc_two2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
-                          <!--</div>-->
-                      <!--</div>-->
-                      <!--<div class="form-group">-->
-                      <!--<label class="col-sm-6 control-label">三级合伙人比率<span class="text-danger">*</span></label>-->
-                      <!--<div class="col-sm-6">-->
-                      <!--<input type="text" name="three" class="form-control" placeholder="三级合伙人比率" required="" aria-required="true" value="<?php echo $fcbl['fc_three2']*100; ?>" style="float:left;width:100px;"><span style="float:left;font-size: 25px;">%</span>-->
-                      <!--</div>-->
-                      <!--</div>-->
-
-
-
-                  </div>
-
-              </div>
-                  {/if}
               <div class="col-md-12">
                   <hr>
                   <div class="col-sm-5 col-sm-offset-4">

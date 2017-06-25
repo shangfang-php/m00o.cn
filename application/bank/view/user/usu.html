@@ -8,7 +8,7 @@
       </ol>
       <div class="panel">
           <div class="panel-heading">
-          <h4 class="panel-title">用户详情 {if condition="$su.leve neq 0"}<a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a>{/if}</h4>
+          <h4 class="panel-title">用户详情<a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a></h4>
           <hr>
           <div class="row">
               <div class="col-md-3 profile-left">
@@ -16,28 +16,54 @@
                       <div class="panel-heading">
                           <div class="text-center">
                               <h4 class="panel-profile-name">{$u.u_username}[{$u.u_nic}]</h4>
-                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级代理{elseif condition="$u.u_leve eq 2" /}二级代理{elseif condition="$u.u_leve eq 3" /}三级代理{/if}</p>
+                              <p class="media-usermeta">合伙人</p>
                           </div>
                       </div>
                       <div class="panel-body people-info">
                           <ul class="list-group">
-                              <li class="list-group-item btn btn-warning">当前位置：下级用户（此用户的）</li>
+                              <li class="list-group-item btn btn-warning" onclick="agentLogin('{$u.u_id}')">一键跳转到用户界面</li>
                           </ul>
                           <div class="info-group">
                               <label>余额</label>
                               {$u.u_money}
                           </div>
                           <div class="info-group">
-                              <label>分成比率</label>
+                              <label>待确认金额</label>
+                              {$u.u_wqrmoney}
+                          </div>
+                          <div class="info-group">
+                              <label>他自己的总佣金分成</label>
                               <?php echo $u['u_fcbl']*100;?>%
                           </div>
+                          <div class="info-group">
+                              <label>提取下级总佣金分成</label>
+                              <?php echo $u['u_fcbl2']*100;?>%
+                          </div>
+                          <div class="info-group">
+                              <label>提取下下级总佣金分成</label>
+                              <?php echo $u['u_fcbl3']*100;?>%
+                          </div>
+                          
                           <div class="info-group">
                               <label>邀请码</label>
                               {$u.u_code}
                           </div>
+                          
                           <div class="info-group">
                               <label>上级用户</label>
                               {$su.u_username}
+                          </div>
+                          <div class="info-group">
+                              <label>上上级用户</label>
+                              {if $parent_parent}{$parent_parent.u_username}{/if}
+                          </div>
+                          <div class="info-group">
+                              <label>下级用户数量</label>
+                              {$next_nums}
+                          </div>
+                          <div class="info-group">
+                              <label>下下级用户数量</label>
+                              {$next_next}
                           </div>
                       </div>
                   </div>
@@ -48,7 +74,8 @@
                       <ul class="nav nav-tabs nav-justified nav-line">
                           <li><a href="{:url('User/ustwo',array('uid'=>$uid))}"><strong>用户详情</strong></a></li>
                           {if condition="$fcbl.fc_power eq 1" /}
-                          {if condition="$u.u_leve neq 3" /}<li class="active"><a href="{:url('User/usu',array('uid'=>$uid))}"><strong>下级用户</strong></a></li>{/if}
+                          <li {if $type==1}class="active"{/if}><a href="{:url('User/usu',array('uid'=>$uid,'type'=>1))}"><strong>下级用户</strong></a></li>
+                          <li {if $type==2}class="active"{/if}><a href="{:url('User/usu',array('uid'=>$uid,'type'=>2))}"><strong>下下级用户</strong></a></li>
                           {/if}
                           <li><a href="{:url('User/usdd',array('uid'=>$uid,'last'=>'1'))}"><strong>订单明细</strong></a></li>
                           <!--<li><a href="#places"><strong>Places (5)</strong></a></li>-->
@@ -63,45 +90,22 @@
                               <table class="table table-bordered table-striped-col dataTable">
                                   <thead>
                                   <tr>
-                                      <!--<th class="text-center" style="width:45px;">-->
-                                      <!--<label class="ckbox ckbox-primary" class="oldal">-->
-                                      <!--</label>-->
-                                      <!--</th>-->
                                       <th>用户帐号</th>
-                                      <th>代理级别</th>
-                                      {if condition="$u.u_leve eq 1"}
+                                      <th>合伙人级别</th>
                                       <th>邀请码</th>
-                                      {/if}
-                                      <th>分成比率</th>
-                                      {if condition="$u.u_leve eq 1"}
-                                      <th>三级分成</th>
-                                      {/if}
+                                      <th>提取分成</th>
                                   </tr>
                                   </thead>
                                   <tbody>
                                   {volist name="user" id="v"}
                                   <tr>
-                                      <!--<td class="text-center">-->
-                                      <!--<label class="ckbox ckbox-primary" id="u{$v.u_id}" class="olds">-->
-                                      <!--<i onclick="manage.gt({$v.u_id})" class="glyphicon glyphicon-chevron-right" style="padding:5px;cursor:pointer"></i>-->
-                                      <!--</label>-->
-                                      <!--</td>-->
                                       <td><a href="{:url('User/ustwo',array('uid'=>$v.u_id))}">{$v.u_username}</a></td>
-
-                                      <td>{if condition="$v.u_leve eq 1"}一级代理{elseif condition="$v.u_leve eq 2" /}二级代理{elseif condition="$v.u_leve eq 3" /}三级代理{/if}</td>
-
-                                      {if condition="$u.u_leve eq 1"}
-                                      <td>{if condition="$v.u_leve neq 3"}{$v.u_code}{/if}</td>
-                                      {/if}
+                                      <td>{if $type==1}下级合伙人{else}下下级合伙人{/if}</td>
+                                      <td>{$v.u_code}</td>
                                       <td>
-                                          <?php echo $v['u_fcbl']*100;?>%
+                                          {if $type==1}<?php echo $u['u_fcbl2']*100;?>%{/if}
+                                          {if $type==2}<?php echo $u['u_fcbl3']*100;?>%{/if}
                                       </td>
-                                      {if condition="$u.u_leve eq 1"}
-                                      <td>
-                                          {if condition="$v.u_leve eq 1"}<?php echo $v['u_fcbl3']*100;?>%{/if}
-                                          {if condition="$v.u_leve eq 2"}<?php echo $v['u_fcbl2']*100;?>%{/if}
-                                      </td>
-                                      {/if}
                                   </tr>
                                   <tbody id="s{$v.u_id}"></tbody>
                                   {/volist}

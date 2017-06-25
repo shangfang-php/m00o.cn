@@ -35,7 +35,7 @@ class Setup extends common
         $type['u_dlzp']   = trim(input('post.dlzp'));
         $type['u_zpzh']   = trim(input('post.zpzh'));
         $type['u_type']   = trim(input('post.type'));
-        $type['u_showLevel']    =   intval(trim(input('post.showLevel')));
+        //$type['u_showLevel']    =   intval(trim(input('post.showLevel')));
 //        if($type['u_type']!='1'||$type['u_type']!='2')
 //        {
 //            alert('非法操作！');exit;
@@ -164,9 +164,9 @@ class Setup extends common
         $one3   = input('post.one3')/100;
         $one2   = input('post.one2')/100;
         $one   = input('post.one')/100;
-        $two2  = input('post.two2')/100;
-        $two   = input('post.two')/100;
-        $three = input('post.three')/100;
+        //$two2  = input('post.two2')/100;
+//        $two   = input('post.two')/100;
+//        $three = input('post.three')/100;
         
         if($one3>1){
             alert('佣金比例不能大于100');exit;
@@ -177,23 +177,23 @@ class Setup extends common
         if($one>1){
             alert('佣金比例不能大于100');exit;
         }
-        if($two2>1){
-            alert('佣金比例不能大于100');exit;
-        }
-        if($two>1){
-            alert('佣金比例不能大于100');exit;
-        }
-        if($three>1){
-            alert('佣金比例不能大于100');exit;
-        }
+        //if($two2>1){
+//            alert('佣金比例不能大于100');exit;
+//        }
+//        if($two>1){
+//            alert('佣金比例不能大于100');exit;
+//        }
+//        if($three>1){
+//            alert('佣金比例不能大于100');exit;
+//        }
         
         $save['fc_one'] = $one;
         $save['fc_one2'] = $one2;
         $save['fc_one3'] = $one3;
-        $save['fc_two'] = $two;
-        $save['fc_two2'] = $two2;
-        $save['fc_three'] = $three;
-        $save['fc_redo'] = 1;
+        //$save['fc_two'] = $two;
+//        $save['fc_two2'] = $two2;
+//        $save['fc_three'] = $three;
+//        $save['fc_redo'] = 1;
         $f = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->update($save);
         if($f)
         {

@@ -61,8 +61,18 @@ class User extends common
     public function ustwo($uid)
     {
         if($uid){
-            $u      = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_leve,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id'=>$uid))->find();
-            $su     = Db::name('user_tb')->field("u_id,u_username,u_leve as leve")->where(array('u_id'=>$u['u_parent_u_id']))->find();
+            $u      = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id'=>$uid))->find();
+            $su     = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id")->where(array('u_id'=>$u['u_parent_u_id']))->find();
+            if($su){
+                $parent_parent  = Db::name('user_tb')->field("u_id,u_username")->where(array('u_id'=>$su['u_parent_u_id']))->find();
+            }else{
+                $parent_parent  =   '';
+            }
+            
+            $childUser  =   getUserChildAgents($uid, $u);
+            $next_nums  =   isset($childUser[1]) ? Count($childUser[1]) : 0;
+            $next_next  =   isset($childUser[2]) ? Count($childUser[2]) : 0;
+            
             $tgw    = Db::name('tgw_tb')->where(array('t_u_idss'=>Session('taokeid'),"t_u_id"=>$u['u_id']))->select();
             $fcbl   = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
 
@@ -74,20 +84,35 @@ class User extends common
                 "uid"   =>$uid,
                 'a'     =>2,
                 'b'     =>0,
+                'parent_parent'    =>  $parent_parent,
+                'next_nums'=>$next_nums,
+                'next_next'=>$next_next,
             );
             $this->assign($data);
             return $this->fetch();
         }
 
     }
-    public function usu($uid)
+    public function usu($uid, $type)
     {
         if($uid) {
-            $type = input('get.type');
+            $type   =   intval($type);
             $username = input('get.username');
-            $u = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_leve,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id' => $uid))->find();
-            $su = Db::name('user_tb')->field("u_id,u_username,u_leve as leve")->where(array('u_id' => $u['u_parent_u_id']))->find();
-            $user = Db::name('user_tb')->where(array('u_parent_u_id' => $uid))->paginate(10, false, [
+            
+            $u      = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id'=>$uid))->find();
+            $su     = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id")->where(array('u_id'=>$u['u_parent_u_id']))->find();
+            if($su){
+                $parent_parent  = Db::name('user_tb')->field("u_id,u_username")->where(array('u_id'=>$su['u_parent_u_id']))->find();
+            }else{
+                $parent_parent  =   '';
+            }
+            
+            $childUser  =   getUserChildAgents($uid, $u);
+            $next_nums  =   isset($childUser[1]) ? Count($childUser[1]) : 0;
+            $next_next  =   isset($childUser[2]) ? Count($childUser[2]) : 0;
+            
+            $userIds    =   isset($childUser[$type]) ? $childUser[$type] : array(0);
+            $user = Db::name('user_tb')->where(array('u_id' => ['in', $userIds]))->paginate(10, false, [
                 'query' => array('type' => $type, 'username' => $username,),
             ]);
             $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
@@ -99,6 +124,10 @@ class User extends common
                 "uid"   => $uid,
                 'a'=>2,
                 'b'=>0,
+                'parent_parent'    =>  $parent_parent,
+                'next_nums'=>$next_nums,
+                'next_next'=>$next_next,
+                'type'  =>  $type,
             );
             $this->assign($data);
             return $this->fetch();
@@ -107,17 +136,31 @@ class User extends common
     public function usdd($uid,$last)
     {
         if($uid) {
+            
+            $name = input('get.name');
+                
+            $u      = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id'=>$uid))->find();
+            $su     = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id")->where(array('u_id'=>$u['u_parent_u_id']))->find();
+            if($su){
+                $parent_parent  = Db::name('user_tb')->field("u_id,u_username")->where(array('u_id'=>$su['u_parent_u_id']))->find();
+            }else{
+                $parent_parent  =   '';
+            }
+            
+            $childUser  =   getUserChildAgents($uid, $u);
+            $next_nums  =   isset($childUser[1]) ? Count($childUser[1]) : 0;
+            $next_next  =   isset($childUser[2]) ? Count($childUser[2]) : 0;
+            
+            $tgw = Db::name('tgw_tb')->where(array('t_u_id'=>$uid,'t_u_idss'=>Session('taokeid')))->select();
+            $a = "";
+            foreach($tgw as $k=>$v)
+            {
+                $a .= $v['t_id'].",";
+            }
+            
             if($last!="Lastmonth")
             {
-                $name = input('get.name');
-                $u = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_leve,u_money,u_fcbl,u_code,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id' => $uid))->find();
-                $su = Db::name('user_tb')->field("u_id,u_username,u_leve as leve")->where(array('u_id' => $u['u_parent_u_id']))->find();
-                $tgw = Db::name('tgw_tb')->where(array('t_u_id'=>$uid,'t_u_idss'=>Session('taokeid')))->select();
-                $a = "";
-                foreach($tgw as $k=>$v)
-                {
-                    $a .= $v['t_id'].",";
-                }
+                $yue    =   'by';
                 $time = time();
                 $Y = date("Y",$time);
                 $M = date("m",$time);
@@ -128,31 +171,11 @@ class User extends common
                 $dd = Db::name($or)->alias("or")->join('tgw_tb w','or.o_t_id = w.t_id')->where($where)->where("o_ordernum like '%".$name."%' or o_goodsinformation like '%".$name."%'")->order('o_creattime desc')->paginate(10, false, [
                     'query' => array('name' => $name),
                 ]);
-                $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
-                $data = array(
-                    "u" => $u,
-                    "fcbl" => $fcbl,
-                    "su" => $su,
-                    "uid" => $uid,
-                    "dd" => $dd,
-                    "yue"=>"by",
-                    'a'=>2,
-                    'b'=>0,
-                );
-                $this->assign($data);
-                return $this->fetch();
+                
             }
             else
             {
-                $name = input('get.name');
-                $u = Db::name('user_tb')->field("u_id,u_username,u_parent_u_id,u_leve,u_money,u_fcbl,u_code,u_money as money,u_nic,u_fcbl2,u_fcbl3,u_wqrmoney")->where(array('u_id' => $uid))->find();
-                $su = Db::name('user_tb')->field("u_id,u_username,u_leve as leve")->where(array('u_id' => $u['u_parent_u_id']))->find();
-                $tgw = Db::name('tgw_tb')->where(array('t_u_id'=>$uid,'t_u_idss'=>Session('taokeid')))->select();
-                $a = "";
-                foreach($tgw as $k=>$v)
-                {
-                    $a .= $v['t_id'].",";
-                }
+                $yue    =   'sy';
                 $time = time();
                 $Ys = date("Y",$time);
                 $Ms = date("m",$time);
@@ -176,20 +199,24 @@ class User extends common
                 $dd = Db::name($or)->alias("or")->join('tgw_tb w','or.o_t_id = w.t_id')->where("o_ordernum like '%".$name."%' or o_goodsinformation like '%".$name."%'")->where($where)->order('o_creattime desc')->paginate(10, false, [
                     'query' => array('name' => $name),
                 ]);
-                $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
-                $data = array(
-                    "u" => $u,
-                    "fcbl" => $fcbl,
-                    "su" => $su,
-                    "uid" => $uid,
-                    "dd" => $dd,
-                    "yue"=>"sy",
-                    'a'=>2,
-                    'b'=>0,
-                );
-                $this->assign($data);
-                return $this->fetch();
             }
+            
+            $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
+            $data = array(
+                "u" => $u,
+                "fcbl" => $fcbl,
+                "su" => $su,
+                "uid" => $uid,
+                "dd" => $dd,
+                "yue"=> $yue,
+                'a'=>2,
+                'b'=>0,
+                'parent_parent'    =>  $parent_parent,
+                'next_nums'=>$next_nums,
+                'next_next'=>$next_next,
+            );
+            $this->assign($data);
+            return $this->fetch();
         }
     }
 

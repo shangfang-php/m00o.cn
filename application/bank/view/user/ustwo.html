@@ -8,7 +8,7 @@
       </ol>
       <div class="panel">
           <div class="panel-heading">
-          <h4 class="panel-title">用户详情 {if condition="$su.leve neq 0"}<a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a>{/if}</h4>
+          <h4 class="panel-title">用户详情 <a href="{:url('User/ustwo',array('uid'=>$su['u_id']))}"><< 返回上一级用户</a></h4>
           <hr>
           <div class="row">
               <div class="col-md-3 profile-left">
@@ -16,35 +16,56 @@
                       <div class="panel-heading">
                           <div class="text-center">
                               <h4 class="panel-profile-name">{$u.u_username}[{$u.u_nic}]</h4>
-                              <p class="media-usermeta">{if condition="$u.u_leve eq 1"}一级合伙人{elseif condition="$u.u_leve eq 2" /}二级合伙人{elseif condition="$u.u_leve eq 3" /}三级合伙人{/if}</p>
+                              <p class="media-usermeta">合伙人</p>
                           </div>
                       </div>
                       <div class="panel-body people-info">
                           <ul class="list-group">
-                              <li class="list-group-item btn btn-warning">当前位置：用户详情</li>
+                              <li class="list-group-item btn btn-warning" onclick="agentLogin('{$u.u_id}')">一键跳转到用户界面</li>
                           </ul>
                           <div class="info-group">
                               <label>余额</label>
                               {$u.u_money}
                           </div>
                           <div class="info-group">
-                              <label>分成比率</label>
+                              <label>待确认金额</label>
+                              {$u.u_wqrmoney}
+                          </div>
+                          <div class="info-group">
+                              <label>他自己的总佣金分成</label>
                               <?php echo $u['u_fcbl']*100;?>%
                           </div>
-                          {if $u.u_leve != 3}
+                          <div class="info-group">
+                              <label>提取下级总佣金分成</label>
+                              <?php echo $u['u_fcbl2']*100;?>%
+                          </div>
+                          <div class="info-group">
+                              <label>提取下下级总佣金分成</label>
+                              <?php echo $u['u_fcbl3']*100;?>%
+                          </div>
+                          
                           <div class="info-group">
                               <label>邀请码</label>
                               {$u.u_code}
                           </div>
-                          {/if}
                           
                           <div class="info-group">
                               <label>上级用户</label>
                               {$su.u_username}
                           </div>
                           <div class="info-group">
-                              <button class="btn btn-primary" onclick="agentLogin('{$u.u_id}')" >一键跳转到用户界面</button>
+                              <label>上上级用户</label>
+                              {if $parent_parent}{$parent_parent.u_username}{/if}
                           </div>
+                          <div class="info-group">
+                              <label>下级用户数量</label>
+                              {$next_nums}
+                          </div>
+                          <div class="info-group">
+                              <label>下下级用户数量</label>
+                              {$next_next}
+                          </div>
+                          
                       </div>
                   </div>
               </div>
@@ -54,7 +75,8 @@
                       <ul class="nav nav-tabs nav-justified nav-line">
                           <li class="active"><a href="{:url('User/ustwo',array('uid'=>$uid))}"><strong>用户详情</strong></a></li>
                           {if condition="$fcbl.fc_power eq 1" /}
-                          {if condition="$u.u_leve neq 3" /}<li><a href="{:url('User/usu',array('uid'=>$uid))}"><strong>下级用户</strong></a></li>{/if}
+                          <li><a href="{:url('User/usu',array('uid'=>$uid,'type'=>1))}"><strong>下级用户</strong></a></li>
+                          <li><a href="{:url('User/usu',array('uid'=>$uid,'type'=>2))}"><strong>下下级用户</strong></a></li>
                           {/if}
                           <li><a href="{:url('User/usdd',array('uid'=>$uid,'last'=>'1'))}"><strong>订单明细</strong></a></li>
                           <!--<li><a href="#places"><strong>Places (5)</strong></a></li>-->
