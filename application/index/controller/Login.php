@@ -47,7 +47,7 @@ class Login extends Controller
                         $arr = array("code"=>"-1","msg"=>"账号被封禁！");
                         jsons($arr);
                     }
-                    if($user['u_leve']==0)
+                    if(!$user['u_u_idss'])
                     {
                         $arr = array("code"=>"-1","msg"=>"管理员不能登陆");
                         jsons($arr);
