@@ -60,12 +60,16 @@
                               {if $parent_parent}{$parent_parent.u_username}{/if}
                           </div>
                           <div class="info-group">
+                            <a href="{:url('User/usu',array('uid'=>$uid,'type'=>1))}">
                               <label>下级用户数量</label>
                               {$next_nums}
+                            </a>
                           </div>
                           <div class="info-group">
+                            <a href="{:url('User/usu',array('uid'=>$uid,'type'=>2))}">
                               <label>下下级用户数量</label>
                               {$next_next}
+                            </a>
                           </div>
                   </div>
               </div>
