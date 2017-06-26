@@ -77,18 +77,18 @@
                      <div class="form-group">
                          <label class="col-sm-2 control-label">用户提现规则</label>
                          <div class="col-sm-6">
-                             <label class="rdiobox rdiobox-success" onclick="showMoneyNumber()">
+                             <label class="rdiobox rdiobox-success">
                                 <input type="radio" name="type" {if condition="$user.u_type eq 1"} checked {/if} value="1">
                                 <span>用户可随时提现</span>
                              </label>
-                             <label class="rdiobox rdiobox-info" onclick="hiddenMoneyNumber()">
+                             <label class="rdiobox rdiobox-info">
                                  <input type="radio" name="type"{if condition="$user.u_type eq 2"} checked {/if} value="2">
                                  <span>用户固定每月提现（每月21号后可提现上个月之前的余额）<span style="color:red";>*下个月才能生效</span></span>
                              </label>
                          </div>
                      </div>
                     <hr>
-                    <div id="moneyNumber" class="form-group" style="display: {if $user.u_type!=1}none{/if};">
+                    <div id="moneyNumber" class="form-group">
                         <label class="col-sm-2 control-label">用户提现最小金额</label>
                         <div class="col-sm-6">
                             <input type="number" name="num" class="form-control" placeholder="用户提现最小金额" required="" aria-required="true" value="{$fcbl.fc_minmoney}" pattern="^[0-9]*[1-9][0-9]*$" style="width:300px;float:left;"><span style="color:red;">*必须整数</span>
