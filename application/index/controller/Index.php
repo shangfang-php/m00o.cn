@@ -1103,6 +1103,23 @@ class Index extends common
 	public function ceshi(){
 		return $this->fetch();
 	}
+    
+    /**
+     * Index::money_record()
+     * 提现记录
+     * @return void
+     */
+    function money_record(){
+        $uid    =   session('usid');
+        $uname  =   session('uname');
+        $where  =   array('m_username'=>$uname);
+        $states =  array(0=>'申请中', 1=>'提现成功', 2=>'拒绝提现');
+        
+        $res    =   Db::table('money_tb')->field('m_alipayname,m_alipayaccount,m_money,m_state,m_time')->where($where)->order('m_id', 'desc')->limit(20)->select();
+        $data   =   array('res'=>$res, 'uname'=>$uname,'states'=>$states);
+        $this->assign($data);
+        return $this->fetch();
+    }
 
 }
 

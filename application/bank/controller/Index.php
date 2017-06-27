@@ -5,8 +5,11 @@ class Index extends common
 {
     public function index()
     {
-    	$yiji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid')))->count();
-    	//$erji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>2))->count();
+        $where= array('u_u_idss'=>Session('taokeid'));
+    	$yiji = Db::name('user_tb')->where($where)->count();
+    	$forbid_users  =   Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_state'=>2))->count(); ##封禁用户
+        $tgw_user       =   Db::table('user_tb')->join('tgw_tb', 'u_id=t_u_id', 'inner')->where($where)->group('u_id')->count();
+        $no_tgw         =   $yiji - $tgw_user; ##未设置推广为合伙人
 //        $saji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>3))->count();
     	$fc   = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
     	$time = time();
@@ -28,8 +31,8 @@ class Index extends common
         $sydan  = Db::name($or1)->where(array('o_u_idss'=>Session('taokeid')))->count();
         $date   = date("Y-m-d",$time);
         $ritim  = strtotime($date);
-        $where['o_u_idss'] = Session('taokeid');
-        $where['o_creattime'] = array('gt',$ritim);
+        
+        $where  =   ['o_u_idss'=>Session('taokeid'), 'o_creattime'=>array('gt',$ritim)];
         $ridan = Db::name($or)->where($where)->count();
     	$data = array(
     		'yiji'  =>$yiji,
@@ -39,6 +42,8 @@ class Index extends common
     		'dydan' =>$dydan,
     		'ridan' =>$ridan,
     		'sydan' =>$sydan,
+            'forbid_users'=>$forbid_users,
+            'no_tgw'   =>  $no_tgw,
             'a'=>1,
             'b'=>1,
     		);

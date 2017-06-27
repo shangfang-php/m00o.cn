@@ -8,12 +8,41 @@
           <hr style="margin-top:0px;border-color:#fff;">
           <div class="row panel-quick-page">
             <div class="col-xs-6 col-sm-4 col-md-3 page-user">
+            
               <div class="panel">
                 <div class="panel-heading">
                   <h4 class="panel-title">合伙人总数  <span style="float:right;">人数：{$yiji}人</span></h4>
                 </div>
                 <div class="panel-body">
-                  <div class="page-icon"><img src="/bank/images/er.png" alt=""></div>
+                  <a href="{:url('user/index',array('type'=>1))}"><div class="page-icon"><img src="/bank/images/er.png" alt=""></div></a>
+                </div>
+              </div>
+              
+            </div>
+            
+            <div class="col-sm-1"></div>
+            
+            <div class="col-xs-6 col-sm-4 col-md-3 page-products">
+              <div class="panel flip animated">
+                <div class="panel-heading">
+                  <h4 class="panel-title">未设置推广为PID  <span style="float:right;">人数：{$no_tgw}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <a href="{:url('user/index',array('type'=>2))}"><div class="page-icon"><img src="/bank/images/yi.png" alt=""></div></a>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-sm-1"></div>
+            
+            <div class="col-xs-6 col-sm-4 col-md-3 page-events">
+              <div class="panel flip animated">
+                <div class="panel-heading">
+                  <h4 class="panel-title">封禁用户  <span style="float:right;">人数：{$forbid_users}人</span></h4>
+                </div>
+                <div class="panel-body">
+                  <a href="{:url('user/index',array('type'=>3))}"><div class="page-icon"><img src="/bank/images/san.png" alt=""></a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -6,11 +6,15 @@ class User extends common
     public function index()
     {
         $name   = trim(input('get.name'));
+        $type   =   intval(input('type')) ? intval(input('type')) : 1;
 //        $list = Db::name('order_2017_01_tb')
 //            ->union('SELECT * FROM order_2016_12_tb where o_u_id = 3 limit 10,15')
 //            ->where(array('o_u_id'=>3))->select();
 //        dump($list);
 //exit;
+        $wherestr   =   'u_u_idss = "'.Session('taokeid').'" ';
+        $query      =   array('name'=>$name);
+        
         if($name!='')
         {   
             $searchName =   str_replace('mm_', '', $name);
@@ -20,41 +24,40 @@ class User extends common
                 $search_t_uid   =   empty($search_t_uid) ? '0' : $search_t_uid['t_u_id'];
                 
                 //$where['u_id']  =   $search_t_uid['t_u_id'];
-                $wherestr   =   'u_id = "'.$search_t_uid.'"';
+                $wherestr   .=   'and u_id = "'.$search_t_uid.'" ';
             }else{
-                $wherestr   =   "u_username like '%".$name."%' or u_nic like '%".$name."%'";
+                $wherestr   .=   "and (u_username like '%".$name."%' or u_nic like '%".$name."%') ";
             }
             
-            $user = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid')))->where($wherestr)->paginate(10,false,[
-                'query' => array('name'=>$name,),
+            $so =   1;
+        }else{
+            $so =   2;
+        }
+        
+        if($type == 2){
+            $uids   =   Db::table('user_tb')->field('u_id,t_u_id')->join('tgw_tb', 'u_id=t_u_id', 'left')->where(array('u_u_idss'=>Session('taokeid')))->where('t_u_id', NULL)->group('u_id')->select();
+            $uids   =   empty($uids) ? array(0) : get_field_array('u_id', $uids);
+            $wherestr   .=  ' and u_id in ('.implode(',', $uids).')';
+        }
+        
+        if($type == 3){
+            $wherestr   .=  ' and u_state = 2';
+        }
+        
+        $user = Db::name('user_tb')->where($wherestr)->order('u_id', 'desc')->paginate(10,false,[
+                'query' => $query,
             ]);
-            $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
-            $data = array(
+        $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
+        
+        $data = array(
                 'user'=>$user,
                 'fcbl'=>$fcbl,
-                'so'=>1,
+                'so'=>$so,
                 'a'=>2,
                 'b'=>2,
             );
             $this->assign($data);
             return $this->fetch();
-        }
-        else
-        {
-            $user = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid')))->order('u_id', 'desc')->paginate(10,false,[
-                'query' => array('name'=>$name,),
-            ]);
-            $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
-            $data = array(
-                'user'=>$user,
-                'fcbl'=>$fcbl,
-                'so'=>2,
-                'a'=>2,
-                'b'=>2,
-            );
-            $this->assign($data);
-            return $this->fetch();
-        }
 
     }
 
