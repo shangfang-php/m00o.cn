@@ -3,11 +3,19 @@ namespace app\bank\controller;
 use think\Controller;
 use think\Session;
 use think\Db;
+use think\Cookie;
 class Login extends Controller
 {
     public function index()
     {
         header("Content-type:text/html;charset=utf-8");
+        if(Cookie::get('taokeid') && Cookie::get('taokname')){
+            Session::set('taokeid',Cookie::get('taokeid'));
+            Session::set('taokname',Cookie::get('taokname'));
+            Session::set('expire',86400);
+            
+            $this->redirect('index/index');
+        }
 
         return $this->fetch();
     }
@@ -40,8 +48,12 @@ class Login extends Controller
             }
             else if($u['u_state']==1)
             {
+                Cookie::set('taokeid', $u['u_id'],86400);
+                Cookie::set('taokname',$name,86400);
+                
                 Session::set('taokeid',$u['u_id']);
                 Session::set('taokname',$name);
+                Session::set('expire',86400);
                 $this->redirect('Index/index');exit;
             }
         }

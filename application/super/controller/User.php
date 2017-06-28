@@ -2,6 +2,7 @@
 namespace app\super\controller;
 use think\Db;
 use think\Session;
+use think\Cookie;
 class User extends common
 {
     public function index()
@@ -364,9 +365,12 @@ class User extends common
             $user = Db::name('user_tb')->field('u_username,u_id,u_leve')->where(array('u_id'=>$tkid))->find();
             if($user)
             {
+                Cookie::set('taokeid', $user['u_id'],86400);
+                Cookie::set('taokname',$user['u_username'],86400);
+                
                 Session::set('taokeid',$user['u_id']);
                 Session::set('taokname',$user['u_username']);
-                Session::set('expire',3600);
+                Session::set('expire',86400);
                  $arr = array("code"=>"0","msg"=>"成功");
                 jsons($arr);
             }
