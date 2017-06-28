@@ -21,11 +21,8 @@ class Count extends common
         unset($times);
         
         $u_idss     =   session('taokeid');
-        $cashWhere  =   array('m_u_idss'=>$u_idss, 'm_state'=>['in', '0,1']);
-        $cashMoney  =   Db::table('money_tb')->field('sum(m_money) as money,m_state')->where($cashWhere)->group('m_state')->select(); ##统计待处理提现总金额
-        $cashMoney  =   reverse_array($cashMoney, '', 'm_state');
-        $waitMoney  =   isset($cashMoney['0']['money']) ? floatval($cashMoney['0']['money']) : 0; ##未完成提现总金额 
-        $completeMoney  =   isset($cashMoney['1']['money']) ? floatval($cashMoney['1']['money']) : 0; ##已完成提现总金额
+        $cashWhere  =   array('m_u_idss'=>$u_idss, 'm_state'=>['in', '0']);
+        $waitMoney  =   Db::table('money_tb')->where($cashWhere)->SUM('m_money'); ##未完成提现总金额
         
         if($endTime){
             $where['o_creattime']    =   ['between', array($startTime, $endTime)];
@@ -66,7 +63,7 @@ class Count extends common
         $page = input('page') ? input('page') : 1;
         $data = array(
                     'waitMoney'     =>  $waitMoney,
-                    'completeMoney' =>  $completeMoney,
+                    //'completeMoney' =>  $completeMoney,
                     'rankInfo'      =>  $rankInfo,
                     'orderNums'     =>  $orderNums,
                     //'userInfo'      =>  $userInfo,
@@ -125,5 +122,24 @@ class Count extends common
         $data   =   array('orderNums'=>$orderNums, 'allMoney'=>$allMoney, 'or_money'=>$or_money, 'goodsInfo'=>$goodsInfo, 'a'=>7, 'b'=>0);
         $this->assign($data);
         return $this->fetch();
+    }
+    
+    /**
+     * Count::get_tx_money()
+     * 获取已提现总金额
+     * @return void
+     */
+    function get_tx_money(){
+        $taokeId    =   session('taokeid');
+        $money      =   0;
+        
+        if($taokeId){
+            $cashWhere  =   array('m_u_idss'=>$taokeId, 'm_state'=>'1');
+            $money      =   Db::table('money_tb')->where($cashWhere)->SUM('m_money'); ##未完成提现总金额
+        }
+        
+        $arr    =   array('code'=>200, 'money'=>$money);
+        return json($arr);
+        
     }
 }

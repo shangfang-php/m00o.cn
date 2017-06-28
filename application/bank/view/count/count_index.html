@@ -36,11 +36,22 @@
                     </div>
                     </a>
                     
-                    <a href="{:url('Money/index',['state'=>1])}">
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-support" onclick="getTxMoney()" id="showTip">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">点击加载已提现金额</h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <a id="showTxDiv" href="{:url('Money/index',['state'=>1])}" style="display: none;">
                     <div class="col-xs-6 col-sm-4 col-md-3 page-support">
                         <div class="panel">
                           <div class="panel-heading">
-                            <h4 class="panel-title">已完成提现总金额<span style="float:right;">{$completeMoney}</span></h4>
+                            <h4 class="panel-title">已完成提现总金额<span style="float:right;" id="moneySpan">0</span></h4>
                           </div>
                           <div class="panel-body">
                             <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
@@ -58,6 +69,7 @@
                   <ul class="nav nav-tabs nav-justified nav-line">
                       <li {if $type=='today'} class="active" {/if}><a href="{:url('count/count_index',['type'=>'today'])}"><strong>今日收入排行</strong></a></li>
                       <li {if $type=='yestorday'} class="active" {/if}><a href="{:url('count/count_index',['type'=>'yestorday'])}"><strong>昨日收入排行</strong></a></li>
+                      <li {if $type=='month'} class="active" {/if}><a href="{:url('count/count_index',['type'=>'month'])}"><strong>本月收入排行</strong></a></li>
                   </ul>
                   <hr>
                   <div class="profile-right-body">
@@ -100,7 +112,15 @@
 
 {include file="public/footer" /}
 <script>
-    
+    function getTxMoney(){
+        $.post('/index.php/bank/count/get_tx_money', function(msg){
+            if(msg.code == 200){
+                $('#showTip').hide();
+                $('#moneySpan').html(msg.money);
+                $('#showTxDiv').show();
+            }
+        },"json");
+    }
 </script>
 
 
