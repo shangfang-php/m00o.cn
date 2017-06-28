@@ -833,12 +833,12 @@ class User extends common
             cookie(['expire'=>864000]);
             cookie('usid', $agentInfo['u_id']);
             cookie('uname', $agentInfo['u_username']);
-            cookie('level', $agentInfo['u_leve']);
+            cookie('u_u_idss', $agentInfo['u_u_idss']);
             cookie('u_pass', $agentInfo['u_pass']);
             
             session('uname', $agentInfo['u_username']);
             session('usid', $agentInfo['u_id']);
-            session('level', $agentInfo['u_leve']);
+            session('u_u_idss', $agentInfo['u_u_idss']);
             session('u_pass', $agentInfo['u_pass']);
         }else{
             $code   =   301;

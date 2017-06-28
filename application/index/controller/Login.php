@@ -10,10 +10,10 @@ class Login extends Controller
     public function index()
     {
 
-        if(Cookie::get('uname') && Cookie::get('usid') && Cookie::get('level') && Cookie::get('u_pass')){
+        if(Cookie::get('uname') && Cookie::get('usid') && Cookie::get('u_u_idss') && Cookie::get('u_pass')){
             Session::set('uname',Cookie::get('uname'));
             Session::set('usid',Cookie::get('usid'));
-            Session::set('level',Cookie::get('level'));
+            Session::set('u_u_idss',Cookie::get('u_u_idss'));
             Session::set('u_pass',Cookie::get('u_pass'));
             Session::set('expire',86400);
             
@@ -55,14 +55,14 @@ class Login extends Controller
                     cookie('adTime', 0); ##公告生成时间
                     Cookie::delete('usid');
                     Cookie::delete('uname');
-                    Cookie::delete('level');
+                    Cookie::delete('u_u_idss');
                     Cookie::set('usid',$user['u_id'],864000);
                     Cookie::set('uname',$name,864000);
-                    Cookie::set('level',$user['u_leve'],864000);
+                    Cookie::set('u_u_idss',$user['u_u_idss'],864000);
                     Cookie::set('u_pass',$user['u_pass'],864000);
                     Session::set('uname',$name);
                     Session::set('usid',$user['u_id']);
-                    Session::set('level',$user['u_leve']);
+                    Session::set('u_u_idss',$user['u_u_idss']);
                     session('u_pass', $user['u_pass']);
                     Session::set('expire',86400);
                     
