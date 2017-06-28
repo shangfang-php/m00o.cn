@@ -1,0 +1,132 @@
+{include file="public/head" /}
+
+
+<link rel="stylesheet" href="/bank/lib/jquery-toggles/toggles-full.css">
+
+
+    <div class="mainpanel">
+        <style>
+            .btn-stroke{
+                padding:0 3px;
+                line-height:16px;
+            }
+        </style>
+    <div class="contentpanel">
+      <ol class="breadcrumb breadcrumb-quirk">
+        <li><a href="{:url('index/index')}"><i class="fa fa-home mr5"></i> 主页</a></li>
+        <li class="active"><a href="{:url('count/order_count')}">订单统计</a></li>
+      </ol>
+      <div class="panel">
+          <div class="panel-heading">
+          <div class="row">
+              <div class="col-md-12 col-lg-12 dash-left">
+                <h4 style="font-size:14px;color:#583f01">今日订单统计（付款中）</h4>
+                <hr style="margin-top:0px;border-color:#fff;">
+                <div class="row panel-quick-page">
+                    
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-reports">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">今日产生订单<span style="float:right;">{$orderNums}</span></h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-1"></div>
+                    
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-support">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">今日订单总佣金 <span style="float:right;">{$allMoney}</span></h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-1"></div>
+                    
+                    <div class="col-xs-6 col-sm-4 col-md-3 page-statistics">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">今日需支出合伙人分成 <span style="float:right;">{$or_money}</span></h4>
+                          </div>
+                          <div class="panel-body">
+                            <!--<div class="page-icon"><i class="icon ion-arrow-graph-up-right"></i></div>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+              </div>
+              
+              <hr />
+              
+              <div class="col-md-12">
+                  <ul class="nav nav-tabs nav-justified nav-line">
+                      <li class="active"><strong>订单排行</strong></li>
+                  </ul>
+                  <hr>
+                  <div class="profile-right-body">
+                      <div class="tab-content">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-success table-striped nomargin">
+                                  <thead>
+                                  <tr>
+                                      <th style="width:60px;">排名</th>
+                                      <th>宝贝图片</th>
+                                      <th>宝贝标题</th>
+                                      <th>付款金额</th>
+                                      <th>佣金比例</th>
+                                      <th>订单数</th>
+                                      <th>总佣金</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {volist name="$goodsInfo" id="v" key="k"}
+                                  <tr>
+                                      <td><span class="btn btn-info btn-xs btn-stroke">{$k}</span></td>
+                                      <td>
+                                      <a href="https://item.taobao.com/item.htm?id={$v.o_goodsid}" target="_blank">
+                                        <img style="width:90px;height:90px;" src="{$v.o_goodsimg}" alt="">
+                                      </a>
+                                      </td>
+                                      <td>{$v['o_goodsinformation']}</td>
+                                      <td>{$v['o_payprice']}</td>
+                                      <td>{$v.o_zzfc}%</td>
+                                      <td>{$v.nums}</td>
+                                      <td>{$v.o_zzyj}</td>
+                                  </tr>
+                                    {/volist}
+                                  </tbody>
+                              </table>
+                          </div>
+                          
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{include file="public/footer" /}
+<script>
+    
+</script>
+
+
+
+<script src="/bank/lib/jquery-toggles/toggles.js"></script>
+
+

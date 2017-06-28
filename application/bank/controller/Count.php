@@ -78,4 +78,52 @@ class Count extends common
         $this->assign($data);
         return $this->fetch('count_index');
     }
+    
+    
+    /**
+     * Count::order_count()
+     * 订单统计界面
+     * @return void
+     */
+    function order_count(){
+        $taokeId    =   session('taokeid');
+        $order_table=   tb();
+        $order_record_table=    ortb(time());
+        //$field  =   'count(o_ordernum) as orderNums, sum(o_zzyj) as AllMoney, sum(or_money) as userMoney';
+        $field  =   'o_ordernum,o_zzyj,sum(or_money) money, o_goodsimg, o_goodsinformation, o_goodsid, o_payprice, o_zzfc, o_zzyj';
+        $where  =   array('o_u_idss'=>$taokeId, 'o_creattime'=>['>=', strtotime(date('Y-m-d'))], 'o_state'=>12);
+        $res    =   Db::table($order_table)->join($order_record_table, 'o_ordernum=or_o_ordernum', 'left')->field($field)->where($where)->group('o_ordernum')->select();
+        $orderNums  =   0;
+        $allMoney   =   0;
+        $or_money   =   0;
+        
+        $goodsInfo  =   array();
+        
+        ##获取前20商品
+        if($res){
+            foreach($res as $val){
+                $orderNums += 1;
+                $allMoney  += $val['o_zzyj'];
+                $or_money  += $val['money'];
+                
+                $goodsId    =   $val['o_goodsid'];
+                if(isset($goodsInfo[$goodsId])){
+                    $goodsInfo[$goodsId]['o_zzyj'] += $val['o_zzyj'];
+                    $goodsInfo[$goodsId]['nums']   += 1;
+                }else{
+                    $val['nums']    =   1;
+                    $goodsInfo[$goodsId]    =   $val;
+                }
+            }
+            
+            $goodsOrders    =   get_field_array('nums', $goodsInfo);
+            array_multisort($goodsOrders, SORT_DESC, $goodsInfo);
+            
+            $goodsInfo  =   array_slice($goodsInfo, 0,20);
+        }
+        
+        $data   =   array('orderNums'=>$orderNums, 'allMoney'=>$allMoney, 'or_money'=>$or_money, 'goodsInfo'=>$goodsInfo, 'a'=>7, 'b'=>0);
+        $this->assign($data);
+        return $this->fetch();
+    }
 }

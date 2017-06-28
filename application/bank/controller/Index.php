@@ -8,7 +8,9 @@ class Index extends common
         $where= array('u_u_idss'=>Session('taokeid'));
     	$yiji = Db::name('user_tb')->where($where)->count();
     	$forbid_users  =   Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_state'=>2))->count(); ##封禁用户
-        $tgw_user       =   Db::table('user_tb')->join('tgw_tb', 'u_id=t_u_id', 'inner')->where($where)->group('u_id')->count();
+        
+        $tgw_sql       =   Db::table('user_tb')->join('tgw_tb', 'u_id=t_u_id', 'inner')->field('t_u_id')->where($where)->group('u_id')->select();
+        $tgw_user      =   count($tgw_sql);
         $no_tgw         =   $yiji - $tgw_user; ##未设置推广为合伙人
 //        $saji = Db::name('user_tb')->where(array('u_u_idss'=>Session('taokeid'),'u_leve'=>3))->count();
     	$fc   = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
