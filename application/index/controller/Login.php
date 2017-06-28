@@ -128,26 +128,19 @@ class Login extends Controller
             $co     = getcode();
             $code   = iscode($co);
             $parent  = Db::name('user_tb')->where(array('u_code'=>$mac,'u_state'=>1))->find();
-            if(!$parent)
-            {
+            if(!$parent){
                 $arr = array("code"=>"-1","res"=>"无效的邀请码！");
                 jsons($arr);
             }
-            if($parent['u_leve']!=0)
-            {
-                $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>$parent['u_u_idss']))->find();
-                if($fcbl['fc_power']!=1)
-                {
-                    $arr = array("code"=>"-1","res"=>"无效的邀请码！");
-                    jsons($arr);
-                }
+            
+            $taokeId    =   $parent['u_u_idss'] ? $parent['u_u_idss'] : $parent['u_id'];
+            $fcbl       =   Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>$parent['u_u_idss']))->find();
+            
+            if($fcbl['fc_power']!=1){
+                $arr = array("code"=>"-1","res"=>"无效的邀请码！");
+                jsons($arr);
             }
-            else
-            {
-                $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>$parent['u_id']))->find();
-
-            }
-
+            
             $a = substr( md5($pass),12);
             $password = substr($a,0,-10);
             $add['u_username']  = $phone;
@@ -155,59 +148,21 @@ class Login extends Controller
             $add['u_code']      = $code;
             $add['u_state']     = 1;
             $add['u_parent_u_id'] = $parent['u_id'];
-            if($parent)
-            {
-                if($parent['u_leve']==0)
-                {
-
-                    $add['u_leve']      = 1;
-                    $add['u_fcbl']      = $fcbl['fc_one'];
-                    $add['u_fcbl2']     = $fcbl['fc_one2'];
-                    $add['u_fcbl3']     = $fcbl['fc_one3'];
-                    $add['u_u_idss']   = $parent['u_id'];
-
-
-                }
-                else if($parent['u_leve']==1)
-                {
-
-                    $add['u_leve']      = 2;
-                    $add['u_fcbl']      = $fcbl['fc_two'];
-                    $add['u_fcbl2']     = $fcbl['fc_two2'];
-                    $add['u_fcbl3']     = $fcbl['fc_two3'];
-                    $add['u_u_idss']   = $parent['u_u_idss'];
-                }
-                else if($parent['u_leve']==2)
-                {
-                    $add['u_leve']      = 3;
-                    $add['u_fcbl']      = $fcbl['fc_three'];
-                    $add['u_fcbl2']     = $fcbl['fc_three2'];
-                    $add['u_fcbl3']     = $fcbl['fc_three3'];
-                    $add['u_u_idss']   = $parent['u_u_idss'];
-                }
-                else if($parent['u_leve']==3)
-                {
-                    $arr = array("code"=>"-1","res"=>"无效的邀请码！");
-                    jsons($arr);
-                }
-                $adduser = Db::name('user_tb')->insert($add);
-                if($adduser)
-                {
-                    if($parent['u_leve']==0)
-                    {
-                        savesafe($parent['u_id']);
-                    }else{
-                        savesafe($parent['u_u_idss']);
-                    }
-                    $arr = array("code"=>"0","res"=>"注册成功");
-                    jsons($arr);
-                }
-            }
-            else
-            {
-                $arr = array("code"=>"-1","res"=>"错误的邀请码！！");
+            $add['u_u_idss']   =    $taokeId;
+            $add['u_fcbl']      = $fcbl['fc_one'];
+            $add['u_fcbl2']     = $fcbl['fc_one2'];
+            $add['u_fcbl3']     = $fcbl['fc_one3'];
+            
+            $adduser = Db::name('user_tb')->insert($add);
+            if($adduser){
+                savesafe($taokeId);
+                $arr = array("code"=>"0","res"=>"注册成功");
+                jsons($arr);
+            }else{
+                $arr = array("code"=>"-1","res"=>"注册失败");
                 jsons($arr);
             }
+            
         }
     }
 
