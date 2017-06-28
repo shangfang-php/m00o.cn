@@ -635,7 +635,7 @@ class Index extends common
 		}
 		$user = Db::name('user_tb')->where(['u_id'=>$uid])->find();
 		$u = Db::name('user_tb')->where('u_id',$user['u_u_idss'])->find();
-		if($user['u_leve'] == 0){
+		if(!$user['u_u_idss']){
 			alert('管理员不能提现',url('index/my',['uid'=>$uid]));
 		}
         
