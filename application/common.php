@@ -555,3 +555,44 @@ function getUserChildAgents($uid, $userInfo = '', $isDepth = true){
     }
     return $return;
 }
+
+/**
+ * curl()
+ * curl数据
+ * @param mixed $url
+ * @param string $vars
+ * @param integer $post
+ * @param string $header
+ * @param string $options
+ * @return
+ */
+function curl($url, $vars='', $post = 1, $header = '', $options = ''){
+    $ch	=	curl_init();
+    $contents   =   is_array($vars) ? http_build_query($vars) : $vars;
+	curl_setopt($ch,CURLOPT_URL,$url);
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); 
+    
+    if(!empty($header)){ ##有头信息则传递头信息
+        curl_setopt($ch, CURLOPT_HTTPHEADER  , $header);
+    }
+    
+    if($post){
+        curl_setopt($ch,CURLOPT_POST, 1);
+    }
+    
+    if($contents){
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $contents);
+    }
+    
+	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);   //设置20秒超时
+    
+    if($options){
+        curl_setopt_array($ch, $options);
+    }
+    
+	$content	=	curl_exec($ch);
+    $errno  =   curl_errno($ch); ##28为超时
+	curl_close($ch);
+	return $content;
+}

@@ -72,4 +72,67 @@ class Order extends common
             return $this->fetch();
         }
     }
+    
+    /**
+     * Order::update_order_status()
+     * 更新订单状态
+     * @return void
+     */
+    public function update_order_status(){
+        $orderNumber    =   trim(input('post.orderNum'));
+        $orderStatus    =   intval(input('post.orderNewStatus'));
+        $creattime      =   intval(input('post.creattime'));
+        if(!$orderNumber){
+            $return =   array('code'=>'201', 'msg'=>'订单号不能为空');
+            return jsons($return);
+        }
+        
+        if(!in_array($orderStatus, array(3,13))){
+            $return =   array('code'=>'202', 'msg'=>'状态非法');
+            return jsons($return);
+        }
+        
+        $orderTable =   tb($creattime);
+
+        $taokeId    =   session('taokeid');
+        $orderInfo  =   Db::table($orderTable)->where(array('o_ordernum'=>$orderNumber))->find();
+        if(empty($orderInfo)){
+            $return =   array('code'=>'203', 'msg'=>'找不到该订单信息');
+            return jsons($return);
+        }
+        
+        if($orderInfo['o_u_idss'] != $taokeId){
+            $return =   array('code'=>'204', 'msg'=>'操作非法');
+            return json($return);
+        }
+        $oldStatus  =   $orderInfo['o_state'];
+        if($oldStatus != 12){
+            $return =   array('code'=>'205', 'msg'=>'只允许更改付款中订单状态');
+            return jsons($return);
+        }
+        
+        $safe_info  =   Db::table('safe_tb')->where(array('s_u_id'=>$taokeId))->find();
+        if(!$safe_info){
+            $return =   array('code'=>'206', 'msg'=>'没有帐号同步信息，无法同步订单');
+            return jsons($return);
+        }
+        
+        $url    =   'http://db.00o.cn/db/Order.php?act=addorder';
+        //$url    =   'http://localhost.db.com/Order.php?act=addorder';
+        $orderInfo['o_state']   =   $orderStatus;
+        $orderInfo['o_endtime'] =   time();
+        $data   =   array('tkid'=>$taokeId, 'key'=>$safe_info['s_key'], 'data'=>urlencode(json_encode(array($orderInfo))));
+        
+        $return =   array('code'=>'207', 'msg'=>'更新订单失败');
+        $res    =   curl($url, $data);
+        if($res){
+            $res    =   json_decode($res, TRUE);
+            if(isset($res['code']) && $res['code'] == 1002){ ##更新成功
+                $data   =   array('ordernum'=>$orderNumber, 'content'=>$orderNumber.':更新订单状态,原状态:'.$oldStatus.',新状态：'.$orderStatus, 'uid'=>$taokeId,'createTime'=>time());
+                Db::table('order_operator_record')->insert($data);
+                $return =   array('code'=>'200', 'msg'=>'更新成功');
+            }
+        }
+        return jsons($return);
+    }
 }

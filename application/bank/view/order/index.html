@@ -99,7 +99,9 @@
                                       <td><p class="text-success" style="width:60px;padding:0px;margin:0px;">{$v.o_zzyj}</p></td>
                                       <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.u_username}</p>    </td>
                                       <td><p class="text-success" style="width:80px;padding:0px;margin:0px;">{$v.t_nicname}</p>    </td>
-                                      <td>{if condition="$v.o_state eq 12"}<span class="btn btn-success btn-xs">订单付款</span>{elseif condition="$v.o_state eq 3"/}<span class="btn btn-info btn-xs">订单结算</span>{elseif condition="$v.o_state eq 13"/}<span class="btn btn-danger btn-xs">订单失效</span>{elseif condition="$v.o_state eq 14"/}<span class="btn btn-primary btn-xs">订单成功</span>{/if}</td>
+                                      <td>{if condition="$v.o_state eq 12"}<span class="btn btn-success btn-xs">订单付款</span>{elseif condition="$v.o_state eq 3"/}<span class="btn btn-info btn-xs">订单结算</span>{elseif condition="$v.o_state eq 13"/}<span class="btn btn-danger btn-xs">订单失效</span>{elseif condition="$v.o_state eq 14"/}<span class="btn btn-primary btn-xs">订单成功</span>{/if}
+                                      {if $v.o_state == 12}<span class="btn btn-warning btn-xs" onclick="changeOrderStatus('{$v.o_ordernum}', '{$v.o_creattime}')" style="margin-top: 10px;">状态修改</span>{/if}
+                                      </td>
                                       <!--<td>{if condition="$v.o_operatingstate eq 1"}<span class="btn btn-success btn-xs">已完成</span>{elseif condition="$v.o_operatingstate eq 2"/}<span class="btn btn-info btn-xs">其他</span>{elseif condition="$v.o_operatingstate eq 0"/}<span class="btn btn-danger btn-xs">未操作</span>{/if}</td>-->
                                   </tr>
 
@@ -118,6 +120,45 @@
     </div>
   </div>
 </section>
+
+<!-- 模糊弹框 -->
+<div class="modal bounceIn animated" id="updateOrderDiv" tabindex="-1" role="dialog" aria-labelledby="updateOrderDivLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width:500px!important;">
+        <div class="modal-content">
+            <div class="modal-header" id="updateOrderDivHeader">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="updateOrderDivLabel">修改订单状态</h4>
+            </div>
+            <div class="panel-body">
+                
+                <div class="form-horizontal" id="showWqrMoneyBody">
+                    <input type="hidden" value="0" id="orderNum"/>
+                    <input type="hidden" value="0" id="creattime"/>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">请选择订单更新的状态</label>
+                        
+                        <div class="col-sm-8">
+                            <select id="orderNewStatus" class="form-control" style="width:100%;">
+                                <option value="0">请选择订单状态</option>
+                                <option value="3">订单结算</option>
+                                <option value="13">订单失效</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="color:#f00">
+                        注意：修改订单状态后不可再次修改，佣金会自动分配。
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer" id="showWqrMoneyFooter">
+                <button type="button" class="btn btn-default" data-dismiss="modal">　关　闭　</button>
+                <button type="button" class="btn btn-primary" onclick="saveOrderStatus()">　修  改　</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {include file="public/footer" /}
 <script src="/bank/lib/jquery-ui/jquery-ui.js"></script>
 <script src="/bank/lib/jquery-autosize/autosize.js"></script>
@@ -174,5 +215,24 @@
         });
 
     });
+    
+    function changeOrderStatus(order, creattime){
+        $('#orderNum').val(order);
+        $('#creattime').val(creattime);
+        $('#updateOrderDiv').modal();
+    }
+    
+    function saveOrderStatus(){
+        var orderNum    =   $('#orderNum').val();
+        var orderNewStatus= $('#orderNewStatus').val();
+        var creattime   =   $('#creattime').val();
+        var data        =   {orderNum:orderNum, orderNewStatus:orderNewStatus,creattime:creattime};
+        $.post('/index.php/bank/order/update_order_status', data, function(msg){
+            alert(msg.msg);
+            if(msg.code == 200){
+                window.location.reload();
+            }
+        }, "json");
+    }
 
 </script>
