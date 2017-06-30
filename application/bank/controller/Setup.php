@@ -1,6 +1,7 @@
 <?php
 namespace app\bank\controller;
 use think\Session;
+use think\Cookie;
 use think\Db;
 class Setup extends common
 {
@@ -127,6 +128,8 @@ class Setup extends common
     }
     public function logout()
     {
+        Cookie::delete('taokeid');
+        Cookie::delete('taokname');
         Session::delete('taokeid');
         Session::delete('taokname');
         $this->redirect('Index/index');exit;
