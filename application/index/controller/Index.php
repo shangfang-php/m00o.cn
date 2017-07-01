@@ -894,7 +894,7 @@ class Index extends common
 		$url = "http://so.00o.cn/index.php";
 		$param = array(
 			"keyword"=>$name,
-			"p"=>$p,
+			"p"=>$pp,
 			"type"=>$type,
 			"order"=>$order
 		);
