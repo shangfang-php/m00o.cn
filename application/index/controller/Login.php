@@ -134,7 +134,7 @@ class Login extends Controller
             }
             
             $taokeId    =   $parent['u_u_idss'] ? $parent['u_u_idss'] : $parent['u_id'];
-            $fcbl       =   Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>$parent['u_u_idss']))->find();
+            $fcbl       =   Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>$taokeId))->find();
             
             if($fcbl['fc_power']!=1){
                 $arr = array("code"=>"-1","res"=>"无效的邀请码！");
