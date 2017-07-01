@@ -959,7 +959,7 @@ class User extends common
             return json($arr);
         }
         $taokeId    =   session('taokeid');
-        $where  =   array('u_u_idss'=>$taokeId, 'u_username'=>['like', '%'.$search.'%']);
+        $where  =   array('u_u_idss'=>$taokeId, 'u_username|u_nic'=>['like', '%'.$search.'%']);
         $list   =   Db::table('user_tb')->field('u_id,u_username')->where($where)->select();
         if(!$list){
             $arr = array('code'=>802, 'list'=>'');
