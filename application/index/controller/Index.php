@@ -971,8 +971,11 @@ class Index extends common
 		//alert($gy_data);exit;
 		try
 		{
-			$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
-
+			if(isset($gy_data['result'])){
+				$coupon_click_url = $gy_data['result']['data']['coupon_click_url'];
+			}else{
+				alert('请联系管理员刷新token OR 查看PID');exit;
+			}
 		}
 		catch(\Exception $e)
 		{
