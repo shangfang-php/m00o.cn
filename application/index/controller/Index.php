@@ -861,7 +861,8 @@ class Index extends common
 					'zpzh'=>$uu['u_zpzh'],
 					'dlzp'=>$uu['u_dlzp'],
 					'type'=>$type,
-					'order'=>$order
+					'order'=>$order,
+					'p'=>$p
 				];
 
 				$this->assign($data);
