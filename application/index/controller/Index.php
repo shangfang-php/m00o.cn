@@ -801,7 +801,8 @@ class Index extends common
 		//echo 222;exit;
 		header("Content-type: text/html; charset=utf-8");
 		$name = trim(input('get.name'));
-		$p = trim(input('get.p'));
+		//$p = trim(input('get.p'));
+		$p = isset($_GET['p'])?$_GET['p']:0;
 		$type = isset($_GET['type'])?$_GET['type']:'';
 		$order = isset($_GET['order'])?$_GET['order']:'desc';
 		if($p <= 1){
