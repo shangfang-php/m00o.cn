@@ -44,7 +44,7 @@ class User extends common
             $wherestr   .=  ' and u_state = 2';
         }
         
-        $user = Db::name('user_tb')->where($wherestr)->order('u_id', 'desc')->paginate(10,false,[
+        $user = Db::name('user_tb')->where($wherestr)->order('u_state asc,u_id desc')->paginate(10,false,[
                 'query' => $query,
             ]);
         $fcbl = Db::name('tkfcbl_tb')->where(array('fc_u_idss'=>Session('taokeid')))->find();
