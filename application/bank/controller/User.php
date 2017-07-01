@@ -960,7 +960,7 @@ class User extends common
         }
         $taokeId    =   session('taokeid');
         $where  =   array('u_u_idss'=>$taokeId, 'u_username|u_nic'=>['like', '%'.$search.'%']);
-        $list   =   Db::table('user_tb')->field('u_id,u_username')->where($where)->select();
+        $list   =   Db::table('user_tb')->field('u_id,u_username,u_nic')->where($where)->select();
         if(!$list){
             $arr = array('code'=>802, 'list'=>'');
         }else{

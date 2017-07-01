@@ -148,7 +148,7 @@
                         for (var i = 0; i < resp.list.length; i++)  
                         {  
                             var user = resp.list[i];  
-                            array.push({id:user.u_id, text: user.u_username});  
+                            array.push({id:user.u_id, text: user.u_username+'('+user.u_nic+')'});  
                         }  
                     }else{
                         array.push({id:0, text: '未搜索到相关合伙人'});
