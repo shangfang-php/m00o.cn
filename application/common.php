@@ -289,7 +289,10 @@ function prevortb($time){
 	}
 }
 function request_post($url = '', $param = '') {
-        if (empty($url) || empty($param)) {
+       /* if (empty($url) || empty($param)) {
+            return false;
+        }*/
+		if (empty($url) ) {
             return false;
         }
         $postUrl = $url;
